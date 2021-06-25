@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="referrer" content="no-referrer" />
+    <title>监利市农产品质量安全追溯信息系统</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/page.css" media="screen" />
+    <link rel="stylesheet" href="../../fonts/index.css" />
+    <style>
+      .imgSize {
+        height: 100px;
+        width: 100px;
+      }
+
+      .auth-left-box {
+        margin-left: 45px;
+      }
+
+      .auth {
+        margin-top: 10px;
+        float: left;
+        width: 117px;
+        cursor: pointer;
+      }
+
+      .auth a {
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        color: black;
+      }
+
+      .auth a:hover {
+        display: block;
+        text-align: center;
+        font-size: 13px;
+        color: #54ffe4;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="banner"></div>
+
+      <div class="title-container">
+        <h1 class="system-title">监利市农产品质量安全追溯信息系统</h1>
+        <div class="search-section">
+          <input class="search-input" type="text" placeholder="请输入搜索内容..." />
+          <button class="search-btn">搜索</button>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="nav-list">
+          <a class="nav-item" href="../../index.html">首页</a>
+          <a class="nav-item" href="../farm-news/farm-news.html">农业新闻</a>
+          <a class="nav-item" href="../laws-regulations/laws-regulations.html">政策法规</a>
+          <a class="nav-item" href="../work-trend/work-trend.html">工作动态</a>
+          <a class="nav-item active" href="../farm-products/farm-products.html">特色农产品</a>
+          <a class="nav-item" href="../company-show/company-show.html">企业名录</a>
+          <a class="nav-item" href="../supervision-admin/supervision-admin.html">监督管理</a>
+          <a class="nav-item" href="../supervision-organ/supervision-organ.html">监督机构</a>
+          <a class="nav-item" href="../suggest/suggest.html">投诉建议</a>
+        </div>
+
+        <!---------------------------------------------------------------- -->
+
+        <div class="main-content">
+          <div class="main-content-left">
+            <p class="farm-products-title">特色农产品</p>
+            <p class="farm-products-title">三品一标认证</p>
+            <div class="auth-left-box">
+              <div class="auth" v-for="item in allProduct" @click="handleClickTitle(item)">
+                <img class="imgSize" :src="item.src" title="item.title" />
+                <a>{{item.name}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="main-content-right">
+            <div class="news-top-nav">
+              <span>当前位置：</span>
+              <a class="news-top-nav-item" href="../../index.html">首页 ></a>
+              <a class="news-top-nav-item active">{{navTitle}}</a>
+            </div>
+            <div class="product-display">
+              <a target="_blank"
+                class="product-item"
+                v-for="item in rows"
+                :href="'../../html/farm-products/products-deatil.html?' + item.id"
+              >
+                <div class="product-img">
+                  <img :src="'http://' + item.imgLists[0].path" alt="img" />
+                </div>
+                <span class="product-item-name">{{item.name}}</span>
+              </a>
+            </div>
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="params.page"
+              :page-sizes="[9,12]"
+              :page-size="params.size"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+              style="margin-top: 30px; text-align: center"
+            >
+            </el-pagination>
+          </div>
+        </div>
+
+        <!---------------------------------------------------------------- -->
+
+        <div class="link-section">
+          <div class="friendLink">
+            <h4>友情链接：</h4>
+            <ul class="img-link clearfix">
+              <li>
+                <a href="http://www.moa.gov.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/nyb.png" />
+                </a>
+                <span><a href="http://www.moa.gov.cn/" target="_blank">农业部</a> </span>
+              </li>
+              <li>
+                <a href="http://www.zgny.com.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/zgnyw.png" />
+                </a>
+                <span><a href="http://www.zgny.com.cn/" target="_blank">中国农业网</a> </span>
+              </li>
+              <li>
+                <a href="http://www.hbnyw.com/" target="_blank">
+                  <img class="img-responsive" src="../../images/hbsnyw.png" />
+                </a>
+                <span><a href="http://www.hbnyw.com/" target="_blank">湖北农业网</a> </span>
+              </li>
+              <li>
+                <a href="http://nyt.hubei.gov.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/hbnyt.png" />
+                </a>
+                <span><a href="http://nyt.hubei.gov.cn/" target="_blank">湖北农业厅</a> </span>
+              </li>
+              <li>
+                <a href="http://www.jianli.gov.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/jlsrmzf.png" />
+                </a>
+                <span><a href="http://www.jianli.gov.cn/" target="_blank">监利市人民政府</a> </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+  <script src="./../../js/jquery.min.js" type="text/javascript"></script>
+  <script src="./../../js/page.js" type="text/javascript"></script>
+  <script src="./../../js/api.js" type="text/javascript"></script>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/element/index.js"></script>
+
+  <script type="text/javascript">
+    //搜索按钮
+    $('.search-btn').click(function () {
+      let val = $('.search-input').val();
+      location.href = './../search/commonArticleList.html?' + val;
+    });
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          allProduct: [
+            { src: '../../images/a1.jpg', title: '无公害食品产品', name: '无公害农产品' },
+            { src: '../../images/a2.jpg', title: '绿色食品产品', name: '绿色食品' },
+            { src: '../../images/a3.jpg', title: '有机食品产品', name: '有机农产品' },
+            { src: '../../images/a4.jpg', title: '农产品地理标志', name: '农产品地理标志' },
+          ],
+          params: {
+            page: 1,
+            size: 9,
+            authType: '',
+          },
+          total: '',
+          rows: [],
+          navTitle: '特色农产品',
+        };
+      },
+      created() {
+        this.getAllList();
+      },
+      methods: {
+        getAllList() {
+          doApi(
+            (res) => {
+              this.rows = res.data.rows;
+              this.total = res.data.total;
+            },
+            (err) => {
+              console.log(err);
+            },
+            null,
+            '/product/all',
+            'get',
+            this.params,
+            null
+          );
+        },
+        handleClickTitle(val) {
+          console.log(val);
+          this.navTitle = val.title;
+          this.params.authType = val.name;
+          this.params.page = 1;
+          this.getAllList();
+        },
+        handleSizeChange(size) {
+          this.params.size = size;
+          this.getAllList();
+        },
+        handleCurrentChange(page) {
+          this.params.page = page;
+          this.getAllList();
+        },
+      },
+    });
+  </script>
+</html>

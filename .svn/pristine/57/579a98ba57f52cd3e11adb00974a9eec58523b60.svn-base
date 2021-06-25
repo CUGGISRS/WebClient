@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.info.sys.mapper.ProductsAgriculturalInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.info.sys.entity.ProductsAgriculturalInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="all_type" property="allType" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="img" property="img" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="INTEGER"/>
+        <result column="auth_id" property="authId" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="listResultMap" type="com.github.wxiaoqi.security.info.sys.entity.ProductsAndFile">
+        <id property="id" column="id"/>
+        <id property="name" column="name"/>
+        <id property="allType" column="all_type"/>
+        <id property="type" column="type"/>
+        <id property="description" column="description"/>
+        <id property="companyId" column="company_id"/>
+        <id property="authId" column="auth_id"/>
+        <collection property="ImgLists" javaType="list" ofType="com.github.wxiaoqi.security.info.sys.entity.FileInfo">
+            <id column="imgid" property="id"/>
+            <result column="path" property="path"/>
+        </collection>
+        <collection property="authInfos" javaType="list" ofType="com.github.wxiaoqi.security.info.sys.entity.AuthInfo">
+            <id column="authId" property="id"/>
+            <result column="authName" property="authName"/>
+        </collection>
+    </resultMap>
+
+    <!--<select id="listProduct" resultMap="listResultMap">
+      SELECT
+          a.id,
+          a.name,
+          a.all_type,
+          a.type,
+          a.description,
+          a.company_id,
+          a.auth_id,
+          b.id imgid,
+          b.path
+      FROM
+          zsxx_products_agricultural_info a
+          LEFT JOIN com_file_info b
+          ON a.id = b.table_id
+          AND a.is_deleted = '0'
+          AND b.link_table = 'zsxx_products_agricultural_info'
+      ORDER BY
+          a.pub_time DESC
+          LIMIT #{page},#{size}
+    </select>-->
+
+    <!--子查询分页-->
+    <select id="listProduct" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.name,
+        a.all_type,
+        a.type,
+        a.description,
+        a.company_id,
+        b.id imgid,
+        b.path,
+        c.id authId,
+        c.`auth _name` authName
+        FROM
+        (select id,name,all_type,type,description,company_id,auth_id,is_deleted,pub_time from
+        zsxx_products_agricultural_info
+        <where>
+            <if test="allType!=null and allType!=''">
+                all_type=#{allType}
+            </if>
+            <if test="authType !=null and authType!=''">
+                and id in(
+                select DISTINCT products_id from zsxx_auth_info  where `auth _name` = #{authType}
+                )
+            </if>
+        </where>
+        limit #{page},#{size}
+       ) a
+        LEFT JOIN com_file_info b
+        ON a.id = b.table_id
+        AND a.is_deleted = '0'
+        AND b.link_table = 'zsxx_products_agricultural_info'
+        LEFT JOIN zsxx_auth_info c
+        ON a.id = c.products_id
+        ORDER BY
+        a.pub_time DESC
+    </select>
+
+    <select id="getLinkCount" resultType="java.lang.Integer">
+        select  count(id) from
+        zsxx_products_agricultural_info
+        <where>
+            <if test="allType!=null and allType!=''">
+                all_type=#{allType}
+            </if>
+            <if test="authType !=null and authType!=''">
+                and id in(
+                select DISTINCT products_id from zsxx_auth_info  where `auth _name` = #{authType}
+                )
+            </if>
+        </where>
+
+    </select>
+</mapper>

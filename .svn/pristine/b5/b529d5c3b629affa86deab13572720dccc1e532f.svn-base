@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.gyx.sys.mapper.ExpertInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.gyx.sys.entity.ExpertInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="expert_name" property="expertName" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
+        <result column="expertise" property="expertise" jdbcType="VARCHAR"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR"/>
+        <result column="service_area" property="serviceArea" jdbcType="VARCHAR"/>
+        <result column="photo" property="photo" jdbcType="INTEGER"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="countExpertInfoList" resultType="INTEGER">
+        SELECT COUNT(id) FROM gyx_expert_info
+        <where>
+            <if test="expertName != null and expertName != ''">
+                instr(expert_name, #{expertName} )>0
+            </if>
+            <if test="serviceArea != null and serviceArea != ''">
+                AND
+                instr(service_area, #{serviceArea} )>0
+            </if>
+            <if test="expertise != null and expertise != ''">
+                AND
+                instr(expertise, #{expertise} )>0
+            </if>
+        </where>
+    </select>
+
+    <select id="listExpertInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        a.id,
+        a.expert_name expertName,
+        a.phone,
+        a.wechat,
+        a.photo,
+        a.service_area serviceArea,
+        a.expertise,
+        a.job_title jobTitle,
+        a.introduction,
+        a.is_deleted isDeleted
+        FROM
+        gyx_expert_info a
+        <where>
+            <if test="expertName != null and expertName != ''">
+                instr(expert_name, #{expertName} )>0
+            </if>
+            <if test="serviceArea != null and serviceArea != ''">
+                AND
+                instr(service_area, #{serviceArea} )>0
+            </if>
+            <if test="expertise != null and expertise != ''">
+                AND
+                instr(expertise, #{expertise} )>0
+            </if>
+        </where>
+
+        LIMIT #{page},#{limit}
+    </select>
+
+
+</mapper>

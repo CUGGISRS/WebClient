@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.gyx.sys.mapper.SupplyDemandInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.gyx.sys.entity.SupplyDemandInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="contact_person" property="contactPerson" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="area" property="area" jdbcType="VARCHAR"/>
+        <result column="picture" property="picture" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="pub_time" property="pubTime" jdbcType="TIMESTAMP"/>
+        <result column="pub_type" property="pubType" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="listResultMap" type="com.github.wxiaoqi.security.gyx.sys.entity.SupplyDemandAndFile">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="contact_person" property="contactPerson"/>
+        <result column="phone" property="phone"/>
+        <result column="area" property="area"/>
+        <result column="picture" property="picture"/>
+        <result column="description" property="description"/>
+        <result column="pub_time" property="pubTime"/>
+        <result column="pub_type" property="pubType"/>
+        <result column="status" property="status"/>
+        <collection property="ImgLists" javaType="list" ofType="com.github.wxiaoqi.security.gyx.sys.entity.FileInfo">
+            <id column="imgid" property="id"/>
+            <result column="path" property="path"/>
+        </collection>
+    </resultMap>
+
+    <select id="listSupplyDemand" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.title,
+        a.contact_person,
+        a.phone,
+        a.area,
+        a.description,
+        a.pub_time,
+        a.pub_type,
+        a.status,
+        b.id imgid,
+        b.path
+        FROM
+        (select id,title,contact_person,phone,area,description,pub_time,pub_type,status,is_deleted from
+        gyx_supply_demand_info WHERE 1=1 AND is_deleted = '0'
+        <if test="pubType != null and pubType != ''">
+            AND
+            pub_type = #{pubType}
+        </if>
+        <if test="title != null and title != ''">
+            AND
+            title LIKE #{title}
+        </if>
+        <if test="contactPerson != null and contactPerson != ''">
+            AND
+            contact_person LIKE #{contactPerson}
+        </if>
+        <if test="status != null and status != ''">
+            AND
+            status = #{status}
+        </if>
+        limit #{page},#{size} ) a
+        LEFT JOIN com_file_info b
+        ON a.id = b.table_id
+        AND a.is_deleted = '0'
+        AND b.link_table = 'gyx_supply_demand_info'
+        ORDER BY a.pub_time DESC
+    </select>
+
+    <select id="getOneById" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.title,
+        a.contact_person,
+        a.phone,
+        a.area,
+        a.description,
+        a.pub_time,
+        a.pub_type,
+        a.status,
+        b.id imgid,
+        b.path
+        FROM
+        (select id,title,contact_person,phone,area,description,pub_time,pub_type,status,is_deleted from
+        gyx_supply_demand_info WHERE id = #{id} ) a
+        LEFT JOIN com_file_info b
+        ON a.id = b.table_id
+        AND a.is_deleted = '0'
+        AND b.link_table = 'gyx_supply_demand_info'
+        ORDER BY a.pub_time DESC
+    </select>
+
+    <select id="selectSimple" resultMap="BaseResultMap">
+        SELECT * FROM gyx_supply_demand_info ORDER BY pub_time DESC
+    </select>
+    <select id="selectSimpleByType" resultMap="BaseResultMap">
+        SELECT * FROM gyx_supply_demand_info WHERE pub_type = #{pub_type} ORDER BY pub_time DESC
+    </select>
+
+    <select id="countInfoListByType" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM gyx_supply_demand_info WHERE pub_type = #{pubType} and status = '1'
+    </select>
+
+    <select id="listInfoByType" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM gyx_supply_demand_info WHERE pub_type = #{pubType} and status = '1' ORDER BY pub_time DESC LIMIT
+        #{offSet},#{pageRow}
+    </select>
+
+    <select id="listSupplyByUser" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.title,
+        a.contact_person,
+        a.phone,
+        a.area,
+        a.description,
+        a.pub_time,
+        a.pub_type,
+        a.STATUS,
+        b.id imgid,
+        b.path
+        FROM
+        (
+        SELECT
+        id,
+        title,
+        contact_person,
+        phone,
+        area,
+        description,
+        pub_time,
+        pub_type,
+        STATUS,
+        is_deleted
+        FROM
+        gyx_supply_demand_info
+        WHERE
+        userid = #{userId} and
+        is_deleted = '0'
+        LIMIT #{page},#{size} ) a
+        LEFT JOIN com_file_info b ON a.id = b.table_id
+        AND b.link_table = 'gyx_supply_demand_info'
+        ORDER BY
+        a.pub_time DESC
+    </select>
+
+</mapper>

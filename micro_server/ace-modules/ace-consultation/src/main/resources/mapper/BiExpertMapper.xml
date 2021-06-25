@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.consultation.mapper.BiExpertMapper" >
+  <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.consultation.entity.BiExpert" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Business" property="business" jdbcType="VARCHAR" />
+    <result column="Official" property="official" jdbcType="VARCHAR" />
+    <result column="Location" property="location" jdbcType="VARCHAR" />
+    <result column="Telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="Wechat" property="wechat" jdbcType="VARCHAR" />
+    <result column="Introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="Image" property="image" jdbcType="LONGVARBINARY" />
+  </resultMap>
+<!--BiexpertUser继承了Biexpert-->
+  <resultMap id="selectOneExpertUserMap" type="com.github.wxiaoqi.security.consultation.entity.BiexpertUser">
+    <id column="ID" property="id"></id>
+    <result column="Name" property="name"></result>
+    <result column="Business" property="business"></result>
+    <result column="Official" property="official"></result>
+    <result column="Location" property="location"></result>
+    <result column="Telephone" property="telephone"></result>
+    <result column="Wechat" property="wechat"></result>
+    <result column="Image" property="image"></result>
+    <result column="Introduction" property="introduction"></result>
+    <!--配置封装的User内容-->
+      <association property="user" column="id" javaType="com.github.wxiaoqi.security.consultation.entity.User">
+          <result column="username" property="username" ></result>
+      </association>
+  </resultMap>
+
+  <select id="selectOneExpertUser"   resultMap="selectOneExpertUserMap" >
+
+SELECT
+      a.*,
+	b.username,
+      b.id
+    FROM
+	bi_expert a,
+	base_user b
+    WHERE
+	a.ID = #{ID}
+	AND
+a.ID=b.attr1
+  </select>
+
+<!--通过专家id删除专家，且删除专家对应账号-->
+
+  <select id="deleteOneExpert" >
+    DELETE bi_expert,base_user
+    FROM
+	bi_expert
+    LEFT JOIN base_user
+    ON bi_expert.Id = base_user.attr1
+    WHERE
+	bi_expert.id = #{id}
+  </select>
+
+
+</mapper>

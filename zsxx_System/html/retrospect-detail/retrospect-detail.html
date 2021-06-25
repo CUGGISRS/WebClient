@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>监利市农产品质量安全追溯信息系统</title>
+  <link rel="stylesheet" href="../../css/reset.css" />
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../fonts/index.css" />
+  <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<body>
+  <div id="app" v-cloak>
+    <div class="banner"></div>
+
+    <div class="title-container">
+      <h1 class="system-title">监利市农产品质量安全追溯信息系统</h1>
+      <div class="search-section">
+        <input class="search-input" type="text" placeholder="请输入搜索内容..." />
+        <button class="search-btn">搜索</button>
+      </div>
+    </div>
+
+    <div class="mainer">
+      <div class="nav-list">
+        <a class="nav-item" href="../../index.html">首页</a>
+        <a class="nav-item" href="../farm-news/farm-news.html">农业新闻</a>
+        <a class="nav-item" href="../laws-regulations/laws-regulations.html">政策法规</a>
+        <a class="nav-item" href="../work-trend/work-trend.html">工作动态</a>
+        <a class="nav-item" href="../farm-products/farm-products.html">特色农产品</a>
+        <a class="nav-item" href="../company-show/company-show.html">企业名录</a>
+        <a class="nav-item" href="../supervision-admin/supervision-admin.html">监督管理</a>
+        <a class="nav-item" href="../supervision-organ/supervision-organ.html">监督机构</a>
+        <a class="nav-item" href="../suggest/suggest.html">投诉建议</a>
+      </div>
+
+      <!---------------------------------------------------------------- -->
+
+      <div class="retrospect-content">
+        <div class="retrospect-top">
+          <div class="retrospect-title">
+            <span class="retrospect-title-ch">追溯码查询</span>
+            <span class="retrospect-title-en">/ Trace Code Query Information</span>
+          </div>
+          <div class="retrospect-nav">
+            <span class="retrospect-nav-text">您现在的位置：首页 > 追溯码查询信息</span>
+          </div>
+        </div>
+        <div class="product-retrospect-section">
+          <div class="product-retrospect-info">
+            <div class="product-retrospect-info-img">
+              <!-- <img src="../../images/a1.jpg" alt="" /> -->
+              <el-carousel height="150px" style="width: 150px" indicator-position="none" arrow="never">
+                <!-- <el-carousel-item>
+                    <img style="width: 150px; height: 150px" src="./images/farm-info.jpg" />
+                  </el-carousel-item> -->
+                <el-carousel-item style="width: 150px; height: 150px" v-for="item in imgUrl">
+                  <img style="width: 150px; height: 150px" :src="item.url" />
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+            <div class="product-retrospect-info-text">
+              <p><b>追溯码：</b>{{code}}</p>
+              <p><b>产品名称：</b>{{aqzsProduct.name}}</p>
+              <p><b>生产企业：</b> {{aqzs_base2.name}}</p>
+              <p><b>生产时间：</b>{{aqzs_process_batch.startDate.substr(0, 10)}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="product-retrospect-tabs">
+          <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+            <el-tab-pane label="产品信息" name="1">
+              <p class="product-info-item"><b>商品名称:&nbsp;</b> {{aqzsDetail.name}}</p>
+              <p class="product-info-item"><b>商品保质期: &nbsp;</b> {{aqzsDetail.shelfLife}}</p>
+              <p class="product-info-item"><b>开始时间:&nbsp;</b> {{aqzsProduct.startDate.substr(0, 10)}}</p>
+              <p class="product-info-item"><b>结束时间:&nbsp;</b> {{aqzsProduct.endDate.substr(0, 10)}}</p>
+              <p class="product-info-item"><b>商品条码:&nbsp;</b> {{aqzsDetail.code}}</p>
+              <p class="product-info-item"><b>商品规格: &nbsp;</b> {{aqzsDetail.specs}}</p>
+              <p class="product-info-item" style="
+                    height: 150px;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                  ">
+                <b>商品介绍:</b> {{aqzsDetail.introduce}}
+              </p>
+              <p class="product-info-item" style="height: 200px">
+                <b>商品图片:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl" :src="item.url" :preview-src-list="srcList">
+                </el-image>
+              </p>
+              <p class="product-info-item" style="height: 200px">
+                <b>商品证书:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in certificateUrl" :src="item.url" :preview-src-list="certificateList">
+                </el-image>
+              </p>
+            </el-tab-pane>
+            <el-tab-pane label="基地信息" name="2">
+              <p class="product-info-item"><b>种植基地名称:&nbsp;</b> {{aqzs_base1.name}}</p>
+              <p class="product-info-item"><b>种植基地位置:&nbsp;</b> {{aqzs_base1.address}}</p>
+              <p class="product-info-item"><b>种植基地面积/规模(亩):&nbsp;</b> {{aqzs_base1.area}}</p>
+              <p class="product-info-item"><b>种植环境检验结果:&nbsp;</b> {{aqzs_base1.isReportQualified}}</p>
+              <p class="product-info-item"><b>种植基地负责人:&nbsp;</b> {{aqzs_base1.lender}}</p>
+              <p class="product-info-item"><b>种植基地负责人电话:&nbsp;</b> {{aqzs_base1.lenderPhone}}</p>
+              <p class="product-info-item"><b>生产基地名称:&nbsp;</b> {{aqzs_base2.name}}</p>
+              <p class="product-info-item"><b>生产基地位置:&nbsp;</b> {{aqzs_base2.address}}</p>
+              <p class="product-info-item"><b>生产基地面积/规模(亩):&nbsp;</b> {{aqzs_base2.area}}</p>
+              <p class="product-info-item"><b>生产基地检验结果:&nbsp;</b> {{aqzs_base2.isReportQualified}}</p>
+              <p class="product-info-item"><b>生产基地负责人:&nbsp;</b> {{aqzs_base2.lender}}</p>
+              <p class="product-info-item"><b>生产基地负责人电话:&nbsp;</b> {{aqzs_base2.lenderPhone}}</p>
+              <p class="product-info-item" style="height: 200px">
+                <b>种植基地照片:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl2" :src="item.url" :preview-src-list="srcList2">
+                </el-image>
+              </p>
+              <p class="product-info-item" style="height: 200px">
+                <b>生产基地照片:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl4" :src="item.url" :preview-src-list="srcList4">
+                </el-image>
+              </p>
+              <p class="product-info-item" style="height: 200px">
+                <b>种植基地检验报告:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl3" :src="item.url" :preview-src-list="srcList3">
+                </el-image>
+              </p>
+              <p class="product-info-item" style="height: 200px">
+                <b>生产基地检验报告:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl5" :src="item.url" :preview-src-list="srcList5">
+                </el-image>
+              </p>
+            </el-tab-pane>
+            <el-tab-pane label="基本作业信息" name="3">
+              <el-table :data="aqzs_base_work" border stripe fit highlight-current-row :row-style="{height:'5px'}"
+                :cell-style="{padding:'5px 0'}">
+                <el-table-column align="center" label="作业类型" width="80">
+                  <template slot-scope="scope"> {{getDictionaryName3(scope.row.workType) }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业物名称" width="160">
+                  <template slot-scope="scope"> {{ scope.row.workObjectName}} </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业物类型" width="120">
+                  <template slot-scope="scope"> {{ scope.row.workObjectType }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业物来源" min-width="120">
+                  <template slot-scope="scope"> {{ scope.row.workObjectSource }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业物数量" width="120">
+                  <template slot-scope="scope">
+                    {{ scope.row.workObjectAmount + getDictionaryName2(scope.row.workObjectAmountUnit)}}
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业开始日期" width="120">
+                  <template slot-scope="scope"> {{ scope.row.startDate.substr(0, 10)}} </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业结束日期" width="120">
+                  <template slot-scope="scope"> {{ scope.row.endDate.substr(0, 10)}} </template>
+                </el-table-column>
+                <el-table-column align="center" label="天气状况" width="100">
+                  <template slot-scope="scope"> {{ scope.row.weather }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="作业图片" width="100">
+                  <template slot-scope="scope">
+                    <el-button size="small" type="success" icon="el-icon-view"
+                      @click="showPhoto(scope.row.workPictureList)">查看</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="生长环境信息" name="4">
+              <div id="mainChar" style="width: 1068px; height: 600px"></div>
+            </el-tab-pane>
+            <el-tab-pane label="生产作业信息" name="5">
+              <p class="product-info-item"><b>收获方式:&nbsp;</b> {{aqzs_harvest.harvestWay}}</p>
+              <p class="product-info-item">
+                <b> 收获数量: &nbsp;</b>{{aqzs_harvest.harvestAmount +
+                getDictionaryName2(aqzs_harvest.harvestAmountUnit)}}
+              </p>
+              <p class="product-info-item"><b>收获时间:&nbsp;</b> {{aqzs_harvest.harvestDate.substr(0, 10)}}</p>
+              <p class="product-info-item"><b>天气状况:&nbsp;</b> {{aqzs_harvest.weather}}</p>
+              <p class="product-info-item">
+                <b>加工开始时间:&nbsp;</b> {{aqzs_process_batch.startDate.substr(0, 10)}}
+              </p>
+              <p class="product-info-item"><b>加工结束时间:&nbsp;</b> {{aqzs_process_batch.endDate.substr(0, 10)}}</p>
+              <p class="product-info-item">
+                <b>加工数量: &nbsp;</b> {{aqzs_harvest.harvestAmount+
+                getDictionaryName2(aqzs_process_batch.processAmountUnit)}}
+              </p>
+              <p class="product-info-item"><b>加工方式:&nbsp;</b> {{aqzs_process_batch.processWay}}</p>
+              <p class="product-info-item" style="height: 200px">
+                <b>采收图片:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl6" :src="item.url" :preview-src-list="srcList6">
+                </el-image>
+              </p>
+              <p class="product-info-item" style="height: 200px">
+                <b>加工图片:</b>
+                <el-image
+                  style="width: 200px; height: 160px; display: table-cell; vertical-align: middle; padding: 10px"
+                  v-for="item in imgUrl7" :src="item.url" :preview-src-list="srcList7">
+                </el-image>
+              </p>
+            </el-tab-pane>
+            <el-tab-pane label="检验信息" name="6">
+              <el-table :data="aqzsTest" border stripe fit highlight-current-row :row-style="{height:'5px'}"
+                :cell-style="{padding:'5px 0'}">
+                <el-table-column align="center" label="追溯码" min-width="200">
+                  <template slot-scope="scope"> {{ scope.row.productBatchNumber }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="检验数量" width="240">
+                  <template slot-scope="scope">
+                    {{ scope.row.testAmount + getDictionaryName2(scope.row.testAmountUnit)}}
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="检验日期" width="120">
+                  <template slot-scope="scope"> {{ scope.row.testDate.substr(0, 10) }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="检验结果" width="100">
+                  <template slot-scope="scope">
+                    {{ scope.row.weather }}
+                    <el-tag type="success" v-if="scope.row.testResult === '合格'">合格</el-tag>
+                    <el-tag type="danger" v-else>不合格</el-tag>
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="检验图片" width="100">
+                  <template slot-scope="scope">
+                    <el-button size="small" type="success" icon="el-icon-view"
+                      @click="showInspectionPhoto(scope.row.testResultPictureList)">查看</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="销售信息" name="7">
+              <el-table :data="aqzsSale" border stripe fit highlight-current-row :row-style="{height:'5px'}"
+                :cell-style="{padding:'5px 0'}">
+                <el-table-column align="center" label="订单编号" width="200">
+                  <template slot-scope="scope"> {{scope.row.orderNumber }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="销售数量" width="120">
+                  <template slot-scope="scope">
+                    {{scope.row.saleAmount + getDictionaryName2(scope.row.saleAmountUnit)}}
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="销售商名称" width="120">
+                  <template slot-scope="scope"> {{ getName(scope.row.sellerId) }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="发货时间" width="120">
+                  <template slot-scope="scope"> {{ scope.row.sendDate.substr(0, 10)}} </template>
+                </el-table-column>
+                <el-table-column align="center" label="发货人" width="100">
+                  <template slot-scope="scope"> {{scope.row.sender }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="收货人" width="100">
+                  <template slot-scope="scope"> {{scope.row.receiver }} </template>
+                </el-table-column>
+                <el-table-column align="center" label="始发地" min-width="120">
+                  <template v-slot="scope">
+                    <span>{{ scope.row.startPlace}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="目的地" min-width="120">
+                  <template v-slot="scope">
+                    <span>{{scope.row.endPlace }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
+      <!-- 检验结果 -->
+      <el-dialog v-cloak center title="检验结果图片" :visible.sync="dialogInspectionPictureVisible" width="80%" top="12vh"
+        :append-to-body="true">
+        <div class="upload-div" v-if="imgInspectionPictureLists.length !== 0">
+          <div class="upload-div-list" v-for="(item,index) of imgInspectionPictureLists" :key="index">
+            <el-image :src="baseImgUrl + item.url" :preview-src-list="testUrlList"></el-image>
+          </div>
+        </div>
+        <div v-else style="text-align: center; font-size: 24px">暂无</div>
+      </el-dialog>
+      <!-- 基本作业图片预览 -->
+      <el-dialog v-cloak center title="基本作业图片" :visible.sync="dialogOperationPictureVisible" width="80%" top="12vh"
+        :append-to-body="true">
+        <div class="upload-div" v-if="imgOperationPictureLists.length !== 0">
+          <div class="upload-div-list" v-for="(item,index) of imgOperationPictureLists" :key="index">
+            <el-image :src="baseImgUrl + item.url" :preview-src-list="srcList6"></el-image>
+          </div>
+        </div>
+        <div v-else style="text-align: center; font-size: 24px">暂无</div>
+      </el-dialog>
+      <!-- 链接 -->
+      <div class="link-section">
+        <div class="friendLink">
+          <h4>友情链接：</h4>
+          <ul class="img-link clearfix">
+            <li>
+              <a href="http://www.moa.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/nyb.png" />
+              </a>
+              <span><a href="http://www.moa.gov.cn/" target="_blank">农业部</a> </span>
+            </li>
+            <li>
+              <a href="http://www.zgny.com.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/zgnyw.png" />
+              </a>
+              <span><a href="http://www.zgny.com.cn/" target="_blank">中国农业网</a> </span>
+            </li>
+            <li>
+              <a href="http://www.hbnyw.com/" target="_blank">
+                <img class="img-responsive" src="../../images/hbsnyw.png" />
+              </a>
+              <span><a href="http://www.hbnyw.com/" target="_blank">湖北农业网</a> </span>
+            </li>
+            <li>
+              <a href="http://nyt.hubei.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/hbnyt.png" />
+              </a>
+              <span><a href="http://nyt.hubei.gov.cn/" target="_blank">湖北农业厅</a> </span>
+            </li>
+            <li>
+              <a href="http://www.jianli.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/jlsrmzf.png" />
+              </a>
+              <span><a href="http://www.jianli.gov.cn/" target="_blank">监利市人民政府</a> </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a target="_blank" href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a target="_blank" href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </div>
+  </div>
+</body>
+
+<script src="../../assets/vue/vue.min.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../assets/element/index.js"></script>
+<script src="../../js/api.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        activeName: '1',
+        imgUrl: [],
+        srcList: [],
+        certificateUrl: [],
+        certificateList: [],
+        aqzsDetail: {},
+        aqzsProduct: {},
+        aqzsTest: {},
+        aqzsSale: {},
+        testUrlList: [],
+        code: '',
+        baseImgUrl: data.ip_2,
+        dialogInspectionPictureVisible: false,
+        dialogOperationPictureVisible: false,
+        imgInspectionPictureLists: [],
+        imgOperationPictureLists: [],
+        aqzs_base1: {},
+        aqzs_base2: {},
+        imgUrl2: [],
+        srcList2: [],
+        imgUrl3: [],
+        srcList3: [],
+        imgUrl4: [],
+        srcList4: [],
+        imgUrl5: [],
+        srcList5: [],
+        aqzs_base_work: {},
+        srcList6: [],
+        aqzs_harvest: {},
+        imgUrl6: [],
+        srcList6: [],
+        imgUrl7: [],
+        srcList7: [],
+        amountUnitOptions: [],
+        aqzs_process_batch: {},
+        baseOperationOptions: [],
+        retailerOptions: [],
+        xph_device_sensor: [],
+        // table表头名称
+        contentsTitle: [],
+        // 递归结束标志
+        flagIndex: 0,
+        myChart: null,
+        // echarts数据
+        data: [],
+        // 颜色数组
+        colorArr: [
+          '#4e89ae',
+          '#ed6663',
+          '#43658b',
+          '#ffa372',
+          '#ff4b5c',
+          '#ffc93c',
+          '#81b214',
+          '#ea5455',
+          '#799351',
+          '#00b7c2',
+          '#dd2c00',
+          '#cdb30c',
+          '#62760c',
+          '#535204',
+          '#523906',
+          '#848ccf',
+          '#93b5e1',
+          '#be5683',
+          '#a2de96',
+          '#3ca59d',
+          '#5a3d55',
+          '#e79c2a',
+          '#c70039',
+          '#f37121',
+        ],
+      };
+    },
+    created() {
+      // this.openFullScreen();
+      this.getRetrospectCode();
+      this.getAmountUnitDictionary();
+    },
+    methods: {
+      // openFullScreen() {
+      //   const loading = this.$loading({
+      //     lock: true,
+      //     text: '正在加载追溯信息...',
+      //     spinner: 'el-icon-loading',
+      //     background: 'rgba(0, 0, 0, 0.7)',
+      //   });
+      //   setTimeout(() => {
+      //     loading.close();
+      //   }, 2000);
+      // },
+      handleClick(tab) {
+        if (tab.name === '4') {
+          this.xph_device_sensor.map((item, index) => {
+            this.contentsTitle.unshift(`${item.name}(${item.unit})`);
+            let tmpObj = {
+              name: `${item.name}(${item.unit})`,
+              type: 'line',
+              lineStyle: {
+                width: 2,
+                color: this.colorArr[index],
+              },
+              color: this.colorArr[index],
+              showSymbol: false,
+              data: this.handleData(item.dsdList),
+              // 这是让时间刻度缺失的点，数据正常连接不断开
+              connectNulls: true,
+            };
+            this.data.push(tmpObj);
+          });
+          this.showGraphic();
+        }
+      },
+      getRetrospectCode() {
+        let search = location.search;
+        this.code = search.substr(1);
+
+        let params = { productBatchNumber: this.code };
+        $.ajax({
+          url: data.ip_3 + '/api/zsSys/ProcessBatch/traceByPBN',
+          data: params,
+          type: 'GET',
+
+          success: (res) => {
+            if (res.data.aqzs_process_batch == null && res.data.aqzs_harvest == null) {
+              this.$message({
+                message: '无效追溯码，正在跳转至首页...',
+                type: 'warning',
+              });
+              var timeout = setTimeout(function () {
+                window.location.href = '../../index.html';
+              }, 2000);
+              return;
+            }
+            clearTimeout(timeout);
+            if (res.status == 200) {
+              this.aqzsDetail = res.data.aqzs_product_detail;
+              this.aqzsProduct = res.data.aqzs_product;
+              this.aqzsTest = res.data.aqzs_finish_product_test;
+              this.aqzs_process_batch = res.data.aqzs_process_batch;
+              this.aqzsSale = res.data.aqzs_sale;
+              this.aqzs_base1 = res.data.aqzs_base1;
+              this.aqzs_base2 = res.data.aqzs_base2;
+              this.aqzs_base_work = res.data.aqzs_base_work;
+              this.aqzs_harvest = res.data.aqzs_harvest;
+              this.xph_device_sensor = res.data.xph_device_sensor;
+              if (!res.data.aqzs_product) {
+                this.aqzsProduct = {};
+              }
+              if (!res.data.aqzs_product_detail) {
+                this.aqzsDetail = {};
+              }
+              if (!res.data.aqzs_base1) {
+                this.aqzs_base1 = {};
+              } else {
+                this.aqzs_base1.isReportQualified = this.aqzs_base1.isReportQualified ? '合格' : '不合格';
+              }
+              if (!res.data.aqzs_base2) {
+                this.aqzs_base2 = {};
+              } else {
+                this.aqzs_base2.isReportQualified = this.aqzs_base2.isReportQualified ? '合格' : '不合格';
+              }
+              if (!res.data.aqzs_harvest) {
+                this.aqzs_harvest = {};
+              }
+              if (!res.data.aqzs_process_batch) {
+                this.aqzs_process_batch = {};
+              }
+              if (!res.data.aqzs_sale) {
+                this.aqzsSale = {};
+              }
+              if (!res.data.xph_device_sensor) {
+                this.xph_device_sensor = [];
+              }
+              if (this.aqzsDetail.pictureList) {
+                this.imgUrl = this.aqzsDetail.pictureList.map((item) => {
+                  this.srcList.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+              if (this.aqzsDetail.certificateList) {
+                this.certificateUrl = this.aqzsDetail.certificateList.map((item) => {
+                  this.certificateList.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+              if (this.aqzs_base1.basePictureList) {
+                this.imgUrl2 = this.aqzs_base1.basePictureList.map((item) => {
+                  this.srcList2.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+              if (this.aqzs_base1.reportPictureList) {
+                this.imgUrl3 = this.aqzs_base1.reportPictureList.map((item) => {
+                  this.srcList3.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+              if (this.aqzs_base2.basePictureList) {
+                this.imgUrl4 = this.aqzs_base2.basePictureList.map((item) => {
+                  this.srcList4.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+              if (this.aqzs_base2.reportPictureList) {
+                this.imgUrl5 = this.aqzs_base2.reportPictureList.map((item) => {
+                  this.srcList5.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+
+              if (this.aqzs_harvest.harvestPictureList) {
+                this.imgUrl6 = this.aqzs_harvest.harvestPictureList.map((item) => {
+                  this.srcList6.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+              if (this.aqzs_process_batch.productBatchNumberPictureList) {
+                this.imgUrl7 = this.aqzs_process_batch.productBatchNumberPictureList.map((item) => {
+                  this.srcList7.push(this.baseImgUrl + item.url);
+                  return {
+                    url: this.baseImgUrl + item.url,
+                  };
+                });
+              }
+            }
+            this.getRetailerDictionary();
+            this.getBaseOperationDictionary();
+          },
+          error: function (err) {
+            console.log(err);
+          },
+        });
+      },
+      getRetailerDictionary() {
+        $.ajax({
+          url: data.ip_3 + '/api/zsSys/Seller/pageByEId',
+          data: { enterpriseId: this.aqzs_base1.enterpriseId },
+          type: 'GET',
+          success: (res) => {
+            if (res.status !== 200) {
+              return this.$message.error('获取失败');
+            }
+            this.retailerOptions = res.data.rows;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      },
+      // 查看检验结果图片
+      showInspectionPhoto(row) {
+        this.testUrlList = [];
+        this.imgInspectionPictureLists = [];
+        if (row.length !== 0) {
+          this.imgInspectionPictureLists = row;
+          for (let i = 0; i < this.imgInspectionPictureLists.length; i++) {
+            this.testUrlList.push(this.baseImgUrl + this.imgInspectionPictureLists[i].url);
+          }
+        }
+        this.dialogInspectionPictureVisible = true;
+      },
+      showPhoto(row) {
+        this.srcList6 = [];
+        this.imgOperationPictureLists = [];
+        if (row.length !== 0) {
+          this.imgOperationPictureLists = row;
+          for (let i = 0; i < this.imgOperationPictureLists.length; i++) {
+            this.srcList6.push(this.baseImgUrl + this.imgOperationPictureLists[i].url);
+          }
+        }
+        this.dialogOperationPictureVisible = true;
+      },
+      getAmountUnitDictionary() {
+        $.ajax({
+          url: data.ip_3 + '/api/comSys/DataDictionary/getAllMayToCondition',
+          data: { type: '数量单位' },
+          type: 'GET',
+          success: (res) => {
+            if (res.status !== 200) {
+              return this.$message.error('获取失败');
+            }
+            this.amountUnitOptions = res.data;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      },
+      // 根据id获取name
+      getName(id) {
+        for (let i = 0; i < this.retailerOptions.length; i++) {
+          if (id === this.retailerOptions[i].id) {
+            return this.retailerOptions[i].name;
+          }
+        }
+      },
+      getBaseOperationDictionary() {
+        $.ajax({
+          url: data.ip_3 + '/api/comSys/DataDictionary/getAllMayToCondition',
+          data: {
+            type: this.aqzs_base1.baseType === '种植基地' ? '种植作业类型' : '水产作业类型',
+            remark: 'X2',
+          },
+          type: 'GET',
+          success: (res) => {
+            if (res.status !== 200) {
+              return this.$message.error('获取失败');
+            }
+            this.baseOperationOptions = res.data;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      },
+      // 根据code转换成name
+      getDictionaryName(code) {
+        for (let i = 0; i < this.typeOptions.length; i++) {
+          if (code === this.typeOptions[i].code) {
+            return this.typeOptions[i].name;
+          }
+        }
+      },
+      getDictionaryName2(code) {
+        for (let i = 0; i < this.amountUnitOptions.length; i++) {
+          if (code === this.amountUnitOptions[i].code) {
+            return this.amountUnitOptions[i].name;
+          }
+        }
+      },
+      getDictionaryName3(code) {
+        for (let i = 0; i < this.baseOperationOptions.length; i++) {
+          if (code === this.baseOperationOptions[i].code) {
+            return this.baseOperationOptions[i].name;
+          }
+        }
+      },
+      // 绘制图表
+      showGraphic() {
+        // 基于准备好的dom，初始化echarts实例
+        this.myChart = echarts.init(document.getElementById('mainChar'));
+        // 配置属性
+        let option = {
+          grid: {
+            left: '70',
+            top: '50',
+            right: '50',
+            bottom: '80',
+          },
+          toolbox: {
+            right: 40,
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none',
+              },
+              restore: {},
+              saveAsImage: {},
+            },
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'line',
+              animation: false,
+              label: {
+                backgroundColor: '#505765',
+              },
+            },
+          },
+          color: this.colorArr,
+          legend: {
+            data: this.contentsTitle,
+            left: 'center',
+            top: 10,
+          },
+          dataZoom: [
+            {
+              show: true,
+              realtime: true,
+              start: 0,
+            },
+            {
+              type: 'inside',
+              realtime: true,
+              start: 0,
+            },
+          ],
+          xAxis: [
+            {
+              type: 'time',
+              axisLabel: {
+                formatter: function (params) {
+                  let time = new Date(params);
+                  const opt = {
+                    'Y+': time.getFullYear().toString(), // 年
+                    'm+': (time.getMonth() + 1).toString(), // 月
+                    'd+': time.getDate().toString(), // 日
+                    'H+': time.getHours().toString(), // 时
+                    'M+': time.getMinutes().toString(), // 分
+                    'S+': time.getSeconds().toString(), // 秒
+                    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+                  };
+                  let ret;
+                  let fmt = 'YYYY-mm-dd HH:MM';
+                  for (let k in opt) {
+                    ret = new RegExp('(' + k + ')').exec(fmt);
+                    if (ret) {
+                      fmt = fmt.replace(ret[1], ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, '0'));
+                    }
+                  }
+                  return fmt;
+                },
+              },
+            },
+          ],
+          yAxis: {},
+          series: this.data,
+        };
+        // 清除数据残留
+        this.myChart.clear();
+        // 绘制图表
+        this.myChart.setOption(option);
+      },
+      // 数据处理
+      handleData(arr) {
+        if (arr && arr.length !== 0) {
+          let resultArr = [];
+          arr.map((item) => {
+            let tmpArr = [];
+            tmpArr.push(item.recordTime);
+            tmpArr.push(item.recordData);
+            resultArr.push(tmpArr);
+          });
+          return resultArr;
+        }
+      },
+    },
+  });
+</script>
+
+</html>

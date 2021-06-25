@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.DeviceSensorMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.DeviceSensor">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="fac_id" property="facId" jdbcType="INTEGER"/>
+        <result column="fac_pass" property="facPass" jdbcType="VARCHAR"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
+
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="pre_c" property="preC" jdbcType="VARCHAR"/>
+
+        <result column="longitude" property="longitude" jdbcType="DECIMAL"/>
+        <result column="latitude" property="latitude" jdbcType="DECIMAL"/>
+        <result column="enterprise_wl_user_id" property="enterpriseWlUserId" jdbcType="INTEGER"/>
+        <result column="last_record_time" property="lastRecordTime" jdbcType="TIMESTAMP"/>
+
+        <result column="last_record_data" property="lastRecordData" jdbcType="DECIMAL"/>
+    </resultMap>
+</mapper>

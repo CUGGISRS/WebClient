@@ -1,0 +1,93 @@
+.m-pos{height: 45px; line-height: 45px; border-bottom: 1px solid #ddd; margin-bottom: 10px;}
+
+.gq-mbox{margin-bottom: 15px;}
+.gq-mbox label.top{vertical-align: top;}
+.gq-mbox input[type="text"]{width: 400px; padding: 2px 5px;}
+.gq-mbox input[type="file"]{width: 64px; margin-top: 15px; position: relative; opacity: 0; z-index: 100; cursor: pointer;}
+.gq-mbox input[type="button"]{padding: 1px 15px; background: #30a84c; color: #fff; border-radius: 15px; border: none;  height: 27px; position: absolute; top: 36px; width: 64px; margin-right: 15px; left: 0; z-index: 1;}
+.gq-mbox input:hover[type="button"]{background: #39be58;}
+.gq-mbox input.liulan[type="button"]{z-index: 1;}
+.gq-mbox input.upload[type="button"]{left: 79px;}
+.gq-mbox select{padding: 2px 5px; margin-right: 15px;}
+.gq-mbox a{padding: 4px 15px; background: #30a84c; color: #fff; border-radius: 15px; border: none;  height: 27px; position: absolute; top: 36px; width: 64px; margin-right: 15px; display: inline-block; vertical-align: middle; text-align: center; left: 158px; z-index: 1;}
+.gq-mbox a:hover{background: #39be58; color: #fff !important;}
+.gq-mbox textarea{width: 400px; padding: 2px 5px;}
+.zx-img{width: 130px; height: 80px; border: 1px solid #c7c7c7; margin-left: 25px;}
+.fbgj-tab{border: 0; margin-left: 78px;}
+.fbgj-tab:nth-of-type{border: 0; margin-left: 0;}
+.zj-height{height: 75px;}
+
+span.small{width: 7px; display: inline-block;}
+span.big{width: 28px; display: inline-block;}
+span.qq{width: 34px; display: inline-block;}
+span.red-small{width: 5px; margin-right: 3px; display: inline-block;color: #f00;}
+span.red{color: #f00;}
+span.green{color: #229f2d;}
+
+.user-btn{text-align: center;}
+.user-btn input[type="button"], .user-btn input[type="submit"], .user-btn input[type="reset"]{padding: 5px 55px; margin: 0 15px; border: 1px solid; color: #fff;}
+.user-btn input[type="button"], .user-btn input[type="submit"]{
+    border-color: #1e7113;
+    background: -webkit-linear-gradient(#73c565, #429739);
+    background: -moz-linear-gradient(#73c565, #429739);
+    background: -o-linear-gradient(#73c565, #429739);
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#73c565), to(#429739));
+    background: linear-gradient(#73c565, #429739);
+}
+.user-btn input[type="button"], .user-btn input:active[type="submit"]{
+    background: -webkit-linear-gradient(#429739, #73c565);
+    background: -moz-linear-gradient(#429739, #73c565);
+    background: -o-linear-gradient(#429739, #73c565);
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#429739), to(#73c565));
+    background: linear-gradient(#429739, #73c565);
+}
+.user-btn input[type="reset"]{
+    border-color: #9a1212;
+    background: -webkit-linear-gradient(#e87070, #d73f40);
+    background: -moz-linear-gradient(#e87070, #d73f40);
+    background: -o-linear-gradient(#e87070, #d73f40);
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#e87070), to(#d73f40));
+    background: linear-gradient(#e87070, #d73f40);
+}
+.user-btn input:active[type="reset"]{
+    background: -webkit-linear-gradient(#d73f40, #e87070);
+    background: -moz-linear-gradient(#d73f40, #e87070);
+    background: -o-linear-gradient(#d73f40, #e87070);
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#d73f40), to(#e87070));
+    background: linear-gradient(#d73f40, #e87070);
+}
+
+/*  ----我的咨询列表----  */
+.consult-btn{float: right; margin-bottom: 15px;}
+.consult-btn button{border: 1px solid #f0bf36; padding: 3px 15px; color: #333;
+    background: -webkit-linear-gradient(#fde58f, #fbcc4c);
+    background: -moz-linear-gradient(#fde58f, #fbcc4c);
+    background: -o-linear-gradient(#fde58f, #fbcc4c);
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#fde58f), to(#fbcc4c));
+    background: linear-gradient(#fde58f, #fbcc4c);
+}
+.consult-btn button:active{
+    background: -webkit-linear-gradient(#fbcc4c, #fde58f);
+    background: -moz-linear-gradient(#fbcc4c, #fde58f);
+    background: -o-linear-gradient(#fbcc4c, #fde58f);
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(#fbcc4c), to(#fde58f));
+    background: linear-gradient(#fbcc4c, #fde58f);
+}
+.consult-btn button i{margin-right: 3px;}
+
+.consult-table{border-bottom: 1px solid #ddd;}
+.consult-table thead tr th{background: #f8f9fc; text-align: center;}
+.consult-table thead tr th.title{}
+.consult-table thead tr th.time{width: 15%;}
+.consult-table thead tr th.name{width: 12%;}
+.consult-table thead tr th.state{width: 10%;}
+.consult-table thead tr th.operation{width: 20%;}
+.consult-table tbody tr td{text-align: center;}
+.consult-table tbody tr td.left{text-align: left;}
+.consult-table tbody tr td.red{color: #f00;}
+.consult-table tbody tr td.green{color: #229f2d;}
+.consult-table tbody tr td a{color: #09f; margin: 0 5px;cursor: pointer}
+.consult-table tbody tr td a.title{margin: 0;}
+
+
+

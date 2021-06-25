@@ -1,0 +1,1 @@
+.products-img-container{height:140px!important;padding:10px;overflow:auto}.disabled .el-upload--picture-card{display:none}.upload-div{width:350px;display:flex;justify-content:start;align-items:center;flex-wrap:wrap}.upload-div-del{cursor:pointer}.upload-div-del:hover{color:#64b7ff}.el-image-preview{width:130px;height:130px}

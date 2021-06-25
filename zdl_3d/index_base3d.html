@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>三维GIS基础平台</title>
+
+  <!-- loading层 -->
+  <link rel="stylesheet" href="./lib/low-loading/low-loading.css" />
+
+  <!-- cesium样式 -->
+  <link rel="stylesheet" href="./lib/Cesium/Widgets/widgets.css" />
+
+  <!-- 引入iview组件库 -->
+  <link rel="stylesheet" href="./lib/iview/styles/iview.css" />
+
+  <!-- 自定义样式 -->
+  <link rel="stylesheet" href="./main_base3d.css" />
+  <!-- layui样式 -->
+  <link href="./lib/layui/css/layui.css" rel="stylesheet" />
+  <script src="./lib/layui/layui.all.js"></script>
+
+  <!-- loading层 -->
+  <script src="./lib/low-loading/low-loading.js"></script>
+</head>
+
+<body>
+  <script>
+    // loading加载
+    loading.open({
+      loadClass: 'round-no1',
+      preColor: 'rgba(0,0,0,1)',
+      childColor: '#fff',
+      preEl: document.body,
+    });
+  </script>
+
+  <div id="app" v-cloak>
+    <!-- head -->
+    <div class="mainHeader">
+      <template>
+        <i-menu mode="horizontal" :theme="theme1" @on-select="handleSelectItem">
+          <div class="logo">
+            <p>三维GIS基础平台</p>
+          </div>
+          <template v-for="item in spotData2">
+            <Menu-Item v-if="!item.children" :name="item.id">
+              <Icon :type="item.cate_image"></Icon>
+              {{item.name}}
+            </Menu-Item>
+            <Submenu :name="item.id" v-else>
+              <template slot="title">
+                <Icon :type="item.cate_image"></Icon>
+                {{item.name}}
+              </template>
+
+              <Menu-Item v-for="data in item.children" :name="data.id">
+                <img style="width: 20px; height: 20px; vertical-align: middle" :src="data.cate_image" alt="icon" />
+                {{data.name}}
+              </Menu-Item>
+            </Submenu>
+          </template>
+        </i-menu>
+      </template>
+    </div>
+
+    <!-- 左侧图层管理弹框 -->
+    <div class="layer-management" :class="{'layer-management-active':layerManagement}">
+      <div class="watch-box">
+        <div class="watch-box-head">
+          <div>图层管理</div>
+          <i-button type="text" icon="md-close" ghost @click="layerClose"></i-button>
+        </div>
+        <div class="layer-box-cont">
+          <Tree :data="data4" ref="tree" show-checkbox @on-check-change="checkChange" @on-select-change="selectChange"
+            :render="renderContent"></Tree>
+        </div>
+      </div>
+    </div>
+    <!-- map容器 -->
+    <div id="cesiumContainer" v-show="!mapSwitch"></div>
+    <!-- 右侧施工模拟弹框 -->
+    <div class="build-alert-box" :class="{'build-alert-box-active':buildBool}">
+      <div class="fly-box">
+        <div class="fly-box-head">
+          <div id="build-box-head-name"></div>
+          <div>
+            <i-button type="text" icon="md-close" ghost @click="buildViewClose"></i-button>
+          </div>
+        </div>
+        <div class="build-slider" style="height: 100px;">
+          <span>施工进度：</span>
+          <Slider :min="1" :max="100" :step="1" v-model="buildSlider" @on-change="refreshBuildModel"
+            :tip-format="buildTipShow"> </Slider>
+        </div>
+      </div>
+    </div>
+    <!-- 右侧飞行轨迹弹框 -->
+    <div class="fly-alert-box" :class="{'fly-alert-box-active':flyBool}">
+      <div class="fly-box">
+        <div class="fly-box-head">
+          <div id="fly-box-head-name"></div>
+          <div>
+            <i-button type="text" icon="md-close" ghost @click="flyViewClose"></i-button>
+          </div>
+        </div>
+        <div class="fly-box-cont">
+          <div class="fly-spot-con">
+            <div class="fly-spot-con-item" @click="addFlyPath">
+              <img class="fly-spot-con-img" src="./images/newPro.png" alt="newPro" />
+              <span class="fly-spot-con-title">新建飞行</span>
+            </div>
+            <div class="fly-spot-con-item" @click="setPathPlan">
+              <img class="fly-spot-con-img" src="./images/flag.png" alt="flag" />
+              <span class="fly-spot-con-title">设定路线</span>
+            </div>
+            <div class="fly-spot-con-item" @click="startFly">
+              <img class="fly-spot-con-img" src="./images/flystart.png" alt="flystart" />
+              <span class="fly-spot-con-title">开始飞行</span>
+            </div>
+            <div class="fly-spot-con-item" @click="stopFly">
+              <img class="fly-spot-con-img" src="./images/pauseFly.png" alt="pauseFly" />
+              <span class="fly-spot-con-title">暂停飞行</span>
+            </div>
+            <div class="fly-spot-con-item" @click="continueFly">
+              <img class="fly-spot-con-img" src="images/continueFly.png" alt="continueFly" />
+              <span class="fly-spot-con-title">继续飞行</span>
+            </div>
+            <div class="fly-spot-con-item" @click="exitFly">
+              <img class="fly-spot-con-img" src="./images/stopFly.png" alt="stopFly" />
+              <span class="fly-spot-con-title">停止飞行</span>
+            </div>
+          </div>
+          <div>
+            <ul class="spot-con">
+              <li v-for="(item,index) in flyTrackList" :class="{'active':index == isActive}"
+                @click="handleFlyTrack(item,index)">
+                <div class="spot-con-lef">{{item.name}}</div>
+
+                <i-button type="text" shape="circle" size="small" icon="md-close" ghost @click="delFlyTrack(item.id)">
+                </i-button>
+              </li>
+              <li>
+                <Page size="small" :page-size="flyPageSize" :current="flyLimit" @on-change="flyChangepage"
+                  :total="flyTotal" />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 右侧视点列表弹框 -->
+    <div class="watch-alert-box" :class="{'watch-alert-box-active':watchBool}">
+      <div class="watch-box">
+        <div class="watch-box-head">
+          <div>视点列表</div>
+          <i-button type="text" icon="md-close" ghost @click="watchClose"></i-button>
+        </div>
+        <div class="watch-box-cont">
+          <ul class="spot-con">
+            <i-button type="info" @click="handleModalShow" style="margin-bottom: 5px">点击新增当前视点</i-button>
+
+            <li v-for="(item,index) in watchList" @click="handleWatchPoint(item)">
+              <div class="spot-con-lef">{{item.watchValue}}</div>
+
+              <i-button type="text" shape="circle" size="small" icon="md-close" ghost
+                @click.stop="delWatchPoint(item.id)">
+              </i-button>
+            </li>
+            <li>
+              <Page size="small" :page-size="pageSize" :current="dataCount" @on-change="changepage" :total="total" />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 点击增加视点对话框 -->
+    <Modal v-model="modal2" width="360">
+      <p slot="header" style="color: #2d8cf0; text-align: center">
+        <Icon type="ios-add-circle"></Icon>
+        <span>新增视点</span>
+      </p>
+      <div style="text-align: center">
+        <p>请输入新增视点名称</p>
+        <i-Input v-model="watchValue" placeholder="请输入新增视点名称..." style="width: 300px" />
+      </div>
+      <div slot="footer">
+        <i-button type="primary" size="large" long @click="saveWatchList">确定</i-button>
+      </div>
+    </Modal>
+    <!-- 点击增加飞行浏览对话框 -->
+    <Modal v-model="modal3" width="360">
+      <p slot="header" style="color: #2d8cf0; text-align: center">
+        <Icon type="ios-add-circle"></Icon>
+        <span>新增飞行浏览</span>
+      </p>
+      <div style="text-align: center">
+        <p>请输入飞行浏览名称</p>
+        <i-Input v-model="flyValue" placeholder="请输入飞行浏览名称..." style="width: 300px" />
+      </div>
+      <div slot="footer">
+        <i-button type="primary" size="large" long @click="saveFlyList">确定</i-button>
+      </div>
+    </Modal>
+    <!-- 场景特效设置弹框 -->
+    <div class="con-alert-box con-alert-box-setting"
+      :class="{'con-alert-box-active':vehicleSettingBool,'con-alert-box-big':vehicleSettingBigBool}">
+      <div class="vehicle-box">
+        <div class="vehicle-box-head">
+          <div>场景特效设置</div>
+          <div>
+            <!-- <i-button type="text" :icon="vehicleBigBool ? 'md-contract' : 'md-expand'" ghost @click="vehicleBigClick"></i-button> -->
+            <i-button type="text" icon="md-close" ghost @click="vehicleSettingClose"></i-button>
+          </div>
+        </div>
+        <div class="vehicle-box-cont">
+          <div>
+            <span>下雨量：</span>
+            <Slider :min="1" :max="999" :step="1" v-model="rainValue" @on-change="refreshRain" class="slider-setting"
+              :tip-format="rainFormat"></Slider>
+          </div>
+          <div>
+            <span>下雪量：</span>
+            <Slider :min="0" :max="0.8" :step="0.01" v-model="snowValue" @on-change="refreshSnow"
+              class="slider-setting"></Slider>
+          </div>
+          <div>
+            <span>雾浓度：</span>
+            <Slider :min="0.01" :max="0.99" :step="0.01" v-model="fogValue" @on-change="refreshFog"
+              class="slider-setting"></Slider>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 日照分析设置框 -->
+    <div class="con-alert-box con-alert-box-setting"
+      :class="{'con-alert-box-active':vehicleSunshineBool,'con-alert-box-big':vehicleSunshineBigBool}">
+      <div class="vehicle-box">
+        <div class="vehicle-box-head">
+          <div>日照分析设置</div>
+          <div>
+            <i-button type="text" icon="md-close" ghost @click="vehicleExcavationClose"></i-button>
+          </div>
+        </div>
+      </div>
+      <div class="vehicle-box-cont">
+        <div>
+          <span>开挖深度：</span>
+          <i-input v-model="cuttingDepth" style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;米</span>
+        </div>
+        <div>
+          <span>挖方面积：</span>
+          <i-input v-model="excavationArea" disabled style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;平方米</span>
+        </div>
+        <div>
+          <span>挖方体积：</span>
+          <i-input v-model="excavationResult" disabled style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;立方米</span>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <i-button type="primary" size="small" @click="getExcavation" style="margin-right: 20px">开始分析</i-button>
+          <i-button type="primary" size="small" @click="clearExcavation">清除分析</i-button>
+        </div>
+      </div>
+    </div>
+    <!-- 挖填方分析设置框 -->
+    <div class="con-alert-box con-alert-box-setting"
+      :class="{'con-alert-box-active':vehicleExcavationBool,'con-alert-box-big':vehicleExcavationBigBool}">
+      <div class="vehicle-box">
+        <div class="vehicle-box-head">
+          <div>挖填方分析设置</div>
+          <div>
+            <i-button type="text" icon="md-close" ghost @click="vehicleExcavationClose"></i-button>
+          </div>
+        </div>
+      </div>
+      <div class="vehicle-box-cont">
+        <div>
+          <span>开挖深度：</span>
+          <i-input v-model="cuttingDepth" style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;米</span>
+        </div>
+        <div>
+          <span>挖方面积：</span>
+          <i-input v-model="excavationArea" disabled style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;平方米</span>
+        </div>
+        <div>
+          <span>挖方体积：</span>
+          <i-input v-model="excavationResult" disabled style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;立方米</span>
+        </div>
+        <div>
+          <span>填方体积：</span>
+          <i-input v-model="excavationFillResult" disabled style="width: 120px"></i-input>
+          <span>&nbsp;&nbsp;立方米</span>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <i-button type="primary" size="small" @click="getExcavation" style="margin-right: 20px">开始分析</i-button>
+          <i-button type="primary" size="small" @click="clearExcavation">清除分析</i-button>
+        </div>
+      </div>
+    </div>
+    <!--测量划线-->
+    <div style="position: absolute; width: 350px; height: 30px; top: 25px; left: 10px">
+      <div id="measure"></div>
+    </div>
+    <!--地形剖面分析结果展示框-->
+    <div style="top: 42vh" class="con-alert-box"
+      :class="{'con-alert-box-active':vehicleClippingBool,'con-alert-box-big':vehicleClippingBigBool}"
+      @resize="clippingResultResize()" @transitionend="clippingResultResize()">
+      <div class="vehicle-box">
+        <div class="vehicle-box-head">
+          <div>地形剖面图</div>
+          <div>
+            <!-- <i-button type="text" :icon="vehicleBigBool ? 'md-contract' : 'md-expand'" ghost @click="vehicleBigClick"></i-button> -->
+            <i-button type="text" icon="md-close" ghost @click="vehicleClippingClose"></i-button>
+          </div>
+        </div>
+        <div style="max-height: unset; height: 40vh" class="vehicle-box-cont">
+          <div style="width: 100%; height: 100%" id="profileChart"></div>
+        </div>
+      </div>
+    </div>
+    <!--经纬度显示-->
+    <div id="latlng_show"
+      style="background: rgba(56,64,57,0.5);padding: 1px 15px;border-radius: 5px; width: auto; height: 28px; position: absolute; bottom: 0px; right: 39px; z-index: 1; font-size: 15px">
+      <div style="width: 140px; height: 30px; float: left">
+        <font size="3" color="white">经度：<span id="longitude_show"></span></font>
+      </div>
+      <div style="width: 140px; height: 30px; float: left">
+        <font size="3" color="white">纬度：<span id="latitude_show"></span></font>
+      </div>
+      <div style="width: 160px; height: 30px; float: left">
+        <font size="3" color="white">视角高：<span id="altitude_show"></span>km</font>
+      </div>
+    </div>
+    <!-- 三维图形弹出框 -->
+    <div class="tdGraph-alert-box"
+      :class="{'tdGraph-alert-box-active':tdGraphBool,'tdGraph-alert-box-big':tdGraphBigBool}">
+      <div class="tdGraph-box">
+        <div class="tdGraph-box-head">
+          <div>图形列表</div>
+          <i-button type="text" icon="md-close" ghost @click="tdGraphClose"></i-button>
+        </div>
+        <div class="tdGraph-box-cont">
+          <ul class="spot-con">
+            <i-button type="info" style="margin-bottom: 5px" @click="handleAddtdGraph">点击新增图形</i-button>
+            <li v-for="(item,index) in ballGraphList">
+              <Checkbox v-model="item.show" @on-change="handleCheckedBall(item)"></Checkbox>
+              <div class="spot-con-lef">{{item.name}}</div>
+              <i-button type="text" shape="circle" size="small" icon="md-close" ghost
+                @click.stop="delSingleGraph(item.id)">
+              </i-button>
+            <li>
+              <Page size="small" :page-size="graphParams.limit" :current="graphParams.page" @on-change="ballChangePage"
+                :total="graphParams.total" show-total />
+            </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- 圆柱圆锥属性设置弹出框 -->
+    <Modal v-model="tdGraphModal" :title="isCylinder? '圆柱属性':'圆锥属性'" :mask-closable="false">
+      <i-form :model="formItem" ref="formItem" :rules="graphRules" :label-width="120">
+        <form-item :label="isCylinder? '圆柱名称：':'圆锥名称：'" prop="name">
+          <i-input v-model="formItem.name" placeholder="请输入图形名称"></i-input>
+        </form-item>
+        <form-item label="高度:" prop="graphHeight">
+          <i-input v-model="formItem.graphHeight" placeholder="请输入图形高度"></i-input>
+        </form-item>
+        <form-item label="顶部半径:" prop="topRadius" v-if="isCylinder">
+          <i-input v-model="formItem.topRadius" placeholder="请输入图形顶部半径"></i-input>
+        </form-item>
+        <form-item label="底部半径:" prop="bottomRadius">
+          <i-input v-model="formItem.bottomRadius" placeholder="请输入图形底部半径"></i-input>
+        </form-item>
+        <form-item label="图形颜色:" prop="graphColor">
+          <color-picker v-model="formItem.graphColor" alpha></color-picker>
+        </form-item>
+        <form-item label="是否需要轮廓:" prop="outline">
+          <i-select v-model="formItem.outline" style="width: 200px">
+            <i-option v-for="item in outLineList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+          </i-select>
+        </form-item>
+        <form-item label="轮廓线颜色" prop="outlineColor" v-if="formItem.outline == '1'">
+          <color-picker v-model="formItem.outlineColor" alpha></color-picker>
+        </form-item>
+        <form-item>
+          <i-button style="margin-left: 8px" @click="tdGraphModal = false">取 消</i-button>
+          <i-button type="primary" @click="handleSumbitCylinder">确 定</i-button>
+        </form-item>
+      </i-form>
+    </Modal>
+    <!-- 球体属性设置弹出框 -->
+    <Modal v-model="ballGraphModal" title="球体属性" :mask-closable="false">
+      <i-form :model="ballFormItem" ref="ballFormItem" :rules="ballGraphRules" :label-width="120">
+        <form-item label="球体名称:" prop="name">
+          <i-input v-model="ballFormItem.name" placeholder="请输入球体名称"></i-input>
+        </form-item>
+        <form-item label="球体内半径:" prop="radii">
+          <i-input v-model="ballFormItem.radii" placeholder="请输入球体内半径"></i-input>
+        </form-item>
+        <form-item label="图形颜色:" prop="graphColor">
+          <color-picker v-model="ballFormItem.graphColor" alpha></color-picker>
+        </form-item>
+        <form-item label="是否需要轮廓:" prop="outline">
+          <i-select v-model="ballFormItem.outline" style="width: 200px">
+            <i-option v-for="item in outLineList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+          </i-select>
+        </form-item>
+        <form-item label="轮廓线颜色" prop="outlineColor" v-if="ballFormItem.outline == '1'">
+          <color-picker v-model="ballFormItem.outlineColor" alpha></color-picker>
+        </form-item>
+        <form-item>
+          <i-button style="margin-left: 8px" @click="ballGraphModal = false">取 消</i-button>
+          <i-button type="primary" @click="handleSumbitBall">确 定</i-button>
+        </form-item>
+      </i-form>
+    </Modal>
+    <!-- 立方体属性设置弹出框 -->
+    <Modal v-model="cubeGraphModal" title="立方体属性" :mask-closable="false">
+      <i-form :model="cubeFormItem" ref="cubeFormItem" :rules="cubeGraphRules" :label-width="120">
+        <form-item label="立方体名称:" prop="name">
+          <i-input v-model="cubeFormItem.name" placeholder="请输入立方体名称"></i-input>
+        </form-item>
+        <form-item label="长度:" prop="length">
+          <i-input v-model="cubeFormItem.length" placeholder="请输入图形长度"></i-input>
+        </form-item>
+        <form-item label="宽度:" prop="width">
+          <i-input v-model="cubeFormItem.width" placeholder="请输入图形宽度"></i-input>
+        </form-item>
+        <form-item label="高度:" prop="height">
+          <i-input v-model="cubeFormItem.height" placeholder="请输入图形高度"></i-input>
+        </form-item>
+        <form-item label="图形颜色:" prop="graphColor">
+          <color-picker v-model="cubeFormItem.graphColor" alpha></color-picker>
+        </form-item>
+        <form-item label="是否需要轮廓:" prop="outline">
+          <i-select v-model="cubeFormItem.outline" style="width: 200px">
+            <i-option v-for="item in outLineList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+          </i-select>
+        </form-item>
+        <form-item label="轮廓线颜色" prop="outlineColor" v-if="cubeFormItem.outline == '1'">
+          <color-picker v-model="cubeFormItem.outlineColor" alpha></color-picker>
+        </form-item>
+        <form-item>
+          <i-button style="margin-left: 8px" @click="cubeGraphModal = false">取 消</i-button>
+          <i-button type="primary" @click="handleSumbitCube">确 定</i-button>
+        </form-item>
+      </i-form>
+    </Modal>
+    <!-- 棱柱属性设置弹出框 -->
+    <Modal v-model="prismGraphModal" title="棱柱属性" :mask-closable="false">
+      <i-form :model="prismFormItem" ref="prismFormItem" :rules="prismGraphRules" :label-width="120">
+        <form-item label="棱柱名称:" prop="name">
+          <i-input v-model="prismFormItem.name" placeholder="请输入棱柱名称"></i-input>
+        </form-item>
+        <form-item>
+          <i-button style="margin-left: 8px" @click="cubeGraphModal = false">取 消</i-button>
+          <i-button type="primary" @click="handleSumbitCube">确 定</i-button>
+        </form-item>
+      </i-form>
+    </Modal>
+    <!-- 棱锥属性设置弹出框 -->
+    <Modal v-model="pyramidGraphModal" title="棱锥属性" :mask-closable="false">
+      <i-form :model="pyramidFormItem" ref="pyramidFormItem" :rules="pyramidGraphRules" :label-width="120">
+        <form-item label="棱锥名称:" prop="name">
+          <i-input v-model="pyramidFormItem.name" placeholder="请输入棱锥名称"></i-input>
+        </form-item>
+        <form-item>
+          <i-button style="margin-left: 8px" @click="cubeGraphModal = false">取 消</i-button>
+          <i-button type="primary" @click="handleSumbitCube">确 定</i-button>
+        </form-item>
+      </i-form>
+    </Modal>
+  </div>
+</body>
+<!-- 引入vue -->
+<script src="./lib/vue/vue.js"></script>
+<!-- 引入iview组件库 -->
+<script src="./lib/iview/iview.min.js"></script>
+<!-- 调接口 -->
+<script src="./lib/service/api.js"></script>
+<!-- 引入cesium -->
+<script src="./lib/Cesium/Cesium.js"></script>
+<!-- 工具 -->
+<script src="./lib/utils/tools.js"></script>
+<!-- 测量 -->
+<script src="./lib/utils/cesium-measure.js"></script>
+<!-- 天气 -->
+<script src="./lib/utils/weather.js"></script>
+<!-- 自由视角 -->
+<script src="./lib/utils/flyModel.js"></script>
+<!-- 通视分析 -->
+<script src="./lib/utils/visibilityAnalysis.js"></script>
+<!-- 视域分析 -->
+<script src="./lib/utils/viewableAnalysis.js"></script>
+<!-- 阴影分析 -->
+<script src="./lib/utils/shadowAnalysis.js"></script>
+<!-- 天际线分析 -->
+<script src="./lib/utils/skylineAnalysis.js"></script>
+<!-- 挖填方分析 -->
+<script src="./lib/utils/excavationAnalysis.js"></script>
+<script src="./lib/utils/terrainClipPlan.js"></script>
+<script src="./lib/utils/turf.min.js"></script>
+<!-- 剖切分析 -->
+<script src="./lib/utils/clippingAnalysis.js"></script>
+<!-- 物联网 -->
+<script src="./lib/utils/ioT.js"></script>
+<!-- 视频监控播放插件 -->
+<script src="./lib/utils/flv.min.js"></script>
+
+<!-- 引入JQ -->
+<script src="./lib/jquery/jquery-1.10.2.min.js"></script>
+<!--引入echarts-->
+<script src="./lib/echarts/echarts.min.js"></script>
+<!-- 主js -->
+<script type="module" src="./main_base3d.js"></script>
+<script src="./lib/polygon/plotUtil.js"></script>
+<script src="./lib/polygon/algorithm.js"></script>
+<script src="./lib/polygon/GlobeTooltip.js"></script>
+<script src="./lib/polygon/GlobePolygonDrawer.js"></script>
+<script src="./lib/polygon/GlobePolylineDrawer.js"></script>
+<script src="./lib/polygon/GlobeRectangleDrawer.js"></script>
+<script src="./lib/polygon/GlobeCircleDrawer.js"></script>
+<script src="./lib/polygon/GlobePointDrawer.js"></script>
+<script src="./lib/polygon/GlobeBufferLineDrawer.js"></script>
+<script src="./lib/polygon/GlobePointMeasure.js"></script>
+<script src="./lib/polygon/GlobePolylineMeasure.js"></script>
+<script src="./lib/polygon/GlobePolygonMeasure.js"></script>
+<script src="./lib/polygon/PlotStraightArrowDrawer.js"></script>
+<script src="./lib/polygon/PlotAttackArrowDrawer.js"></script>
+<script src="./lib/polygon/PlotPincerArrowDrawer.js"></script>
+<script src="./lib/polygon/GlobeTracker.js"></script>
+<script src="./lib/methods/compass.js"></script>
+
+</html>

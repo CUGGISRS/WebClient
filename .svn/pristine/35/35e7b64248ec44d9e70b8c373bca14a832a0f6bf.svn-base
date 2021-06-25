@@ -1,0 +1,8 @@
+.el-input {
+  width: 300px;
+}
+.el-icon-search {
+  line-height: 3;
+  cursor: pointer;
+  padding-right: 10px;
+}

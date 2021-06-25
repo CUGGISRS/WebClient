@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>监利市农产品质量安全追溯信息系统</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+  </head>
+  <body>
+    <div class="banner"></div>
+
+    <div class="title-container">
+      <img class="system-logo" src="https://cn.vuejs.org/images/logo.png" alt="img" />
+      <h1 class="system-title">监利市农产品质量安全追溯信息系统</h1>
+      <div class="search-section">
+        <input class="search-input" type="text" placeholder="请输入搜索内容../..." />
+        <button class="search-btn">搜索</button>
+      </div>
+    </div>
+
+    <div class="mainer">
+      <div class="nav-list">
+        <a class="nav-item" href="../../index.html">首页</a>
+        <a class="nav-item" href="../farm-news/farm-news.html">农业新闻</a>
+        <a class="nav-item active" href="../laws-regulations/laws-regulations.html">政策法规</a>
+        <a class="nav-item" href="../work-trend/work-trend.html">工作动态</a>
+        <a class="nav-item" href="../farm-products/farm-products.html">特色农产品</a>
+        <a class="nav-item" href="../company-show/company-show.html">企业名录</a>
+        <a class="nav-item" href="../supervision-admin/supervision-admin.html">监督管理</a>
+        <a class="nav-item" href="../supervision-organ/supervision-organ.html">监督机构</a>
+        <a class="nav-item" href="../suggest/suggest.html">投诉建议</a>
+      </div>
+
+      <!---------------------------------------------------------------- -->
+
+      <div class="main-content">
+        <div class="main-content-left">
+          <p class="main-content-left-text">政策法规</p>
+        </div>
+        <div class="main-content-right">
+          <div class="news-top-nav">
+            <span>当前位置：</span>
+            <a class="news-top-nav-item" href="../../index.html">首页 ></a>
+            <a class="news-top-nav-item active" href="javascript:;">政策法规</a>
+          </div>
+          <div class="article-detail">
+            <div>
+              武夷山秀美绝伦的风光，培育了全球唯一具有岩骨花香的武夷山岩茶，这也是在历届中国十大名茶评比中，始终获得前十席位的重要原因。然而，武夷山岩茶之所以有着让人有着“人间能得一回饮，不做神仙也甘心”的魅力，除了岩茶所生长的独特的地理环境之外，就是岩茶的制作工艺极具特点，从当前我国各种茶叶的制作工艺来看，岩茶的制作工艺无疑是最复杂的。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              首先谈谈武夷山岩茶粗制工艺，即使是粗制工艺，也比很多名茶的制作工艺反复。粗制工艺大概如下：采青、晒青、做青、揉捻、烘干然后到毛茶。此时根据茶叶的品相决定是否进行精加工，从而打造极品岩茶。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              其次就来分析武夷山岩茶的精制工艺。针对粗加工的毛茶，进行后续的加工：捡梗，去除老叶、筛分、风选、捡剔、烘焙、拼配、均摊、包装、入库。由此可见，完成精制岩茶，前后多达十五道工序。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              然而，想要做出精制岩茶，仅仅按照这十五道工序依次完成，还是很难让岩茶具备让人馋涎欲滴的香味，一饮而忘仙的独特魅力。因为在这些工序中，还有很多精细入微的操作模式，才能够让岩茶产生令人拍案叫绝的岩骨花香。下面就对武夷岩茶制作工艺流程进行简要的概述。
+            </div>
+            <div>&nbsp;</div>
+            <div style="text-align: center">
+              <img
+                src="http://www.nongcun5.com/skin/default/image/lazy.gif"
+                class="lazy"
+                original="http://img.nongcun5.com/file/upload/201804/15/1032544510717.png"
+                alt="武夷岩茶制作工艺流程"
+                width="479"
+                height="313"
+              />
+            </div>
+            <div>&nbsp;</div>
+            <div>&nbsp; &nbsp; &nbsp;武夷岩茶制作工艺流程</div>
+            <div>
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              武夷岩茶制作工艺流程关键环节一，采青。这是制作精品岩茶的关键工序之一。采青的品质高低，自然会决定最终成品茶的品质高低。只有原料品质越佳，才能为后续的精茶打下深厚的基础。采青时，作为茶农并没有自主权，往往需要听老天爷的安排。茶树每年进入4月份前后，增长速度极快，此时于是采摘的最佳时期。然而一旦在最佳的时间段是阴天，或者下雨，那么就很难保障采摘之后茶叶的品质。于是只能等待雨过晴天采摘，但是仅仅两三天的时间，茶青可能从原来的小开面、被动的去采摘大开面。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              &nbsp; &nbsp; &nbsp;
+              当然有的茶农为了防范下雨持续时间较长，只能被动的进行采摘，否则茶叶长老，那就更做不了好茶叶。被动采摘的通常被称作“雨水茶”，这种茶叶的香气力量往往不足，制作的成品茶，耐泡度也较低，很难泡上5盅。由于武夷山温和的气温十分适宜茶树生长，因此秋冬之际也能够进行一次采青，然而这种冬茶是不合适精加工的，正宗的岩茶，只会使用春茶制作。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              &nbsp; &nbsp; &nbsp;
+              &nbsp;武夷岩茶制作工艺流程关键环节二，做青，又称作摇青。这是武夷山岩茶制作过程中技术含量最高的一个环节。茶师技艺水平，主要就是依托这个环节所决定，该环节也是决定岩茶品质风格的关键。通过科学的制作方式，可以让岩茶产生典型的绿叶红镶边特质。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              &nbsp; &nbsp; &nbsp;
+              做青需要专门的摇青筒，而且需要设置一个最佳的温湿度环境，将萎凋之后茶青置入该摇青筒，然后进行反复摇青，在此过程中还需要间以静置，整个过程前后需要6至12小时。但是这种摇青并不是按照规定的次序进行操作，作为制茶工艺师需要不间断的观察茶叶的走水程度，茶青在破损之后的氧化水平，控制相应的摇青和静置时间。同时工艺师还需要有灵敏的嗅觉，一个高水平的摇青过程，整个岩茶的香气会有着青气、清香、花香、果香的变化。从而让整个岩茶在制作成品之后，在多次泡制时，能够让人饮用到多层次香味的岩茶。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              &nbsp; &nbsp; &nbsp;
+              武夷岩茶制作工艺流程关键环节三，烘焙。又被称作焙火。这是形成岩茶独有的岩骨花香的关键工序之一。由于乌龙茶在较长时间的陈放中，会被空气中的湿气、氧气影响，导致茶叶的品质被破坏。另外在制茶过程中，也需要通过烘焙使之干燥，才能使之存储更长的时间。从本质上而言，烘焙这道工序就是能够延长岩茶的存储时间。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              &nbsp; &nbsp; &nbsp;
+              &nbsp;然而，通过岩茶工艺师长期经验的总结，他们在烘焙环节，发明了著名的“三道火”工艺，让岩茶在烘焙环节产生了更为丰富的香气，让岩茶的岩骨花香保持的更为持久和浓烈。这三道火就是所谓的初焙和复焙，以及最后的“炖火”。在烘焙过程中，目前主要有电焙和炭焙的区分，前者很难产生岩骨花香的效果，而后者，因为在炭火的作用之下，能够让茶叶内部成分得到充分的转换，进而使之拥有独特的岩骨花香。
+            </div>
+            <div>&nbsp;</div>
+            <div>
+              &nbsp; &nbsp;
+              &nbsp;由此可见，拥有岩骨花香的岩茶，并不是简单的就能够制作成功的，期间控制火候稍微有点问题，就会对最终的成品茶带来严重的负面影响。但是如果成功的完成了岩茶的制作，上述的烘焙工艺还有一个妙用，那就是能够对陈年岩茶，进行适当的烘焙之后，不仅能够让陈茶恢复原貌，还能够让其比最初的茶叶更具有岩骨底蕴，这也是为什么极品岩茶，存放的越久，价格越贵的原因所在了！
+              <br />
+              <br />
+              &nbsp; &nbsp; &nbsp;关注武夷缘，一起交流分享好茶
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+
+      <!---------------------------------------------------------------- -->
+
+      <div class="link-section">
+        <div class="friendLink">
+          <h4>友情链接：</h4>
+          <ul class="img-link clearfix">
+            <li>
+              <a href="http://www.moa.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/nyb.png" />
+              </a>
+              <span><a href="http://www.moa.gov.cn/" target="_blank">农业部</a> </span>
+            </li>
+            <li>
+              <a href="http://www.zgny.com.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/zgnyw.png" />
+              </a>
+              <span><a href="http://www.zgny.com.cn/" target="_blank">中国农业网</a> </span>
+            </li>
+            <li>
+              <a href="http://www.hbnyw.com/" target="_blank">
+                <img class="img-responsive" src="../../images/hbsnyw.png" />
+              </a>
+              <span><a href="http://www.hbnyw.com/" target="_blank">湖北农业网</a> </span>
+            </li>
+            <li>
+              <a href="http://nyt.hubei.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/hbnyt.png" />
+              </a>
+              <span><a href="http://nyt.hubei.gov.cn/" target="_blank">湖北农业厅</a> </span>
+            </li>
+            <li>
+              <a href="http://www.jianli.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/jlsrmzf.png" />
+              </a>
+              <span><a href="http://www.jianli.gov.cn/" target="_blank">监利市人民政府</a> </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+  <footer class="footer">
+    <a>主办单位：监利市农业农村局 &nbsp;&nbsp;</a>
+    <a>承办单位：武汉中迪联创科技有限公司&nbsp;&nbsp;</a>
+    <a>鄂ICP备 xxx号-1鄂公网安备 xxx号</a>
+  </footer>
+</html>

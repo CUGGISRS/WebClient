@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/front.js"></script>
+    <title>监利市农业公益性服务子系统</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/other.css" />
+  </head>
+
+  <body class="shichang-list">
+    <script>
+      function qkeypress() {
+        var q = $('input[name=q]');
+        if (q.val().trim() != '') {
+          $('input[name=q]').autocomplete('enable');
+        } else {
+          $('input[name=q]').autocomplete('disable');
+        }
+      }
+    </script>
+    <div class="header">
+      <div class="container m-container">
+        <div class="row">
+          <div style="height: 50px" class="col-md-12">
+            <div class="website">
+              当前位置: <a href="index.html">首页</a> > <a class="newsTypes"></a>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div style="background-color: #ffffff" class="col-md-9 margin-bottom-40">
+            <div class="content-box">
+              <h2 class="title"></h2>
+              <div style="padding-top: 10px" class="content-inf">
+                <span style="font-family: 宋体，SimSun; font-size: 12px" class="author"></span>
+                <span style="font-family: 宋体，SimSun; font-size: 12px" class="updatetime"></span>
+              </div>
+              <div class="content-video">
+                <!--http://www.moa.gov.cn/masvod/public/2019/06/18/20190618_16b684429bf_r31.mp4-->
+                <video id="videoDetail" src="" muted controls="controls" controlslist="nodownload" autoplay="autoplay">
+                  您的浏览器不支持 video 标签。
+                </video>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding-top: 5px" class="col-md-3">
+            <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg1.jpg" /></div>
+            <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg2.jpg" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <footer class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </footer>
+    <script src="js/header.js"></script>
+  </body>
+  <script src="js/commom/api.js"></script>
+  <script>
+    var return_none = '1';
+    var list = $('.text');
+    var channel_name = '培训体验';
+    for (i = 0; i < $('.text').length; i++) {
+      var active = $('.text').eq(i).text();
+      if (active == channel_name) {
+        $('li').removeClass('active');
+        list.eq(i).parents('li').addClass('active');
+        return_none = '0';
+      }
+    }
+    // var url = window.location.search.indexOf("=");
+    // var id = window.location.search.substr(1);
+    let search = window.location.search;
+    let id = search.substring(1);
+
+    $(document).ready(function () {
+      $.ajax({
+        url: InterfaceDZSW + '/video/getVideoById?id=' + id, //请求地址
+        dataType: 'json', //数据格式
+        type: 'get', //请求方式
+        cache: true,
+        contentType: 'application/json;charset=utf-8',
+        async: true, //是否异步请求
+        success: function (data) {
+          // console.log(data.data.url);
+          $('.title,.newsTypes').html(data.data.videoName);
+          $('.updatetime').html(data.data.pubTime.substring(0, 10));
+          let src = 'http://' + data.data.path;
+          // src = "http://www.moa.gov.cn/masvod/public/2019/06/18/20190618_16b684429bf_r31.mp4"
+          document.getElementById('videoDetail').src = src;
+          document.getElementById('videoDetail').play();
+        },
+        error: function (e) {
+          console.log('请求错误');
+        },
+      });
+    });
+  </script>
+</html>

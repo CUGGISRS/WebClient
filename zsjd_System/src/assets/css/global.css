@@ -1,0 +1,117 @@
+/* 全局样式表 */
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* min-width: 1366px; */
+}
+
+.el-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.el-card {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .15) !important;
+  position: relative;
+}
+
+.changeType {
+  width: 120px;
+  position: absolute;
+  top: 30px;
+  right: 15px;
+}
+
+.el-table {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.el-pagination {
+  margin-top: 15px;
+}
+
+/* 查询栏样式 */
+.query-condition {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.query-condition .el-button {
+  width: 80px;
+  height: 40px;
+  margin-top: 10px;
+}
+
+.query-condition .query-item {
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
+.query-condition .query-item span {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 5px;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.row-form .t-btn {
+  display: inline-block;
+  width: 100%;
+  margin-top: 15px;
+	text-align: center;
+}
+
+.row-form .el-input,
+.row-form .el-select,
+.row-form .el-date-editor {
+  width: 100%;
+}
+
+/* 图片展示样式 */
+.upload-div {
+  display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	margin-top: 10px;
+}
+
+.upload-div .upload-div-list {
+  width: 400px;
+	height: 280px;
+	margin: 8px 0;
+}
+
+.upload-div .upload-div-list .upload-div-top {
+  position: relative;
+	width: 100%;
+	height: 30px;
+	background-color: rgba(0, 0, 0, .2);
+}
+
+.upload-div .upload-div-list .upload-div-top .upload-div-del {
+  position: absolute;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	cursor: pointer;
+	line-height: 30px;
+	right: 0;
+}
+
+.upload-div .upload-div-list .el-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* ie下的显示兼容 */
+.el-form .el-form-item {
+  text-align: left;
+}

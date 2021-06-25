@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.WarningThresholdMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.WarningThreshold">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sensor_id" property="sensorId" jdbcType="INTEGER"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="max_value" property="maxValue" jdbcType="DECIMAL"/>
+        <result column="min_value" property="minValue" jdbcType="DECIMAL"/>
+        <result column="warning_info" property="warningInfo" jdbcType="VARCHAR"/>
+        <result column="is_send" property="isSend" jdbcType="INTEGER"/>
+
+        <result column="enterprise_wl_manager_id" property="enterpriseWLManagerId" jdbcType="INTEGER"/>
+
+        <result column="send_interval" property="sendInterval" jdbcType="INTEGER"/>
+        <result column="last_record_time" property="lastRecordTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+</mapper>

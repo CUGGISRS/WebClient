@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录</title>
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/login.css" />
+    <link rel="stylesheet" href="../../fonts/element.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="login-banner">
+        <a href="../../index.html" class="login-title"><b>监利市农业电子商务综合服务子系统</b> </a>
+      </div>
+
+      <div class="login-mainer">
+        <div class="mainer-bg"></div>
+        <el-form ref="form" :model="form" :rules="rules" class="login-container">
+          <div class="login-container-border"></div>
+          <div class="login-tip">请输入账号和密码</div>
+          <div class="input-container">
+            <el-form-item class="user-login-num" prop="username">
+              <p>用户名</p>
+              <el-input
+                placeholder="用户名"
+                type="text"
+                v-model="form.username"
+                clearable
+                style="width: 350px !important"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item class="user-login-num" prop="password">
+              <p>密码</p>
+              <el-input
+                show-password
+                placeholder="密码"
+                type="password"
+                v-model="form.password"
+                clearable
+                style="width: 350px !important"
+              >
+              </el-input>
+            </el-form-item>
+          </div>
+          <div class="login-btn-container">
+            <el-checkbox v-model="checked" @change="handleChangeRember">记住我</el-checkbox>
+            <a>
+              <el-button
+                type="success"
+                @click="handleLogin"
+                round
+                style="width: 200px !important; background: rgb(0, 166, 90) !important"
+                >登录</el-button
+              >
+            </a>
+          </div>
+          <p class="register-account">
+            <el-link href="./register.html" type="primary" :underline="false">注册新账号&nbsp;&nbsp;</el-link>
+            <el-link href="./forget-password.html" type="primary" :underline="false">忘记密码？</el-link>
+          </p>
+        </el-form>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/element/index.js"></script>
+  <script src="../../assets/jquery/jquery.min.js"></script>
+  <script src="../../js/api.js"></script>
+  <script>
+    var App = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          form: {
+            username: '',
+            password: '',
+          },
+          checked: false,
+          rules: {
+            username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+            password: [
+              { required: true, message: '请输入密码', trigger: 'blur' },
+              // {
+              //   pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+              //   message: '密码至少包含 数字和英文，长度6-20',
+              // },
+            ],
+          },
+          rememberUserInfo: false,
+        };
+      },
+      created() {
+        this.rememberPassword();
+      },
+      methods: {
+        rememberPassword() {
+          let userInfo = localStorage.getItem('userInfo');
+          if (userInfo) {
+            this.checked = true;
+            this.form = JSON.parse(userInfo);
+          }else{
+            this.checked = false;
+          }
+
+        },
+        handleLogin() {
+          doApi_2(
+            (res) => {
+              console.log(res);
+              if (res.status == 200) {
+                localStorage.setItem('username', this.form.username);
+                localStorage.setItem('token', res.data);
+                this.$message.success('登录成功');
+                if (this.rememberUserInfo) {
+                  localStorage.setItem('userInfo', JSON.stringify(this.form));
+                } else {
+                  localStorage.removeItem('userInfo');
+                }
+                var num = 1;
+                var timer = setInterval(function () {
+                  num--;
+                  if (num == 0) {
+                    //登录成功跳转页面
+                    window.location.href = '../../index.html';
+                    window.clearInterval(timer);
+                  }
+                }, 1000);
+              } else {
+                this.$message.error('登录失败，请检查信息是否填写正确！');
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/user/login',
+            'post',
+            JSON.stringify(this.form),
+            'application/json'
+          );
+        },
+        handleChangeRember(value) {
+          this.rememberUserInfo = value;
+        },
+      },
+    });
+  </script>
+</html>

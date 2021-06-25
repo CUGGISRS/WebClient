@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.EnterpriseMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.Enterprise">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="business_type" property="businessType" jdbcType="VARCHAR"/>
+        <result column="social_code" property="socialCode" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="organization_form" property="organizationForm" jdbcType="VARCHAR"/>
+        <result column="subject_attribute" property="subjectAttribute" jdbcType="VARCHAR"/>
+        <result column="register_address" property="registerAddress" jdbcType="VARCHAR"/>
+        <result column="establish_date" property="establishDate" jdbcType="TIMESTAMP"/>
+        <result column="register_money" property="registerMoney" jdbcType="DECIMAL"/>
+        <result column="contact_person" property="contactPerson" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="mailbox" property="mailbox" jdbcType="VARCHAR"/>
+        <result column="postcode" property="postcode" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="DECIMAL"/>
+        <result column="latitude" property="latitude" jdbcType="DECIMAL"/>
+        <result column="deputy_name" property="deputyName" jdbcType="VARCHAR"/>
+        <result column="deputy_id_card" property="deputyIdCard" jdbcType="VARCHAR"/>
+        <result column="deputy_phone" property="deputyPhone" jdbcType="VARCHAR"/>
+        <result column="credit_level" property="creditLevel" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+
+        <result column="w_user_id" property="wlUserId" jdbcType="INTEGER"/>
+        <result column="w_username" property="wlUsername" jdbcType="VARCHAR"/>
+        <result column="w_password" property="wlPassword" jdbcType="VARCHAR"/>
+        <result column="is_viewpoint" property="isViewpoint" jdbcType="INTEGER"/>
+
+        <result column="evaluate_grade" property="evaluateGrade" jdbcType="VARCHAR"/>
+        <result column="evaluate_time" property="evaluateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+</mapper>

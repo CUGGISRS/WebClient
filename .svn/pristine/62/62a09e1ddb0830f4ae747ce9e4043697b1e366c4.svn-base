@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+
+    <title>监利市农业公益性服务子系统</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/other.css" />
+  </head>
+
+  <body class="shichang-list">
+    <script>
+      function qkeypress() {
+        var q = $('input[name=q]');
+        if (q.val().trim() != '') {
+          $('input[name=q]').autocomplete('enable');
+        } else {
+          $('input[name=q]').autocomplete('disable');
+        }
+      }
+    </script>
+    <div class="header">
+      <div class="container m-container">
+        <div class="row">
+          <div style="height: 50px" class="col-md-12">
+            <div class="website">当前位置: <a href="index.html">首页</a> > <span>专家详情</span></div>
+            <div class="clear"></div>
+          </div>
+
+          <div style="background-color: #ffffff" class="col-md-9 margin-bottom-40">
+            <div id="expert-information">
+              <h2 class="expertName"></h2>
+              <table class="table table-bordered table-zj margin_b0">
+                <tr>
+                  <td class="tdTitle">姓名</td>
+                  <td colspan="2" class="expertName" style="text-align: left"></td>
+                  <td rowspan="6" colspan="1" style="width: 220px; height: 210px; padding: 8px">
+                    <img width="220" height="210" id="expertImg" src="" alt="" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">业务专长</td>
+                  <td colspan="2" class="expertBusiness"></td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">职务/职称</td>
+                  <td colspan="2" class="expertOfficial"></td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">地区</td>
+                  <td colspan="2" class="expertLocation"></td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">联系方式</td>
+                  <td colspan="2" class="expertTelephone"></td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">微信号码</td>
+                  <td colspan="2" class="expertWechat"></td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">专家简介</td>
+                  <td colspan="3" class="expertIntroduction"></td>
+                </tr>
+              </table>
+              <div class="expert-consultation">
+                <button class="expert-button" onclick="consultations()">专家咨询</button>
+
+                <div class="teb-hide" style="display: none">
+                  <div class="expert-div">
+                    <p style="font-weight: bold; font-size: 15px">向<span class="getName"></span>专家提问</p>
+                  </div>
+                  <div style="padding: 10px; margin-top: 40px; position: relative">
+                    <span style="position: absolute; top: 15px; font-size: 16px">标题：</span
+                    ><input type="text" class="expert-biaoti" />
+                  </div>
+                  <div style="padding: 10px; position: relative">
+                    <span style="position: absolute; top: 15px; font-size: 16px">描述：</span
+                    ><textarea class="expert-miaoshu"></textarea>
+                  </div>
+                  <button class="submissionButton" style="margin-top: 20px" onclick="submissionButton()">重置</button>
+                  <button class="againButton" style="margin-top: 20px" onclick="againButton()">提交</button>
+                </div>
+              </div>
+            </div>
+            <div class="content-box">
+              <h2 class="title"></h2>
+              <div style="padding-top: 10px" class="content-inf">
+                <span style="font-family: 宋体，SimSun; font-size: 12px" class="author"></span>
+                <span style="font-family: 宋体，SimSun; font-size: 12px" class="updatetime"></span>
+              </div>
+              <div class="content-article">
+                <div
+                  style="padding-top: 10px"
+                  class="view TRS_UEDITOR trs_paper_default trs_word trs_key4format trs_web"
+                >
+                  <p style="font-family: 宋体，SimSun; font-size: 18px" class="content"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding-top: 5px" class="col-md-3">
+            <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg1.jpg" /></div>
+            <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg2.jpg" /></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="login_footer">
+        <span>
+          <span>Copyright &copy; &nbsp;</span>
+          <a
+            target="_blank"
+            href="http://www.jianli.gov.cn/"
+            style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+          >
+            <p>监利市农业农村局</p>
+          </a>
+          <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <a
+            target="_blank"
+            href="http://www.zd-tech.net/"
+            style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+          >
+            <p>武汉中迪联创科技有限公司</p>
+          </a>
+          <span>&nbsp;技术支持</span>
+          <br />
+          <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+        </span>
+      </footer>
+    </div>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/zixun-jiaodian.js"></script>
+    <script src="js/header.js"></script>
+    <script src="./js/commom/api.js"></script>
+  </body>
+  <script>
+    // var url = window.location.search.indexOf("?");
+    //例id=？，获取？
+    var oId = window.location.search.substring(1);
+    var oData;
+    // 请求专家详细信息
+    $.ajax({
+      url: InterfaceGYX + '/expert/getExpert/' + oId,
+      dataType: 'json', //数据格式
+      type: 'get', //请求方式
+      cache: true,
+      contentType: 'application/json;charset=utf-8',
+      async: false, //是否异步请求
+      success: function (data) {
+        //电话号码
+        phone = data.data.phone;
+        phonePre = phone.substring(0, 3);
+        phoneNext = phone.substring(7, 11);
+        phoneShow = phonePre + '****' + phoneNext;
+        //微信号码
+        wechat = data.data.wechat;
+        wechatPre = wechat.substring(0, 3);
+        wechatNext = wechat.substring(7, 11);
+        wechatShow = wechatPre + '****' + wechatNext;
+        $('.expertName').html(data.data.expertName);
+        $('.getName').html(data.data.expertName);
+        $('.expertBusiness').html(data.data.expertise);
+        $('.expertOfficial').html(data.data.jobTitle);
+        $('.expertLocation').html(data.data.serviceArea);
+        $('.expertTelephone').html(phoneShow);
+        $('.expertWechat').html(wechatShow);
+        // $('.expertScore').html(data.data.score);
+        $('.expertIntroduction').html(data.data.introduction);
+        // expertImg
+        $('#expertImg').attr('src', data.data.photo);
+        return (oData = data);
+      },
+      error: function (e) {
+        console.log(e);
+      },
+    });
+
+    var user = localStorage.getItem('username');
+    var pwd = localStorage.getItem('password');
+    var oToken = localStorage.getItem('token');
+    //判断用户是否登录
+    if (user != null || undefined || '') {
+      $('.expert-button').css('display', 'none'); // 隐藏专家咨询按钮
+      $('.teb-hide').css('display', 'block'); // 显示向专家提问页面
+    }
+
+    function consultations() {
+      var returns = confirm('您好！请登录后再咨询。');
+      // 判断用户选择是否跳转至登录页面 选择跳转返回true
+      if (returns === true) {
+        window.location.href = 'login.html';
+      }
+    }
+
+    function submissionButton() {
+      $('.expert-biaoti').val(''); //清空标题value值
+      $('.expert-miaoshu').val(''); // 清空描述value值
+    }
+
+    function againButton() {
+      var title = $('.expert-biaoti').val(); // 获取标题value值
+      var content = $('.expert-miaoshu').val(); // 获取描述value值
+      var data = {
+        title: title,
+        content: content,
+        expertId: oId,
+        expertName: oData.data.expertName,
+        token: oToken,
+      };
+      data = JSON.stringify(data);
+      console.log(data);
+      $.ajax({
+        url: InterfaceGYX + '/consult/add', //请求地址
+        dataType: 'json', //数据格式
+        type: 'post', //请求方式
+        cache: true,
+        contentType: 'application/json;charset=utf-8',
+        async: false, //是否异步请求
+        data: data,
+        success: function (data) {
+          alert(data.message);
+        },
+        error: function (e) {
+          console.log(e);
+        },
+      });
+    }
+
+    function getDate() {
+      var myDate = new Date(); // 获取系统时间
+      const yyyy = myDate.getFullYear();
+      let MM = myDate.getMonth() + 1;
+      let dd = myDate.getDate();
+      let HH = myDate.getHours();
+      let mm = myDate.getMinutes();
+      let ss = myDate.getSeconds();
+      if (MM < 10) {
+        MM = '0' + MM;
+      }
+      if (dd < 10) {
+        dd = '0' + dd;
+      }
+      if (HH < 10) {
+        HH = '0' + HH;
+      }
+      if (mm < 10) {
+        mm = '0' + mm;
+      }
+      if (ss < 10) {
+        ss = '0' + ss;
+      }
+      return (date = yyyy + '-' + MM + '-' + dd + ' ' + HH + ':' + mm + ':' + ss); // 拼接时间格式
+    }
+  </script>
+</html>

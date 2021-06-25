@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.jd.sys.mapper.DeptTestMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.jd.sys.entity.DeptTest">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="product_batch_number" property="productBatchNumber" jdbcType="VARCHAR"/>
+        <result column="test_amount" property="testAmount" jdbcType="DECIMAL"/>
+        <result column="test_amount_unit" property="testAmountUnit" jdbcType="VARCHAR"/>
+        <result column="test_date" property="testDate" jdbcType="TIMESTAMP"/>
+        <result column="test_result" property="testResult" jdbcType="VARCHAR"/>
+        <result column="operator_id" property="operatorId" jdbcType="INTEGER"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="INTEGER"/>
+
+        <result column="product_detail_id" property="productDetailId" jdbcType="INTEGER"/>
+    </resultMap>
+</mapper>

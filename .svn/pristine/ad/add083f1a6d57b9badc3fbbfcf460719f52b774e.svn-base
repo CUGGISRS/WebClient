@@ -1,0 +1,9 @@
+{
+  "name": "ace-zs-sys",
+  "version": "1.0.0",
+  "description": "追溯应用接口文档",
+  "title": "ace-zs-sys",
+  "url": "http://192.168.8.166:8765/api/zsSys",
+  "sampleUrl": "http://192.168.8.166:8765/api/zsSys"
+}
+

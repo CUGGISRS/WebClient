@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wxiaoqi.security.admin.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.admin.entity.User">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="tel_phone" jdbcType="VARCHAR" property="telPhone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="system" property="system" jdbcType="VARCHAR" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="crt_time" jdbcType="DATE" property="crtTime" />
+    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
+    <result column="crt_name" jdbcType="VARCHAR" property="crtName" />
+    <result column="crt_host" jdbcType="VARCHAR" property="crtHost" />
+    <result column="upd_time" jdbcType="DATE" property="updTime" />
+    <result column="upd_user" jdbcType="VARCHAR" property="updUser" />
+    <result column="upd_name" jdbcType="VARCHAR" property="updName" />
+    <result column="upd_host" jdbcType="VARCHAR" property="updHost" />
+    <result column="attr1" jdbcType="VARCHAR" property="attr1" />
+    <result column="attr2" jdbcType="VARCHAR" property="attr2" />
+    <result column="attr3" jdbcType="VARCHAR" property="attr3" />
+    <result column="attr4" jdbcType="VARCHAR" property="attr4" />
+    <result column="attr5" jdbcType="VARCHAR" property="attr5" />
+    <result column="attr6" jdbcType="VARCHAR" property="attr6" />
+    <result column="attr7" jdbcType="VARCHAR" property="attr7" />
+    <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+  </resultMap>
+  <resultMap id="LinkResultMap" type="com.github.wxiaoqi.security.admin.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="tel_phone" jdbcType="VARCHAR" property="telPhone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="system" property="system" jdbcType="VARCHAR" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="crt_time" jdbcType="DATE" property="crtTime" />
+    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
+    <result column="crt_name" jdbcType="VARCHAR" property="crtName" />
+    <result column="crt_host" jdbcType="VARCHAR" property="crtHost" />
+    <result column="upd_time" jdbcType="DATE" property="updTime" />
+    <result column="upd_user" jdbcType="VARCHAR" property="updUser" />
+    <result column="upd_name" jdbcType="VARCHAR" property="updName" />
+    <result column="upd_host" jdbcType="VARCHAR" property="updHost" />
+    <result column="attr1" jdbcType="VARCHAR" property="attr1" />
+    <result column="attr2" jdbcType="VARCHAR" property="attr2" />
+    <result column="attr3" jdbcType="VARCHAR" property="attr3" />
+    <result column="attr4" jdbcType="VARCHAR" property="attr4" />
+    <result column="attr5" jdbcType="VARCHAR" property="attr5" />
+    <result column="attr6" jdbcType="VARCHAR" property="attr6" />
+    <result column="attr7" jdbcType="VARCHAR" property="attr7" />
+    <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <association property="dept" column="dept_id" javaType="com.github.wxiaoqi.security.admin.entity.Dept">
+      <id column="d_id" property="id" jdbcType="INTEGER" />
+      <result column="d_name" property="name" jdbcType="VARCHAR" />
+      <result column="d_description" property="description" jdbcType="VARCHAR" />
+      <result column="d_enterprise_user_id" property="enterpriseUserId" jdbcType="INTEGER" />
+      <result column="d_enterprise_name" property="enterpriseName" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column">
+    id,username,password,name,birthday,address,mobile_phone,tel_phone,email,sex,type,dept_id,system,description,status,crt_time,crt_user,crt_name,
+    crt_host,upd_time,upd_user,upd_name,upd_host,attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8
+  </sql>
+<sql id="Link_Column">
+  u.id,u.username,u.password, u.name, u.birthday,u.address,u.mobile_phone, u.tel_phone,u.email,u.sex,u.type,u.dept_id,u.system,u.description,
+  u.status,u.crt_time,u.crt_user,u.crt_name,u.crt_host,u.upd_time,u.upd_user,u.upd_name,u.upd_host,u.attr1,u.attr2,u.attr3,u.attr4,u.attr5,
+  u.attr6,u.attr7,u.attr8,
+
+  d.id d_id, d.name d_name,d.description d_description,d.enterprise_user_id d_enterprise_user_id,d.enterprise_name d_enterprise_name
+</sql>
+  <!--连表优化 先单表过滤后连表-->
+  <select id="getLinkOneById" resultMap="LinkResultMap">
+    select
+    <include refid="Link_Column"/>
+    from (
+    select
+    <include refid="Base_Column"/>
+     from agriculture.base_user
+     where id=#{id}
+     )u
+    inner join agriculture.base_dept d on u.dept_id=d.id
+  </select>
+
+  <select id="getLinkListByPage" resultMap="LinkResultMap">
+    select
+    <include refid="Link_Column"/>
+    from (
+    select
+    <include refid="Base_Column"/>
+    from agriculture.base_user
+    <where>
+      <if test="name !=null ">
+        instr(name,#{name})>0
+      </if>
+      <if test="sex !=null ">
+       and instr(sex,#{sex})>0
+      </if>
+      <if test="address !=null ">
+       and instr(address,#{address})>0
+      </if>
+      <if test="mobilePhone !=null ">
+       and instr(mobile_phone,#{mobilePhone})>0
+      </if>
+    </where>
+    )u
+    inner join agriculture.base_dept d on u.dept_id=d.id
+    order by u.id
+    limit #{page},#{limit}
+  </select>
+
+  <select id="getLinkCountByPage" resultType="java.lang.Integer">
+    select
+    count(u.id)
+    from (
+    select
+    <include refid="Base_Column"/>
+    from agriculture.base_user
+    <where>
+      <if test="name !=null ">
+        instr(name,#{name})>0
+      </if>
+      <if test="sex !=null ">
+       and instr(sex,#{sex})>0
+      </if>
+      <if test="address !=null ">
+       and instr(address,#{address})>0
+      </if>
+      <if test="mobilePhone !=null ">
+      and  instr(mobile_phone,#{mobilePhone})>0
+      </if>
+    </where>
+    )u
+    inner join agriculture.base_dept d on u.dept_id=d.id
+  </select>
+
+  <select id="getDeptPersonByUsername"  resultMap="BaseResultMap">
+    select
+    id,username,name
+    from agriculture.base_user
+    where type="个人" and  dept_id=(
+    select dept_id
+    from agriculture.base_user
+    where username=#{username}
+    )
+    order by id
+  </select>
+
+  <select id="getEnterprisePersonByUsername" resultMap="BaseResultMap">
+    select
+   u.id,u.username,u.name
+   from (
+   select di.enterprise_user_id from
+   (
+   select dept_id from agriculture.base_user
+   where username=#{username}
+    )ui INNER join agriculture.base_dept di on ui.dept_id=di.id
+    )ud INNER JOIN agriculture.base_dept d on ud.enterprise_user_id=d.enterprise_user_id
+   INNER join agriculture.base_user u on u.dept_id=d.id
+   where type="个人"
+    order by u.id;
+
+  </select>
+
+
+  
+  <select id="selectMemberByGroupId" resultMap="BaseResultMap">
+    select u.* from agriculture.base_user u
+    left join  agriculture.base_group_member gm
+    on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
+  <select id="selectLeaderByGroupId" resultMap="BaseResultMap">
+    select u.* from agriculture.base_user u
+    left join  agriculture.base_group_leader gm
+    on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
+</mapper>

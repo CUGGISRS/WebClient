@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>监利市农产品质量安全追溯信息系统</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+  </head>
+  <body>
+    <div class="banner"></div>
+
+    <div class="title-container">
+      <h1 class="system-title">监利市农产品质量安全追溯信息系统</h1>
+      <div class="search-section">
+        <input class="search-input" type="text" placeholder="请输入搜索内容..." />
+        <button class="search-btn">搜索</button>
+      </div>
+    </div>
+
+    <div class="mainer">
+      <div class="nav-list">
+        <a class="nav-item" href="../../index.html">首页</a>
+        <a class="nav-item" href="../farm-news/farm-news.html">农业新闻</a>
+        <a class="nav-item" href="../laws-regulations/laws-regulations.html">政策法规</a>
+        <a class="nav-item" href="../work-trend/work-trend.html">工作动态</a>
+        <a class="nav-item" href="../farm-products/farm-products.html">特色农产品</a>
+        <a class="nav-item" href="../company-show/company-show.html">企业名录</a>
+        <a class="nav-item" href="../supervision-admin/supervision-admin.html">监督管理</a>
+        <a class="nav-item active" href="../supervision-organ/supervision-organ.html">监督机构</a>
+        <a class="nav-item" href="../suggest/suggest.html">投诉建议</a>
+      </div>
+
+      <!---------------------------------------------------------------- -->
+
+      <div class="main-content">
+        <div class="main-content-left">
+          <p class="main-content-left-text">监督机构</p>
+          <div class="auth-left">
+            <div class="auth-item">
+              <img class="img-item-size" src="../../images/supervise-pic1.jpg" />
+            </div>
+          </div>
+        </div>
+        <div class="main-content-right">
+          <div class="news-top-nav">
+            <span>当前位置：</span>
+            <a class="news-top-nav-item" href="../../index.html">首页 ></a>
+            <a class="news-top-nav-item active" href="javascript:;">监督机构</a>
+          </div>
+          <div class="supervision-address">
+            <p>办公地址及电话：</p>
+            <p>机构名称：县农业农村局</p>
+            <p>办公地址：江城路69号</p>
+            <p>联系电话：0716-3300339</p>
+          </div>
+          <div class="organ-duty">
+            <p class="organ-duty-title">机构职责：</p>
+            <p class="organ-duty-desc">
+              （一）统筹研究和组织实施“三农”工作的发展战略、中长期规划、重大政策。指导农业综合执法。参与涉农财税、价格、收储、金融保险等政策措施制定。<br />
+
+              （二）统筹推动发展农村社会事业、农村公共服务、农村文化、农村基础设施和乡村治理。牵头组织改善农村人居环境。指导农村精神文明和优秀农耕文化建设。指导农业行业安全生产工作。<br />
+
+              （三）指导乡村特色产业、农产品加工业、休闲农业工作。提出促进大宗农产品流通的建议，培育、保护农业品牌。发布农业农村经济信息，监测分析农业农村经济运行。承担农业统计和农业农村信息化有关工作。<br />
+
+              （四）负责种植业、畜牧业、渔业、农垦、农业机械化等农业各产业的监督管理。指导粮食、油料、畜禽、水产等农产品生产。指导蔬菜、水果、茶叶、中药材等经济作物生产可持续发展。组织构建现代农业产业体系、生产体系、经营体系，指导农业标准化生产。负责渔政渔港监督管理。<br />
+
+              （五）负责农产品质量安全监督管理。组织开展农产品质量安全监测、追溯、风险评估。参与制定农产品质量安全地方标准并会同有关部门组织实施。指导农业检验检测体系建设。<br />
+
+              （六）指导农用地、渔业水域以及农业生物物种资源的保护与管理，负责水生野生动植物保护、耕地及永久基本农田质量保护工作。指导农产品产地环境管理和农业清洁生产。指导设施农业、生态循环农业、节水农业发展以及农村可再生能源综合开发利用、农业生物质产业发展。牵头管理外来物种。配合做好农业资源区划相关工作。<br />
+
+              .....
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!---------------------------------------------------------------- -->
+
+      <div class="link-section">
+        <div class="friendLink">
+          <h4>友情链接：</h4>
+          <ul class="img-link clearfix">
+            <li>
+              <a href="http://www.moa.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/nyb.png" />
+              </a>
+              <span><a href="http://www.moa.gov.cn/" target="_blank">农业部</a> </span>
+            </li>
+            <li>
+              <a href="http://www.zgny.com.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/zgnyw.png" />
+              </a>
+              <span><a href="http://www.zgny.com.cn/" target="_blank">中国农业网</a> </span>
+            </li>
+            <li>
+              <a href="http://www.hbnyw.com/" target="_blank">
+                <img class="img-responsive" src="../../images/hbsnyw.png" />
+              </a>
+              <span><a href="http://www.hbnyw.com/" target="_blank">湖北农业网</a> </span>
+            </li>
+            <li>
+              <a href="http://nyt.hubei.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/hbnyt.png" />
+              </a>
+              <span><a href="http://nyt.hubei.gov.cn/" target="_blank">湖北农业厅</a> </span>
+            </li>
+            <li>
+              <a href="http://www.jianli.gov.cn/" target="_blank">
+                <img class="img-responsive" src="../../images/jlsrmzf.png" />
+              </a>
+              <span><a href="http://www.jianli.gov.cn/" target="_blank">监利市人民政府</a> </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+  <script src="./../../js/jquery-3.4.1.min.js"></script>
+  <script>
+    //搜索按钮
+    $('.search-btn').click(function () {
+      let val = $('.search-input').val();
+      location.href = './../search/commonArticleList.html?' + val;
+    });
+  </script>
+</html>

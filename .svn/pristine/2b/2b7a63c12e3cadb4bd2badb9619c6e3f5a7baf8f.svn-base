@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.SaleMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.Sale">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_number" property="orderNumber" jdbcType="VARCHAR"/>
+        <result column="product_batch_number" property="productBatchNumber" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="sellerId" jdbcType="INTEGER"/>
+        <result column="seller_name" property="sellerName" jdbcType="VARCHAR"/>
+        <result column="send_date" property="sendDate" jdbcType="TIMESTAMP"/>
+        <result column="sender" property="sender" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="start_place" property="startPlace" jdbcType="VARCHAR"/>
+        <result column="end_place" property="endPlace" jdbcType="VARCHAR"/>
+        <result column="sale_amount" property="saleAmount" jdbcType="DECIMAL"/>
+        <result column="sale_amount_unit" property="saleAmountUnit" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

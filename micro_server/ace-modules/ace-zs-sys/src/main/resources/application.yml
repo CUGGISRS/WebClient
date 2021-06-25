@@ -1,0 +1,42 @@
+# apidoc  -i src/main/java/com/github/wxiaoqi/security/zs/sys -o src/main/resources/static/apidoc
+# 必须配置
+feign:
+  #设置调用哪个服务器的接口
+  authUrl: http://${server.ip}:9777
+  comUrl: http://${server.ip}:8897
+  jdUrl: http://${server.ip}:8898
+logging:
+  level:
+    com.github.wxiaoqi.security.zs.sys: DEBUG
+server:
+  port: 8899
+spring:
+  # 多个接口上的@FeignClient(“相同服务名”)会报错，overriding is disabled。设置 为true ,即 允许 同名
+  main:
+    allow-bean-definition-overriding: true  #启动时比nacos配置先加载，不能放入公共配置
+  application:
+    name: ace-zs-sys
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${server.ip}:8848
+        #ip: 192.168.8.166
+    sentinel:
+      transport:
+        dashboard: ${server.ip}:8080
+
+
+auth:
+  client:
+    id: ace-zs-sys
+    secret: 123456
+
+#redis-cache 相关
+redis:
+  host: ${REDIS_HOST:${server.ip}}
+  port: ${REDIS_PORT:6379}
+  password:
+  # 服务或应用名
+  sysName: ace-zs-sys
+

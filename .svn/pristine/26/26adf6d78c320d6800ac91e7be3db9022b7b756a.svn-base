@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <style>
+      .left_block {
+        border: 1px solid;
+        border-radius: 5px;
+        width: 50px;
+        height: 50px;
+        float: left;
+      }
+
+      .right_block {
+        border: 1px solid;
+        width: 550px;
+        /* height: 50px;*/
+        float: left;
+      }
+
+      .newslist ul li {
+        border-bottom: 1px solid #f2f2f2;
+        padding: 15px 10px 5px 15px;
+      }
+
+      .newslist ul li a.lanmu {
+        font-weight: bold;
+        color: #61bbff;
+        margin-right: 5px;
+      }
+
+      .newslist ul li span {
+        float: right;
+        color: #b7b7b7;
+        position: relative;
+        top: 3px;
+      }
+
+      .my_ask {
+        width: 375px;
+      }
+
+      .newslist ul li span {
+        float: right;
+        color: #b7b7b7;
+        position: relative;
+        top: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid" id="expertAsk" style="display: none">
+      <div class="row m-pos">
+        <snap
+          >您所在的位置：个人中心 &gt; <span>咨询列表</span> &gt; <span>大白菜种植要注意的问题</span>
+          <a href="#" class="pull-right" onclick="backList()">返回列表</a>
+        </snap>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row padding-15">
+            <div class="col-sm-2 text-center">
+              <img id="expertImg" width="70" height="81" src="" />
+            </div>
+            <div class="col-sm-10">
+              <ul class="user-info clearfix">
+                <li>
+                  <label>专家姓名：</label>
+                  <span id="expertName">梁朴</span>
+                </li>
+                <li>
+                  <label>服务区县：</label>
+                  <span id="area">贺兰县</span>
+                </li>
+                <li>
+                  <label>职务职称：</label>
+                  <span id="job"></span>
+                </li>
+                <li>
+                  <label>业务专长：</label>
+                  <span id="expertise">蔬菜技术推广</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row user-yh">
+            <div class="yh-title">用户提问</div>
+            <div class="pull-right" id="askTime">提问时间：2020-08-10</div>
+            <div class="yh-info">
+              <p class="padding-bottom-5"><b>问题：</b><span id="askTitle">大白菜种植要注意的问题</span></p>
+              <p class="padding-bottom-5">
+                <b>描述：</b>
+                <span id="askContent">
+                  有大棚种植、中小拱棚种植、地膜覆盖种植和露地栽培等多种方式，我该如何选择呢。
+                </span>
+              </p>
+              <div class="baguetteBoxOne gallery clearfix"></div>
+            </div>
+          </div>
+          <div class="row user-zj">
+            <div class="zj-title">专家回复</div>
+            <div class="pull-right" id="replyTime">回复时间：</div>
+            <div class="zj-info" id="replyContent">专家未回复。</div>
+          </div>
+
+          <!--                <input class="evaluate_btn" type="submit" value="我要评价" onclick="expertEvaluate();">-->
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" id="AskList" style="display: block">
+      <div class="row m-pos">
+        <snap>您所在的位置：个人中心 &gt; <span>咨询列表</span></snap>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row padding-15">
+            <div class="consult-btn">
+              <button onclick="newConsult();"><i class="iconfont"></i>新建咨询</button>
+            </div>
+            <!--                    <form id="tableForm" action="v_myConsult.jspx" method="post">-->
+            <table class="table table-hover consult-table">
+              <thead>
+                <tr>
+                  <th class="title">标题</th>
+                  <th class="time">咨询时间</th>
+                  <th class="time">回复时间</th>
+                  <th class="time">是否回复</th>
+                </tr>
+              </thead>
+              <tbody id="consultList">
+                <!--  <tr>
+                                <td class="left"><a href="v_myConsultDetail.jspx?id=96">1</a></td>
+                                <td>2020-09-02</td>
+                                <td></td>
+                                <td><span class="red">否</span></td>
+                            </tr>
+                            <tr>
+                                <td class="left"><a href="v_myConsultDetail.jspx?id=95">1</a></td>
+                                <td>2020-09-02</td>
+                                <td></td>
+                                <td><span class="red">否</span></td>
+                            </tr>
+                            <tr>
+                                <td class="left"><a href="v_myConsultDetail.jspx?id=94">大白菜种植要注意的问题</a></td>
+                                <td>2020-08-10</td>
+                                <td></td>
+                                <td><span class="red">否</span></td>
+                            </tr>-->
+              </tbody>
+            </table>
+          </div>
+          <div style="float: right" class="m-style M-box4"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./js/pagination/jquery.pagination.js"></script>
+    <script>
+      var oToken = localStorage.getItem('token');
+
+      $(function () {
+        var data = {
+          page: 1,
+          limit: 6,
+          token: oToken,
+        };
+        var total;
+        InitList();
+        function InitList() {
+          let formData = new FormData();
+          formData.append('page', data.page);
+          formData.append('size', data.limit);
+          formData.append('token', data.token);
+          $.ajax({
+            url: InterfaceGYX + '/consult/getByUserId',
+            type: 'post',
+            contentType: false,
+            processData: false, //是否预处理数据:默认为true，默认情况下，发送的数据将被转换为对象，设为false不希望进行转换
+            data: formData,
+            async: false,
+            success: function (res) {
+              total = res.data.total;
+              var html = '';
+              if (res.data.rows.length > 0) {
+                for (var i = 0; i < res.data.rows.length; i++) {
+                  //是否回答
+                  let isReply;
+                  if (res.data.rows[i].state == 0) {
+                    isReply = '否';
+                  } else {
+                    isReply = '是';
+                  }
+                  if (res.data.rows[i].replyTime !== null) {
+                    html +=
+                      '<tr>\n' +
+                      '         <td class="left"><a onclick=\'detail(' +
+                      res.data.rows[i].id +
+                      ")'>" +
+                      res.data.rows[i].title +
+                      '</a></td>\n' +
+                      '         <td>\n' +
+                      res.data.rows[i].time.substring(0, 10) +
+                      '</td>\n' +
+                      '         <td>\n' +
+                      res.data.rows[i].replyTime.substring(0, 10) +
+                      '</td>\n' +
+                      '         <td><span class="red">' +
+                      isReply +
+                      '</span></td>\n' +
+                      '    </tr>';
+                  } else {
+                    html +=
+                      '<tr>\n' +
+                      '         <td class="left"><a onclick=\'detail(' +
+                      res.data.rows[i].id +
+                      ")'>" +
+                      res.data.rows[i].title +
+                      '</a></td>\n' +
+                      '         <td>\n' +
+                      res.data.rows[i].time.substring(0, 10) +
+                      '</td>\n' +
+                      '         <td></td>\n' +
+                      '         <td><span class="red">' +
+                      isReply +
+                      '</span></td>\n' +
+                      '    </tr>';
+                  }
+                }
+              } else {
+                html += '<div>暂无信息。</div>';
+              }
+              total = res.data.total;
+              $('#consultList').html(html);
+            },
+            error: function (e) {
+              console.info(e);
+            },
+          });
+        }
+
+        $('.M-box4').pagination({
+          //总条数
+          totalData: total,
+          //每页条数
+          showData: 6,
+          //固定页码数
+          mode: 'unfixed',
+          count: 3,
+          isHide: true,
+          //是否一直显示上一页下一页
+          keepShowPN: false,
+          callback: function (api) {
+            data.page = api.getCurrent();
+            InitList();
+          },
+        });
+      });
+
+      function detail(id) {
+        askDetail(id);
+        $('#AskList').hide();
+        $('#expertAsk').show();
+      }
+
+      //获取单个问答详情
+      function askDetail(id) {
+        $.ajax({
+          url: InterfaceGYX + '/consult/getOneById?id=' + id,
+          type: 'get',
+          dataType: 'json',
+          async: true,
+          success: function (res) {
+            $('#askTime').html('提问时间：' + res.data.askDetail.time);
+            $('#askTitle').html(res.data.askDetail.title);
+            $('#askContent').html(res.data.askDetail.content);
+
+            if (res.data.askDetail.replyContent == null) {
+              $('#replyContent').html('专家未回复。');
+            } else {
+              $('#replyContent').html(res.data.askDetail.replyContent);
+            }
+            if (res.data.askDetail.replyTime !== undefined) {
+              $('#replyTime').html('回复时间：' + res.data.askDetail.replyTime);
+            }
+
+            //专家信息
+            $('#expertName').html(res.data.expertInfo.expertName);
+            $('#expertImg').attr('src', res.data.expertInfo.photo);
+            $('#area').html(res.data.expertInfo.serviceArea);
+            $('#job').html(res.data.expertInfo.jobTitle);
+            $('#expertise').html(res.data.expertInfo.expertise);
+          },
+          error: function (e) {
+            console.info(e);
+          },
+        });
+      }
+
+      function backList(id) {
+        $('#AskList').show();
+        $('#expertAsk').hide();
+      }
+    </script>
+  </body>
+</html>

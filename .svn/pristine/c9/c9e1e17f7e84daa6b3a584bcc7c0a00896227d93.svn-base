@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/login.css" />
+    <link rel="stylesheet" href="../../fonts/element.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <!-- 去除input输入框 type=number时的上下箭头 -->
+    <style>
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+      input[type='number'] {
+        -moz-appearance: textfield;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="login-banner">
+        <a href="../../index.html" class="login-title"><b>监利市农业电子商务综合服务子系统</b> </a>
+      </div>
+
+      <div class="register-mainer">
+        <div class="forget-mainer-content">
+          <el-form ref="form" :model="form" :rules="rules" class="register-mainer-content-left">
+            <el-form-item><span style="font-size: 20px; color: #999; font-weight: 600">修改密码</span></el-form-item>
+            <el-form-item class="register-input-item" prop="numTel">
+              <el-input placeholder="请输入手机号码" v-model="form.numTel" type="number" clearable>
+                <template slot="prepend">手机号码</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item class="register-input-item" prop="setPassword">
+              <el-input placeholder="请设置密码" v-model="form.setPassword" type="password" show-password clearable>
+                <template slot="prepend">设置密码</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item class="register-input-item" prop="confirmPassword">
+              <el-input
+                placeholder="请确认两次密码输入一致"
+                v-model="form.confirmPassword"
+                type="password"
+                show-password
+                clearable
+              >
+                <template slot="prepend">确认密码</template>
+              </el-input>
+            </el-form-item>
+            <el-form-item class="register-input-item" style="margin-right: 130px" prop="picCode">
+              <el-input class="pic-input" v-model="form.picCode" placeholder="请输入验证码">
+                <template slot="prepend">图片验证码</template></el-input
+              >
+              <label class="label"
+                ><img id="codeValidateImg" />
+                <span class="picCode-laber" @click="flushValidateCode">点击获取</span></label
+              >
+            </el-form-item>
+            <el-form-item class="register-input-item" style="margin-right: 90px" prop="msgCode">
+              <el-input class="msg-input" v-model="form.msgCode" placeholder="请输入验证码">
+                <template slot="prepend">短信验证</template></el-input
+              >
+              <el-button v-show="show" type="success" size="mini" class="verification-code" @click="handleGetCode"
+                >获取验证码</el-button
+              >
+              <el-button
+                v-show="!show"
+                style="width: 100px !important"
+                type="success"
+                size="mini"
+                disabled
+                class="verification-code"
+                >{{count}}秒后重试</el-button
+              >
+            </el-form-item>
+
+            <el-button type="warning" class="register-btn" @click="handleModification">立即修改</el-button>
+          </el-form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      <!--            <p style="font-size: 12px;">-->
+      <!--              <a style="color: rgb(128, 128, 128); text-decoration: none; display: inline-block;"-->
+      <!--                 href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">-->
+      <!--              备案序号：浙ICP备16035102号-2-->
+      <!--                &lt;!&ndash;<p style="color:#939393;font-size: 14px"><img style="position: relative;top: 4px" src="./img/备案图标.png">浙公网安备 33060202000302号</p>&ndash;&gt;-->
+      <!--              </a>-->
+      <!--            </p>-->
+    </span>
+  </div>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/element/index.js"></script>
+  <script src="../../assets/jquery/jquery.min.js"></script>
+  <script src="../../js/api.js"></script>
+  <script>
+    var App = new Vue({
+      el: '#app',
+      data: function () {
+        return {
+          form: {
+            numTel: '',
+            picCode: '',
+            msgCode: '',
+            setPassword: '',
+            confirmPassword: '',
+          },
+          show: true,
+          count: '',
+          timer: null,
+          phoneNumVerify: '',
+          rules: {
+            numTel: [
+              { required: true, message: '请输入手机号码', trigger: 'blur' },
+              {
+                validator: function (rule, value, callback) {
+                  if (!/^1[3456789]\d{9}$/.test(value)) {
+                    callback(new Error('请输入正确的手机号'));
+                  } else {
+                    callback();
+                  }
+                },
+                trigger: 'blur',
+              },
+            ],
+            picCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+            msgCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+            setPassword: [
+              { required: true, message: '请设置密码', trigger: 'blur' },
+              {
+                pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+                message: '密码至少包含 数字和英文，长度6-20',
+              },
+            ],
+            confirmPassword: [
+              { required: true, message: '请再次输入密码', trigger: 'blur' },
+              {
+                pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+                message: '密码至少包含 数字和英文，长度6-20',
+              },
+            ],
+          },
+        };
+      },
+      created() {
+        this.flushValidateCode();
+      },
+      methods: {
+        handleModification() {
+          this.$refs.form.validate((valid) => {
+            if (valid == false) return this.$message.error('请检查信息是否填写完整！');
+            if (this.form.setPassword !== this.form.confirmPassword) return this.$message.warning('您设置的密码不一致');
+            let formData = new FormData();
+            formData.append('code', this.form.msgCode);
+            formData.append('phone', this.form.numTel);
+            formData.append('newPwd', this.form.confirmPassword);
+            formData.append('codeType', 2);
+            doApi_3(
+              (res) => {
+                console.log(res);
+                if (res.status == 200) {
+                  this.$message.success('修改密码成功，准备跳转登陆页面...');
+                  var num = 1;
+                  var timer = setTimeout(function () {
+                    num--;
+                    if (num == 0) {
+                      //登录成功跳转页面
+                      window.location.href = './login.html';
+                      window.clearTimeout(timer);
+                    }
+                  }, 1000);
+                } else {
+                  this.$message.error('修改失败，请检查信息是否填写正确！');
+                }
+              },
+              (err) => {
+                console.log(err);
+              },
+              null,
+              '/user/forget',
+              'post',
+              formData,
+              false
+            );
+          });
+        },
+        handleGetCode() {
+          let formData = new FormData();
+          formData.append('phone', this.form.numTel);
+          doApi_3(
+            (res) => {
+              if (res.exist) {
+                this.getMsgCode();
+              } else {
+                this.$message.warning('请填写正确信息或者请先注册使用！');
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/user/checkPhone',
+            'post',
+            formData,
+            false
+          );
+        },
+        getMsgCode() {
+          const TIME_COUNT = 60;
+          let picVerify = {
+            mobile: this.form.numTel,
+            code: this.form.picCode,
+          };
+          if (this.form.numTel != '' && this.form.picCode != '') {
+            this.count = TIME_COUNT;
+            this.show = false;
+            doApi_2(
+              (res) => {
+                if (res.status == 200) {
+                  this.$message.success('验证码发送成功');
+                } else {
+                  this.$message.error('图片验证码错误');
+                  this.form.picCode = '';
+                  this.flushValidateCode();
+                  this.show = true;
+                }
+              },
+              function (err) {
+                console.log(err);
+              },
+              null,
+              '/user/checkImgCode',
+              'get',
+              picVerify,
+              null
+            );
+            this.timer = setInterval(() => {
+              if (this.count > 0 && this.count <= TIME_COUNT) {
+                this.count--;
+              } else {
+                this.show = true;
+                clearInterval(this.timer);
+                this.timer = null;
+              }
+            }, 1000);
+          } else {
+            this.$message('请先填写手机号码或图片验证码');
+          }
+        },
+        flushValidateCode() {
+          var validateImagObject = document.getElementById('codeValidateImg');
+          // validateImagObject.src = "/getLoginImageCode.html?time=" + new Date();//向服务器请求验证码
+
+          //获取图片验证码
+          var xmlhttp;
+          xmlhttp = new XMLHttpRequest();
+          xmlhttp.open('GET', PREFIX_API_1 + '/suggest/ValidateCode', true);
+          xmlhttp.responseType = 'blob';
+          xmlhttp.onload = function () {
+            if (this.status == 200) {
+              var blob = this.response;
+              validateImagObject.src = window.URL.createObjectURL(blob);
+            }
+          };
+          xmlhttp.send();
+        },
+      },
+    });
+  </script>
+</html>

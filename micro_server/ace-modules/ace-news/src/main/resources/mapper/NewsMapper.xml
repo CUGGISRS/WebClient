@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.news.mapper.NewsMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.news.entity.News">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="newsid" property="newsid" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="updatetime" property="updatetime" jdbcType="DATE"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+        <result column="image" property="image" jdbcType="LONGVARBINARY"/>
+    </resultMap>
+
+    <select id="selectSimple" resultMap="BaseResultMap">
+        SELECT newsid,title,type,updatetime FROM News WHERE status = "published" ORDER BY updatetime DESC
+    </select>
+    <select id="selectSimpleByType" resultMap="BaseResultMap">
+        SELECT newsid,title,type,updatetime FROM News WHERE status = "published" AND type = #{type} ORDER BY updatetime DESC
+    </select>
+</mapper>

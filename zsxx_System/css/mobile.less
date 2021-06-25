@@ -1,0 +1,84 @@
+@divide: 10;
+@pswWidth: 375;
+@ppr:@divide /@pswWidth * 1rem;
+
+// 组件样式
+.van-cell__value {
+  flex: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.productInfo {
+  .van-cell__value {
+    text-align: start;
+  }
+}
+
+.van-dialog__message {
+  text-align: start;
+}
+
+.van-image {
+  margin: 0 5px;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.retrospect-title {
+  width: 375 * @ppr;
+  text-align: center;
+  height: 40 * @ppr;
+  line-height: 30 * @ppr;
+  .retrospect-title-ch {
+    font-size: 16 * @ppr;
+    color: #009f97;
+  }
+
+  .retrospect-title-en {
+    font-size: 12 * @ppr;
+    color: #666;
+  }
+}
+
+.product-retrospect-section {
+  // width: 100%;
+  box-shadow: 1 * @ppr 1 * @ppr 3 * @ppr #d9dbdb, -1 * @ppr -1 * @ppr 3 * @ppr #d9dbdb;
+  padding: 15 * @ppr;
+  margin: 5 * @ppr;
+
+  .product-retrospect-info {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    .product-retrospect-info-img {
+      border: 1 * @ppr solid #ededed;
+      img {
+        width: 100 * @ppr;
+        height: 100 * @ppr;
+      }
+    }
+    .product-retrospect-info-text {
+      p {
+        font-size: 12 * @ppr;
+        color: #666;
+        line-height: 12 * @ppr;
+        margin-left: 20 * @ppr;
+      }
+    }
+  }
+}

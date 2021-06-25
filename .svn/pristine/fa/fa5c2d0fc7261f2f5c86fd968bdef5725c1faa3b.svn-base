@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>Title</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container-fluid" id="supplyList">
+      <div class="row m-pos">
+        <snap>您所在的位置：个人中心 &gt; <span>供求列表</span></snap>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row padding-15">
+            <div class="consult-btn">
+              <button onclick="newSupply();"><i class="iconfont"></i>新建供求</button>
+            </div>
+            <form id="tableForm" action="v_myTradeInfo.jspx" method="post">
+              <table class="table table-hover consult-table">
+                <thead>
+                  <tr>
+                    <th class="title">标题</th>
+                    <th class="time">发布时间</th>
+                    <th class="time">状态</th>
+                    <th class="time">操作</th>
+                  </tr>
+                </thead>
+                
+                </tbody>
+              </table>
+              <div style="float: right" class="m-style M-box4"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="display: none" id="supplyUpdate">
+      <div class="row m-pos">
+        <span
+          >您所在的位置：个人中心 &gt; <span>新建供求</span>
+          <a href="#" class="pull-right" onclick="supplyListBack()">返回列表</a>
+        </span>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="gq-mbox">
+            <label class="control-label"> <span class="red-small">*</span>信息类型： </label>
+            <select id="tradeType" name="tradeType">
+              <option value="-1">--请选择--</option>
+              <option value="0">供应信息</option>
+              <option value="1">求购信息</option>
+            </select>
+          </div>
+          <div class="gq-mbox">
+            <label class="control-label"> <span class="red-small">*</span>标 <span class="big"></span>题： </label>
+            <input autocomplete="off" type="text" id="tradeTitle" name="title" maxlength="500" />
+          </div>
+          <div class="gq-mbox">
+            <label class="control-label">
+              <span class="red-small">*</span>联 <span class="small"> </span>系 <span class="small"> </span>人：</label
+            >
+            <input autocomplete="off" type="text" id="username" name="username" maxlength="100" />
+          </div>
+          <div class="gq-mbox">
+            <label class="control-label"> <span class="red-small">*</span>联系电话：</label>
+            <input autocomplete="off" type="text" id="mobile" name="mobile" maxlength="11" />
+          </div>
+          <div class="gq-mbox">
+            <label> <span class="red-small">*</span>地<span class="big"></span>区： </label>
+            <input autocomplete="off" type="text" id="district_id" name="district_id" />
+          </div>
+          <div class="padding-bottom-15">
+            <span style="display: none">
+              <input
+                class="cancel"
+                id="btnCancel"
+                type="button"
+                value="取消"
+                onclick="swfu.cancelQueue();"
+                disabled="disabled"
+              />
+            </span>
+            <div id="fsUploadProgress" style="display: none"></div>
+          </div>
+          <div class="gq-mbox">
+            <label class="control-label top"><span class="red-small">*</span>信息描述：</label>
+            <textarea
+              id="tradeContent"
+              name="content"
+              maxlength="2000"
+              rows="4"
+              value="请输入信息详情。"
+              onblur="if (value ==''){ value='请输入信息详情。';document.getElementById('content').style.color='#999';}"
+              onfocus="if (value =='请输入信息详情。'){value =''; this.style.color='#333';}"
+            >
+请输入信息详情。</textarea
+            >
+          </div>
+          <div class="user-btn padding-bottom-15">
+            <input type="hidden" name="nextUrl" value="v_myTradeInfo.jspx" />
+            <input type="button" value="提交" onclick="tijiao();" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="display: none" id="supplyDetail">
+      <div class="row m-pos">
+        <snap
+          >您所在的位置：个人中心 &gt; <span>供求列表</span> &gt; <span>查看详情</span
+          ><a href="#" onclick="supplyListBack()" class="pull-right">返回列表</a></snap
+        >
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row padding-15">
+            <div class="col-sm-12">
+              <ul class="user-info clearfix">
+                <li>
+                  <label>信息类型：</label>
+                  <span><span id="detailSupplyType">求购信息</span></span>
+                </li>
+                <li>
+                  <label>标<span class="big"></span>题：</label>
+                  <span id="detailSupplyTitle">白菜</span>
+                </li>
+                <li>
+                  <label>联<span class="small"></span>系<span class="small"></span>人：</label>
+                  <span id="detailSupplyPerson">甘道夫</span>
+                </li>
+                <li>
+                  <label>联系电话：</label>
+                  <span id="detailSupplyPhone">15478547857</span>
+                </li>
+                <li>
+                  <label>区<span class="big"></span>县：</label>
+                  <span id="detailSupplyArea">兴庆区</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row user-yh">
+            <div class="yh-info">
+              <div class="baguetteBoxOne gallery clearfix"></div>
+              <p class="margin-top-10"><span id="detailSupplyContent">需要白菜</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./js/pagination/jquery.pagination.js"></script>
+
+    <script>
+      var oToken = localStorage.getItem('token');
+      var total = 1;
+      var data = {
+        page: 1,
+        limit: 6,
+        token: oToken,
+      };
+
+      $(function () {
+        InitList(data);
+
+        page();
+      });
+
+      function page() {
+        $('.M-box4').pagination({
+          //总条数
+          totalData: total,
+          //每页条数
+          showData: 6,
+          //固定页码数
+          mode: 'unfixed',
+          count: 3,
+          isHide: true,
+          //是否一直显示上一页下一页
+          keepShowPN: false,
+          callback: function (api) {
+            data.page = api.getCurrent();
+            InitList(data);
+          },
+        });
+      }
+
+      function InitList() {
+        let formData = new FormData();
+        formData.append('page', data.page);
+        formData.append('size', data.limit);
+        formData.append('token', data.token);
+        $.ajax({
+          url: InterfaceGYX + '/supplydemand/getPageByUserToken',
+          type: 'post',
+          // dataType : "json",
+          contentType: false,
+          processData: false, //是否预处理数据:默认为true，默认情况下，发送的数据将被转换为对象，设为false不希望进行转换
+          data: formData,
+          async: false,
+          success: function (res) {
+            var html = '';
+            if (res.data.rows.length > 0) {
+              total = res.data.total;
+              for (var i = 0; i < res.data.rows.length; i++) {
+                //是否回答
+                let isReply;
+                if (res.data.rows[i].state == 0) {
+                  isReply = '否';
+                } else {
+                  isReply = '是';
+                }
+                //发布类型（0表示供应信息，1表示求购信息）
+                var supplyClass;
+                var supplyType;
+                if (res.data.rows[i].pubType == '0') {
+                  supplyClass = 'red';
+                  supplyType = '供应';
+                } else {
+                  supplyClass = 'green';
+                  supplyType = '求购';
+                }
+                var status;
+                if (res.data.rows[i].status == '0') {
+                  status = '待审核';
+                } else if (res.data.rows[i].status == '1') {
+                  status = '审核通过';
+                } else {
+                  status = '未通过';
+                }
+                html +=
+                  ' <tr>\n' +
+                  '                            <td class="left">\n' +
+                  '                                <span class="' +
+                  supplyClass +
+                  '">[' +
+                  supplyType +
+                  ']</span>\n' +
+                  '                                <a href="#" onclick="supplyDetail(' +
+                  res.data.rows[i].id +
+                  ');" title="' +
+                  res.data.rows[i].title +
+                  '">' +
+                  res.data.rows[i].title +
+                  '</a>\n' +
+                  '                            </td>\n' +
+                  '                            <td>\n' +
+                  res.data.rows[i].pubTime.substr(0, 10) +
+                  '</td>\n' +
+                  '                            <td><span>' +
+                  status +
+                  '</span></td>\n' +
+                  '                            <td>\n' +
+                  // "                                <a href=\"javascript:return false;\" style=\"cursor: default;color:gray;opacity:0.4\">修改</a>\n" +
+                  '                                | <a href="#" onclick="deleteTradeInfo(' +
+                  res.data.rows[i].id +
+                  ');">删除</a></td>\n' +
+                  '    </tr>';
+              }
+            } else {
+              html += '<div>暂无求购信息。</div>';
+            }
+            $('#supplyTable').html(html);
+          },
+          error: function (e) {
+            console.info(e);
+          },
+        });
+      }
+
+      function deleteTradeInfo(id) {
+        $.ajax({
+          url: InterfaceGYX + '/supplydemand/del?ids=' + id,
+          type: 'get',
+          //   dataType: 'json',
+          //   contentType: false,
+          //   processData: false, //是否预处理数据:默认为true，默认情况下，发送的数据将被转换为对象，设为false不希望进行转换
+          //   data: params,
+          //   async: true,
+          success: function (res) {
+            alert(res.message);
+            InitList();
+            // page();
+          },
+          error: function (e) {
+            console.info(e);
+          },
+        });
+      }
+
+      function newSupply() {
+        $('#supplyList').hide();
+        $('#supplyUpdate').show();
+        $('#supplyDetail').hide();
+      }
+
+      function supplyListBack() {
+        $('#supplyList').show();
+        $('#supplyUpdate').hide();
+        $('#supplyDetail').hide();
+        InitList();
+      }
+
+      function supplyDetail(id) {
+        $('#supplyDetail').show();
+        $('#supplyUpdate').hide();
+        $('#supplyList').hide();
+        supplyOne(id);
+      }
+      function supplyOne(id) {
+        $.ajax({
+          url: InterfaceGYX + '/supplydemand/getOneById?id=' + id, //请求地址
+          dataType: 'json', //数据格式
+          type: 'get', //请求方式
+          cache: true,
+          contentType: 'application/json;charset=utf-8',
+          async: false, //是否异步请求
+          success: function (res) {
+            console.log(res);
+            if (res.status == '200') {
+              if (res.data.pubType == '0') {
+                $('#detailSupplyType').html('供应信息');
+              } else {
+                $('#detailSupplyType').html('求购信息');
+              }
+              console.log(res.data.title);
+              $('#detailSupplyTitle').html(res.data.title);
+              $('#detailSupplyPerson').html(res.data.contactPerson);
+              $('#detailSupplyPhone').html(res.data.phone);
+              $('#detailSupplyArea').html(res.data.area);
+              $('#detailSupplyContent').html(res.data.description);
+            } else {
+            }
+          },
+          error: function (e) {
+            console.log(e);
+          },
+        });
+      }
+
+      function tijiao() {
+        let formData = new FormData();
+        formData.append('type', $('#tradeType').val());
+        formData.append('title', $('#tradeTitle').val());
+        formData.append('contactPerson', $('#username').val());
+        formData.append('phone', $('#mobile').val());
+        formData.append('area', $('#district_id').val());
+        formData.append('description', $('#tradeContent').val());
+        formData.append('token', oToken);
+        $.ajax({
+          url: InterfaceGYX + '/supplydemand/addNewSupplyByUser', //请求地址
+          dataType: 'json', //数据格式
+          type: 'post', //请求方式
+          cache: true,
+          // contentType: 'application/json;charset=utf-8',
+          contentType: false,
+          processData: false, //是否预处理数据:默认为true，默认情况下，发送的数据将被转换为对象，设为false不希望进行转换
+          async: false, //是否异步请求
+          data: formData,
+          success: function (data) {
+            alert(data.message);
+            supplyListBack();
+          },
+          error: function (e) {
+            console.log(e);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

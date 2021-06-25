@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zd.earth.manage.mapper.FlyPathMapper" >
+  <resultMap id="BaseResultMap" type="com.zd.earth.manage.entity.FlyPath" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="LinkMap" type="com.zd.earth.manage.entity.FlyPath" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <collection property="flyPathPoints" ofType="com.zd.earth.manage.entity.FlyPathPoint">
+      <id column="p_id" property="id" jdbcType="INTEGER" />
+      <result column="p_fly_path_id" property="flyPathId" jdbcType="INTEGER" />
+      <result column="p_name" property="name" jdbcType="VARCHAR" />
+      <result column="p_type" property="type" jdbcType="INTEGER" />
+      <result column="p_longitude" property="longitude" jdbcType="DECIMAL" />
+      <result column="p_latitude" property="latitude" jdbcType="DECIMAL" />
+      <result column="p_altitude" property="altitude" jdbcType="DECIMAL" />
+      <result column="p_height" property="height" jdbcType="DECIMAL" />
+      <result column="p_orientation_angle" property="orientationAngle" jdbcType="DECIMAL" />
+      <result column="p_pitch_angle" property="pitchAngle" jdbcType="DECIMAL" />
+      <result column="p_rotate_angle" property="rotateAngle" jdbcType="DECIMAL" />
+      <result column="p_dead_time" property="deadTime" jdbcType="DECIMAL" />
+      <result column="p_speed" property="speed" jdbcType="DECIMAL" />
+      <result column="p_radius" property="radius" jdbcType="DECIMAL" />
+      <result column="p_circle_num" property="circleNum" jdbcType="DECIMAL" />
+      <collection property="flyPathPointSingles" ofType="com.zd.earth.manage.entity.FlyPathPointSingle">
+        <id column="ps_id" property="id" jdbcType="INTEGER" />
+        <result column="ps_index_num" property="indexNum" jdbcType="INTEGER" />
+        <result column="ps_longitude" property="longitude" jdbcType="DECIMAL" />
+        <result column="ps_latitude" property="latitude" jdbcType="DECIMAL" />
+        <result column="ps_altitude" property="altitude" jdbcType="DECIMAL" />
+        <result column="ps_height" property="height" jdbcType="DECIMAL" />
+        <result column="ps_path_point_id" property="pathPointId" jdbcType="INTEGER" />
+      </collection>
+    </collection>
+  </resultMap>
+  <sql id="link_sql">
+    f.id,
+    f.name,
+
+    p.id p_id,
+    p.fly_path_id p_fly_path_id,
+    p.name p_name,
+    p.type p_type,
+    p.longitude p_longitude,
+    p.latitude p_latitude,
+    p.altitude p_altitude,
+    p.height p_height,
+    p.orientation_angle p_orientation_angle,
+    p.pitch_angle p_pitch_angle,
+    p.rotate_angle p_rotate_angle,
+    p.dead_time p_dead_time,
+    p.speed p_speed,
+    p.radius p_radius,
+    p.circle_num p_circle_num,
+
+    ps.id ps_id,
+    ps.index_num ps_index_num,
+    ps.longitude ps_longitude,
+    ps.latitude ps_latitude,
+    ps.altitude ps_altitude,
+    ps.height ps_height,
+    ps.path_point_id ps_path_point_id
+  </sql>
+  <select id="getLinkAll" resultMap="LinkMap">
+    select
+    <include refid="link_sql"/>
+    from fly_path f
+    left join fly_path_point p on f.id=p.fly_path_id
+    left join fly_path_point_single ps on p.id=ps.path_point_id
+  </select>
+
+  <select id="getCountAll" resultType="java.lang.Integer">
+    select
+   count(id)
+    from fly_path
+  </select>
+
+  <select id="pageLink" resultMap="LinkMap">
+    select
+    <include refid="link_sql"/>
+    from (select * from fly_path
+    <if test="orderBy!=null">
+      order by ${orderBy}
+    </if>
+    <if test="limit!=null">
+      limit
+      <if test="page!=null">
+        #{page},
+      </if>
+      #{limit}
+    </if>
+    ) f
+    left join fly_path_point p on f.id=p.fly_path_id
+    left join fly_path_point_single ps on p.id=ps.path_point_id
+
+  </select>
+</mapper>

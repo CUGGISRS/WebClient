@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.DeviceSensorDataMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.DeviceSensorData">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sensor_id" property="sensorId" jdbcType="INTEGER"/>
+        <result column="record_time" property="recordTime" jdbcType="TIMESTAMP"/>
+        <result column="record_data" property="recordData" jdbcType="DECIMAL"/>
+        <result column="sync_time" property="syncTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--  <select id="getNewestDataBySIds" resultMap="BaseResultMap">
+        SELECT * from xph_device_sensor_data t1
+        INNER JOIN (
+    SELECT sensor_id,MAX(record_time) mrt FROM xph_device_sensor_data
+     where sensor_id in
+     <foreach collection="sIds" open="(" separator="," close=")" item="sId">
+            #{sId}
+     </foreach>
+      GROUP BY sensor_id ) t2
+        on t1.sensor_id=t2.sensor_id and t1.record_time=t2.mrt
+      </select>-->
+    <sql id="base_column">
+        id,sensor_id,record_time,record_data,sync_time
+    </sql>
+
+    <select id="getMinTimeBySId" resultType="java.util.Date">
+        SELECT MIN(record_time) FROM xph.xph_device_sensor_data WHERE sensor_id=#{sId}
+    </select>
+
+    <select id="pageBySId" resultMap="BaseResultMap">
+        select
+        <include refid="base_column"/>
+        from
+        xph.xph_device_sensor_data
+        where sensor_id= #{sId}
+        <if test="end!=null">
+            and record_time <![CDATA[<= ]]> #{end}
+        </if>
+        <if test="start!=null">
+            and record_time <![CDATA[>= ]]> #{start}
+            <if test="interval!=null">
+                and timestampdiff(minute,#{start},record_time)%#{interval} =0
+            </if>
+        </if>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="limit!=null">
+            limit
+            <if test="page!=null">
+                #{page},
+            </if>
+            #{limit}
+        </if>
+    </select>
+
+    <select id="getTotalBySId" resultType="java.lang.Integer">
+        select
+        count(id)
+        from xph.xph_device_sensor_data
+        where sensor_id= #{sId}
+        <if test="end!=null">
+            and record_time <![CDATA[<= ]]> #{end}
+        </if>
+        <if test="start!=null">
+            and record_time <![CDATA[>= ]]> #{start}
+            <if test="interval!=null">
+                and timestampdiff(minute,#{start},record_time)%#{interval} =0
+            </if>
+        </if>
+    </select>
+</mapper>

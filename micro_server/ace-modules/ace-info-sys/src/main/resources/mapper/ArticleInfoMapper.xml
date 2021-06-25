@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.info.sys.mapper.ArticleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.info.sys.entity.ArticleInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="pageviews" property="pageviews" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="pub_time" property="pubTime" jdbcType="TIMESTAMP"/>
+        <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP"/>
+        <result column="upt_time" property="uptTime" jdbcType="TIMESTAMP"/>
+        <result column="simple" property="simple" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="listArticle" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        a.id,
+        a.title,
+        -- a.content,
+        a.author,
+        a.pageviews,
+        a.pub_time,
+        a.simple
+        FROM
+        com_article_info a
+        LEFT JOIN com_article_system_info b ON a.id = b.article_id
+        WHERE
+        ( b.is_deleted = '0' AND system_id = #{sysType} AND b.STATUS = #{status})
+        <if test="title != null and title != '' and title != '%%'">
+            AND
+            a.title LIKE #{title}
+        </if>
+        <if test="articleType != null and articleType != '' and articleType != '%%'">
+            AND article_typeid = #{articleType}
+        </if>
+        ORDER BY
+        a.pub_time DESC
+        LIMIT #{offSet},#{pageRow}
+    </select>
+
+    <select id="countArticle" resultType="Integer">
+        SELECT
+        COUNT(a.id)
+        FROM
+        com_article_info a
+        LEFT JOIN com_article_system_info b ON a.id = b.article_id
+        WHERE
+        ( b.is_deleted = '0' AND system_id = #{sysType} AND b.STATUS = #{status})
+        <if test="title != null and title != '' and title != '%%'">
+            AND
+            a.title LIKE #{title}
+        </if>
+        <if test="articleType != null and articleType != '' and articleType != '%%'">
+            AND article_typeid = #{articleType}
+        </if>
+        ORDER BY
+        a.pub_time DESC
+    </select>
+
+    <delete id="delRealArticle">
+        DELETE a,
+        b
+        FROM
+        com_article_info a,
+        com_article_system_info b
+        WHERE
+        a.id = b.article_id AND a.id = #{id}
+    </delete>
+
+    <delete id="delRealArticleBySys">
+        DELETE a,b
+        FROM
+        com_article_info a,
+        com_article_system_info b
+        WHERE
+        a.id = b.article_id
+        AND a.id = #{id}
+        AND b.system_id = #{sysType}
+    </delete>
+
+    <!--
+        useGeneratedKeys="true" 表示给主键设置自增长
+        keyProperty="userId" 表示将自增长后的Id赋值给实体类中的userId字段。
+    -->
+    <!--新增文章-->
+    <insert id="addNewArticle" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.github.wxiaoqi.security.info.sys.entity.ArticleAndSystem">
+        INSERT INTO com_article_info SET
+        title=#{title},content=#{content},author=#{author},pub_time=#{pubTime},crt_time=#{crtTime},simple=#{simple};
+    </insert>
+
+
+    <select id="listArticleDetail" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        a.id,
+        a.title,
+        a.content,
+        a.author,
+        a.pageviews,
+        a.pub_time,
+        a.simple,
+        b.article_typeid
+        FROM
+        com_article_info a
+        LEFT JOIN com_article_system_info b ON a.id = b.article_id
+        WHERE
+        ( b.is_deleted = '0' AND system_id = #{sysType} AND b.STATUS = #{status})
+        <if test="title != null and title != '' and title != '%%'">
+            AND
+            a.title LIKE #{title}
+        </if>
+        <if test="articleType != null and articleType != '' and articleType != '%%'">
+            AND article_typeid = #{articleType}
+        </if>
+        ORDER BY
+        a.pub_time DESC
+        LIMIT #{offSet},#{pageRow}
+    </select>
+
+</mapper>

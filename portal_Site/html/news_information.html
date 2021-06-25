@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  <title>监利市农业产业园综合门户网站</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../fonts/element.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="mainer">
+      <div class="head_section">
+        <div class="head_title"><img src="../images/website_title.png" alt=""></div>
+        <div class="head_nav">
+          <ul>
+            <li><a href="../index.html" class="head_nav_li_a">网站首页</a></li>
+            <li><a class="head_nav_li_a active">新闻资讯</a></li>
+            <li><a href="./science_service.html" class="head_nav_li_a">科技服务</a></li>
+            <li><a href="./company_show.html" class="head_nav_li_a">企业风采</a></li>
+            <li><a href="./farm_products.html" class="head_nav_li_a">优质农产品</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="news_info_banner"> </div>
+      <div class="news_mainer">
+        <div class="news_mainer_top">
+          <div class="news_mainer_title">新闻资讯</div>
+          <div class="news_mainer_search_con">
+            <el-input v-model="searchInput" placeholder="请输入标题关键字搜索内容..." clearable @change="handleSearchNews"></el-input>
+            <el-button class="search_btn" type="success" icon="el-icon-search" circle @click="handleSearchNews">
+            </el-button>
+          </div>
+        </div>
+        <div class="news_mainer_box">
+          <div class="news_info_list_container">
+            <ul>
+              <li v-for="item in newsList">
+                <a :href="'./news_information_detail.html?' + item.id">
+                  <div class="n_news_li">
+                    <div class="n_news_li_time">
+                      <div class="n_news_li_year"
+                        v-if=" typeof item.pub_time != 'undefined' && item.pub_time !== null  ">
+                        {{item.pub_time.substr(0,4)}}</div>
+                      <div class="n_news_li_month"
+                        v-if=" typeof item.pub_time != 'undefined' && item.pub_time !== null ">
+                        {{item.pub_time.substr(5,6)}}</div>
+                      <div class="n_news_li_line"></div>
+                    </div>
+                    <div class="n_news_li_con">
+                      <div class="n_news_li_name">{{item.title}}</div>
+                      <div class="n_news_li_js">
+                        {{item.simple}}
+                      </div>
+                      <div class="n_news_li_more">查看更多 ></div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <el-backtop></el-backtop>
+    <div class="pagination_section">
+      <el-pagination background @current-change="handleChangePage" :current-page="params.pageNum"
+        :page-size="params.pageRow" layout="total, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+    </div>
+  </div>
+
+</body>
+<footer class="footer">
+  <div class="url_section">
+    <p class="url_section_text"> 友情链接：</p>
+    <div class="website_img_container">
+      <a href="http://www.hbnyw.com/" target="_blank"><img class="website_img" src="../images/hbsnyw.png"
+          alt="website"></a>
+      <a href="http://www.moa.gov.cn/" target="_blank"><img class="website_img" src="../images/nyb.png"
+          alt="website"></a>
+      <a href="http://nyt.hubei.gov.cn/" target="_blank"><img class="website_img" src="../images/hbnyt.png"
+          alt="website"></a>
+      <a href="http://www.jianli.gov.cn/" target="_blank"><img class="website_img" src="../images/jlsrmzf.png"
+          alt="website"></a>
+      <a href="http://www.zgny.com.cn/" target="_blank"><img class="website_img" src="../images/zgnyw.png"
+          alt="website"></a>
+    </div>
+  </div>
+  <div class="footer_unit">
+    <span>Copyright &copy; &nbsp;2020-2021</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/" style="display: inline-block;">
+      <p class="company_name-footer"> 监利市农业农村局 </p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/" style="display: inline-block; ">
+      <p class="company_name-footer">武汉中迪联创科技有限公司 </p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <div>地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</div>
+  </div>
+</footer>
+<script src="../assets/vue/vue.min.js"></script>
+<script src="../assets/element/index.js"></script>
+<script src="../js/api.js"></script>
+<script src="../assets/jquery/jquery.min.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        newsList: [],
+        params: {
+          pageNum: 1,
+          pageRow: 10,
+          sysType: '追溯信息系统',
+          articleType: '农业新闻',
+          status: 1
+        },
+        total: '',
+        searchInput: ''
+      };
+    },
+    created() {
+      this.getNewsData();
+    },
+    methods: {
+      handleSearchNews() {
+        this.params.pageNum = 1;
+        this.getNewsData();
+      },
+      getNewsData() {
+        if (this.searchInput.trim() !== '') {
+          this.params.title = this.searchInput;
+        } else {
+          this.params.title = '';
+        }
+        doApi_1(res => {
+          if (res.status === 200) {
+            this.newsList = res.data.rows;
+            this.total = res.data.total;
+          }
+        },
+          err => {
+            console.error(err);
+          },
+          null,
+          '/article/list',
+          'get',
+          this.params,
+          null
+        )
+      },
+      handleChangePage(page) {
+        this.params.pageNum = page;
+        this.getNewsData();
+      }
+    }
+  });
+</script>
+
+</html>

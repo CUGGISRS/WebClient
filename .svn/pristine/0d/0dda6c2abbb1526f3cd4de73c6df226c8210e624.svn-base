@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>监利市农业电子商务综合服务子系统</title>
+  <script src="../../assets/echarts/echarts.js"></script>
+  <link rel="stylesheet" href="../../css/reset.css" />
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../fonts/element.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="title-section">
+      <div class="title-section-content">
+        <a href="../../index.html" class="system-title">监利市农业电子商务综合服务子系统</a>
+      </div>
+    </div>
+
+    <div class="nav-list">
+      <div class="nav-list-content">
+        <a class="nav-item" href="../../index.html">首页</a>
+        <a class="nav-item" href="../market-condition.html">市场行情</a>
+        <a class="nav-item" href="../price-condition.html">价格行情</a>
+        <a class="nav-item active" href="./statistical-chart.html">行情统计</a>
+        <a class="nav-item" href="../price-trend.html">价格走势</a>
+        <a class="nav-item" href="../farm-products.html">优质农产品</a>
+        <a class="nav-item" href="../production-market/production-market.html">农产品产销信息</a>
+        <a class="nav-item" href="../message-board/message-board.html">留言板</a>
+      </div>
+    </div>
+
+    <div class="mainer">
+      <div class="banner-section">
+        <img src="../../images/banner-7.jpg" alt="banner" />
+      </div>
+      <div class="dateTimeSelect" style="text-align: center; margin-top: 30px">
+        <span style="font-size: 16px">请选择时间：</span>
+        <el-date-picker v-model="value" type="daterange" value-format="yyyy-MM-dd" :picker-options="pickerOptions"
+          range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" unlink-panels align="right">
+        </el-date-picker>
+      </div>
+      <div class="charts-container">
+        <div id="main" style="width: 500px; height: 600px; margin-top: 30px"></div>
+        <div id="main2" style="width: 700px; height: 600px; margin-top: 30px"></div>
+      </div>
+    </div>
+    <div class="link-section">
+      <div class="link-section-content">
+        <p><b>友情链接：</b></p>
+        <div class="link-list">
+          <a class="link-item" href="http://39.104.61.47:8093/gyx_System/">监利市农业公益性服务子系统</a>
+          <a class="link-item" href="http://39.104.61.47:8093/3d_ball_cesium">监利市产业园三维可视化子系统</a>
+
+          <a class="link-item" href="http://39.104.61.47:8093/zsjd/#/login">监利市农产品质量安全监督管理系统</a>
+
+          <a class="link-item" href="http://39.104.61.47:8093/zsxx_System/">监利市农产品质量安全追溯信息系统</a>
+          <a class="link-item" href="http://39.104.61.47:8093/dxgz/#/login">监利市稻虾共作物联网应用系统</a>
+
+          <a class="link-item"></a>
+          <a class="link-item"></a>
+          <a class="link-item"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<div class="login_footer">
+  <span>
+    <span>Copyright &copy; &nbsp;</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>监利市农业农村局</p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>武汉中迪联创科技有限公司</p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+  </span>
+</div>
+
+<script src="../../assets/vue/vue.min.js"></script>
+<script src="../../assets/element/index.js"></script>
+<script src="../../assets/jquery/jquery.min.js"></script>
+<script src="../../js/api.js"></script>
+
+<script type="text/javascript">
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        myChart: null,
+        // 参数条件
+        params: {
+          testDateS: null,
+          testDateE: null,
+        },
+        inspectPassRoute: [{ value: 0, name: '水果', seleted: true }],
+        pieData: [
+          { value: 0, name: '水果' },
+          { value: 0, name: '蔬菜' },
+          { value: 0, name: '粮油' },
+          { value: 0, name: '牛羊猪肉' },
+          { value: 0, name: '家禽蛋类' },
+          { value: 0, name: '水产品' },
+          { value: 0, name: '自制品' },
+        ],
+        pickerOptions: {
+          shortcuts: [
+            {
+              text: '最近一周',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', [start, end]);
+              },
+            },
+            {
+              text: '最近一个月',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                picker.$emit('pick', [start, end]);
+              },
+            },
+            {
+              text: '最近三个月',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                picker.$emit('pick', [start, end]);
+              },
+            },
+            {
+              text: '最近半年',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
+                picker.$emit('pick', [start, end]);
+              },
+            },
+            {
+              text: '最近一年',
+              onClick(picker) {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                picker.$emit('pick', [start, end]);
+              },
+            },
+          ],
+        },
+        value: [],
+      };
+    },
+    mounted() {
+      this.showGraphic();
+      this.getPassYearFormatDate();
+      this.showPieChart();
+    },
+    methods: {
+      // 绘制图表
+      showGraphic() {
+        // 基于准备好的dom，初始化echarts实例
+        this.myChart = echarts.init(document.getElementById('main'));
+        $.getJSON('../../assets/json/jianli.json', (data) => {
+          echarts.registerMap('监利', data);
+          // 配置属性
+          let option = {
+            title: {
+              text: '监利市乡镇区域图',
+              left: 'center',
+            },
+            tooltip: {
+              show: true,
+              trigger: 'item',
+              formatter: '{b}',
+            },
+            visualMap: false,
+            series: [
+              {
+                name: '乡镇名称',
+                type: 'map',
+                mapType: '监利',
+                // 缩放与拖动
+                roam: false,
+                label: {
+                  show: true,
+                },
+                itemStyle: {
+                  normal: {
+                    borderColor: '#fff',
+                    areaColor: 'lightskyblue',
+                    borderWidth: 1,
+                  }, //正常样式
+                  emphasis: {
+                    areaColor: 'yellow',
+                    borderWidth: 1,
+                    borderColor: 'yellow',
+                  }, //鼠标事件区块样式
+                },
+              },
+            ],
+          };
+          // 绘制图表
+          this.myChart.setOption(option);
+          this.myChart.on('click', (params) => {
+            let formData = new FormData();
+            formData.append('offerTimeS', this.value[0]);
+            formData.append('offerTimeE', this.value[1]);
+            doApi_4(
+              (res) => {
+                if (res.status == 200) {
+                  if (res.data.length == 0) {
+                    this.$message.info('该时间段无数据！');
+                  } else {
+                    res.data.map((item) => {
+                      if (params.name == item.district) {
+                        this.pieData = item.productNum.map((data) => {
+                          return {
+                            value: data.productCategoryNum,
+                            name: data.productCategory,
+                          };
+                        });
+                      }
+                    });
+                  }
+                  this.showPieChart();
+                }
+              },
+              (err) => {
+                console.log(err);
+              },
+              null,
+              '/price/statisticsProductNum',
+              'post',
+              formData,
+              false,
+              null
+            );
+          }); //点击事件，此事件还可以用到柱状图等其他地图
+        });
+      },
+
+      showPieChart() {
+        if (document.getElementById('main2') == null) {
+          return;
+        }
+        echarts.dispose(document.getElementById('main2'));
+        var myChart = echarts.init(document.getElementById('main2'));
+        var option2;
+        option2 = {
+          title: {
+            text: '监利市各乡镇农产品分布图',
+            left: 'center',
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}:  {d}%',
+          },
+          legend: {
+            top: 'bottom',
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              mark: { show: true },
+              dataView: { show: true, readOnly: false },
+              restore: { show: true },
+              saveAsImage: { show: true },
+            },
+          },
+          series: [
+            {
+              name: '面积模式',
+              type: 'pie',
+              radius: [50, 250],
+              center: ['50%', '50%'],
+              roseType: 'area',
+              itemStyle: {
+                borderRadius: 8,
+              },
+              data: this.pieData,
+              label: {
+                formatter: '{b}:{c}' + '\n\r' + '({d}%)',
+                show: true,
+              },
+            },
+          ],
+        };
+
+        myChart.setOption(option2);
+      },
+      // 以下是获取过去一年时间段代码
+      /* 获取过去时间，并传值给现在时间 */
+      getPassYearFormatDate() {
+        var nowDate = new Date();
+        var date = new Date(nowDate);
+        date.setDate(date.getDate() - 365);
+        var seperator1 = '-';
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+          month = '0' + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = '0' + strDate;
+        }
+        var formatDate = year + seperator1 + month + seperator1 + strDate;
+        this.getNowFormatDate(formatDate);
+      },
+      /* 获取现在时间，并接受过去时间的值 */
+      getNowFormatDate(formatDate) {
+        var date = new Date();
+        var seperator1 = '-';
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+          month = '0' + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = '0' + strDate;
+        }
+        var nowData = year + seperator1 + month + seperator1 + strDate;
+        this.value = [formatDate, nowData]; // 默认赋值一年时间
+      },
+    },
+  });
+</script>
+
+</html>

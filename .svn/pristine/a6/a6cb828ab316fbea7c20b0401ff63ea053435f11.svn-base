@@ -1,0 +1,118 @@
+@charset "UTF-8";
+.m-style {
+    position: relative;
+    text-align: center;
+    zoom: 1;
+    float: right;
+    margin-top: 40px;
+}
+
+.m-style:before,
+.m-style:after {
+    content: "";
+    display: table;
+}
+
+.m-style:after {
+    clear: both;
+    overflow: hidden;
+}
+
+.m-style span {
+    float: left;
+    margin: 0 5px;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    color: #bdbdbd;
+    font-size: 14px;
+}
+
+.m-style .active {
+    /*float: left;
+    margin: 0 5px;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    background: #e91e63;
+    color: #fff;
+    font-size: 14px;
+    border: 1px solid #e91e63;*/
+    display: block;
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    *line-height: 33px;
+    padding: 0 12px;
+    text-align: center;
+    border-radius: 3px;
+    margin: 0 3px;
+    color: #fff;
+    background: #53901f;
+    border: 1px solid #53901f;
+}
+
+.m-style a {
+    /*float: left;
+    margin: 0 5px;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    color: #bdbdbd;
+    font-size: 14px;*/
+    display: block;
+    float: left;
+    height: 32px;
+    line-height: 30px;
+    *line-height: 33px;
+    padding: 0 12px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #dddddd;
+    color: #666;
+    margin: 0 3px;
+}
+
+.m-style a:hover {
+    color: #9dbdb2;
+    /*background: #e91e63;*/
+}
+
+.m-style .next,
+.m-style .prev {
+    font-family: "Simsun";
+    font-size: 16px;
+    font-weight: bold;
+
+    /*防止第一页，点击上一页时出现下划线*/
+    text-decoration:none;
+}
+
+.now,
+.count {
+    padding: 0 5px;
+    color: #f00;
+}
+
+.eg img {
+    max-width: 800px;
+    min-height: 500px;
+}
+
+/*
+input {
+    !*float: left;*!
+    margin: 0 5px;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    outline: none;
+    color: #bdbdbd;
+    font-size: 14px;
+}
+*/

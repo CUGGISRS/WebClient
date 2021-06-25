@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  <title>监利市农业产业园综合门户网站</title>
+  <link rel="stylesheet" href="./assets/swiper/swiper.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./fonts/element.css" />
+  <script src="./assets/swiper/swiper.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="mainer">
+      <div class="head_section">
+        <div class="head_title"><img src="./images/website_title.png" alt=""></div>
+        <div class="head_nav">
+          <ul>
+            <li><a class="head_nav_li_a active">网站首页</a></li>
+            <li><a href="./html/news_information.html" class="head_nav_li_a">新闻资讯</a></li>
+            <li><a href="./html/science_service.html" class="head_nav_li_a">科技服务</a></li>
+            <li><a href="./html/company_show.html" class="head_nav_li_a">企业风采</a></li>
+            <li><a href="./html/farm_products.html" class="head_nav_li_a">优质农产品</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="swiper-container-banner">
+        <el-carousel height="550px">
+          <el-carousel-item v-for="item in swiperList" :key="item">
+            <img style="width: 100%;height: 100%;" :src="item" alt="image">
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+
+      <div class="webkit_section">
+        <div class="about_me">网站导航</div>
+        <div class="about_me_underline"></div>
+        <div class="about_me_text">
+          &emsp;&emsp;监利市农业产业园综合门户网站作为信息载体，统一展示农业政策信息、市场行情信息、农技文章视频，为公众提供信息服务；推广优质农产品和龙头企业，快速进行农产品溯源查询，减化信息获取途径，让农民群众自由享受信息服务，能为农民群众提供最需要、最直接、最有效的信息。引导利用网络寻找商机、推广农副产品，网站恰好可以发挥自身的媒体优势，加大力度进行自我宣传。
+        </div>
+        <div class="about_con c">
+          <ul id="cardArea" class="card-area clearfix">
+            <li class="card-item"> <a target="_blank" href="http://39.104.61.47:8093/zlaq_System/">
+                <div class="sfq_card c">
+                  <div class="sfq_card_img" style="background: url(./images/websit_bg_01.jpg) no-repeat center;">
+                    <div class="sfq_card_img_bg" style="background:rgba(0,0,0,0.5);"> <span
+                        style="color: #ffffff;">追溯管理平台</span>
+                    </div>
+                  </div>
+                  <div class="sfq_card_con">
+                    <div class="sfq_card_con_box c">
+                      <div class="sfq_card_name c">监利市农产品质量安全追溯管理平台</div>
+                      <div class="sfq_card_xian c"></div>
+                      <div class="sfq_card_js c">
+                        &emsp;&emsp;监利市农产品质量安全追溯管理平台以农产品质量安全追溯为目标，以“一平台四系统”为展现形式，形成政府监管、企业主体、公众不同用户责任明晰的农产品质量安全网络监管体系。
+                      </div>
+                      <div class="sfq_card_more c">MORE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sfq_card_dian c"></div>
+                <div class="sfq_card_title c">监利市农产品质量安全追溯管理平台</div>
+              </a> </li>
+            <li class="card-item"> <a target="_blank" href="http://39.104.61.47:8093/gyx_System/">
+                <div class="sfq_card c">
+                  <div class="sfq_card_img" style="background: url(./images/websit_bg_02.jpg) no-repeat center;">
+                    <div class="sfq_card_img_bg" style="background:rgba(0,0,0,0.5);">
+                      <span style="color: #ffffff;">公益性子系统
+                      </span>
+                    </div>
+                  </div>
+                  <div class="sfq_card_con">
+                    <div class="sfq_card_con_box c">
+                      <div class="sfq_card_name c">监利市农业公益性服务子系统</div>
+                      <div class="sfq_card_xian c"></div>
+                      <div class="sfq_card_js c">
+                        &emsp;&emsp;监利市农业公益性服务子系统是面向涉农企业和农民的生产经营交流平台，可为互联网用户提供农业新闻、农业政策、产品推荐、科技推广等各方面的信息服务。</div>
+                      <div class="sfq_card_more c">MORE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sfq_card_dian c"></div>
+                <div class="sfq_card_title c">监利市农业公益性服务子系统
+                </div>
+              </a> </li>
+            <li class="card-item"> <a target="_blank" href="http://39.104.61.47:8093/dzsw_System/index.html">
+                <div class="sfq_card c">
+                  <div class="sfq_card_img" style="background: url(./images/websit_bg_03.jpg) no-repeat center;">
+                    <div class="sfq_card_img_bg" style="background:rgba(0,0,0,0.5);">
+                      <span style="color: #ffffff;">电子商务系统</span>
+                    </div>
+                  </div>
+                  <div class="sfq_card_con">
+                    <div class="sfq_card_con_box c">
+                      <div class="sfq_card_name c">监利市农业电子商务综合服务子系统
+                      </div>
+                      <div class="sfq_card_xian c"></div>
+                      <div class="sfq_card_js c">
+                        &emsp;&emsp;监利市农业电子商务综合服务子系统通过前台门户网站提供的信息服务引导买家找到更好的货源，分析农业市场行情，进行优质农产品销售市场行情的动态信息发布功能、促进农产品产销信息对接和网上营销。
+                      </div>
+                      <div class="sfq_card_more c">MORE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sfq_card_dian c"></div>
+                <div class="sfq_card_title c">监利市农业电子商务综合服务子系统
+                </div>
+              </a> </li>
+            <li class="card-item"> <a target="_blank" href="http://39.104.61.47:8093/3d_ball_cesium/">
+                <div class="sfq_card c">
+                  <div class="sfq_card_img" style="background: url(./images/websit_bg_04.jpg) no-repeat center;">
+                    <div class="sfq_card_img_bg" style="background:rgba(0,0,0,0.5);"> <span
+                        style="color: #ffffff;">三维可视化系统</span>
+                    </div>
+                  </div>
+                  <div class="sfq_card_con">
+                    <div class="sfq_card_con_box c">
+                      <div class="sfq_card_name c">监利市产业园三维可视化子系统</div>
+                      <div class="sfq_card_xian c"></div>
+                      <div class="sfq_card_js c">
+                        &emsp;&emsp;监利市产业园三维可视化服务子系统充分发挥Geo3D三维GIS平台的数据叠加能力、可视化展示能力和三维空间分析能力，将物联网感知数据、产业园区三维模型数据、视频监控数据、产业园区成果数据、区域资源配套数据融合到三维可视化平台，为农业产业园规划、建设、管理、决策提供可视化支撑。
+                      </div>
+                      <div class="sfq_card_more c">MORE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sfq_card_dian c"></div>
+                <div class="sfq_card_title c">监利市产业园三维可视化子系统</div>
+              </a> </li>
+            <li class="card-item"> <a target="_blank" href="http://39.104.61.47:8093/dxgz/#/login">
+                <div class="sfq_card c">
+                  <div class="sfq_card_img" style="background: url(./images/websit_bg_05.jpg) no-repeat center;">
+                    <div class="sfq_card_img_bg" style="background:rgba(0,0,0,0.5);"> <span
+                        style="color: #ffffff;">物联网应用系统</span>
+                    </div>
+                  </div>
+                  <div class="sfq_card_con">
+                    <div class="sfq_card_con_box c">
+                      <div class="sfq_card_name c">监利市稻虾共作物联网应用系统</div>
+                      <div class="sfq_card_xian c"></div>
+                      <div class="sfq_card_js c">
+                        &emsp;&emsp;监利市稻虾共作物联网系统是一种集环境数据采集、存储、传输和管理于一体的无人值守的环境数据采集系统，面向小龙虾养殖发展需求，集养殖、种植环境参数在线采集、无线传输、智能处理、预警信息发布等功能于一体。
+                      </div>
+                      <div class="sfq_card_more c">MORE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sfq_card_dian c"></div>
+                <div class="sfq_card_title c">监利市稻虾共作物联网应用系统</div>
+              </a> </li>
+          </ul>
+        </div>
+      </div>
+      <div class="track_code_section">
+        <div class="about_me">追溯码查询</div>
+        <div class="about_me_underline"></div>
+        <div class="track_code_search">
+          <div class="track_input_con">
+            <el-input v-model="trackCode" type='number' placeholder="请输入追溯码查询详情" @keyup.enter.native="handleSearchCode"
+              clearable></el-input>
+          </div>
+          <el-button size="middle" type="success" @click="handleSearchCode">立即查询</el-button>
+        </div>
+      </div>
+      <div class="company_info_section">
+        <div class="company_info_title">企业风采</div>
+        <div class="company_info_underline"></div>
+        <div id="certify">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" v-for="(item,index) in companyList" :key="index">
+                <a :href="'./html/company_show_detail.html?' + item.id">
+                  <div class="swiper-slide-img-container">
+                    <img class="swiper-slide-img" v-show="item.imgLists.length > 0"
+                      :src="'http://' + item.imgLists[0].path" />
+                  </div>
+                  <div class="swiper-slide-text">{{item.companyName}}</div>
+                  <div class="swiper-slide-desc">
+                    {{item.introduction}}</div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+        <a class="content_more" href="./html/company_show.html">MORE</a>
+      </div>
+      <div class="news_section">
+        <div class="news_info_container">
+          <div class="about_me">新闻资讯</div>
+          <div class="about_me_underline"></div>
+          <div class="news_list">
+            <a href="./html/news_information.html">
+              <div class="news_list_left">
+                <div class="news_list_left_img c">
+                  <img class="news_banner_img" src="./images/news_t.jpg" alt="bg">
+                </div>
+                <div class="news_list_left_con c">
+                  农业新闻资讯
+                </div>
+              </div>
+            </a>
+            <div class="news_list_right">
+              <ul>
+                <li v-for="item in farmNewsList">
+                  <a :href="'./html/news_information_detail.html?' + item.id">
+                    <div class="news_right_li">
+                      <div class="news_right_li_time">
+                        <div class="news_right_li_year">{{item.pub_time.substr(0,4)}}</div>
+                        <div class="news_right_li_month">{{item.pub_time.substr(5,6)}}</div>
+                      </div>
+                      <div class="news_right_li_con">
+                        <div class="news_right_li_name">{{item.title}}</div>
+                        <div class="news_right_li_js">{{item.simple}}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <a class="content_more" href="./html/news_information.html">MORE</a>
+      </div>
+      <div class="farm_products_section">
+        <div class="farm_products_container">
+          <div class="farm_products_left">
+            <img class="farm_product_logo" src="./images/farm_product_logo.png" alt="优质农产品">
+            <div class="farm_products_title">优质农产品</div>
+            <div class="farm_products_list">
+              <ul>
+                <li class="farm_products_item" :class="activeValue == index? 'active' : ''" @click="seleted(item.value)"
+                  v-for="(item,index) in productItem"><img :src="item.url" alt="农产品分类">
+                  <span>{{item.name}}</span>
+                </li>
+              </ul>
+            </div>
+            <a class="farm_product_more" href="./html/farm_products.html">查看更多</a>
+          </div>
+          <div class="farm_products_right">
+            <div class="farm_right_top">
+              <div class="farm_right_top_title">优质农产品</div>
+              <a href="./html/farm_products.html">
+                <div class="farm_right_top_more">MORE >></div>
+              </a>
+            </div>
+            <div class="wrapper">
+              <ul>
+                <li class="td_box" v-for="item in farmProductRows">
+                  <a :href="'./html/farm_products_detail.html?' + item.id">
+                    <div class='picBox'>
+                      <div class='show'>
+                        <img v-show="item.imgLists.length > 0" height='220px' width='220px'
+                          :src="'http://' + item.imgLists[0].path"></img>
+                      </div>
+                      <div class='hide'>
+                        <h3>
+                          {{item.productName}}
+                        </h3>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <el-backtop></el-backtop>
+  </div>
+
+</body>
+<footer class="footer">
+  <div class="url_section">
+    <p class="url_section_text"> 友情链接：</p>
+    <div class="website_img_container">
+      <a href="http://www.hbnyw.com/" target="_blank"><img class="website_img" src="./images/hbsnyw.png"
+          alt="website"></a>
+      <a href="http://www.moa.gov.cn/" target="_blank"><img class="website_img" src="./images/nyb.png"
+          alt="website"></a>
+      <a href="http://nyt.hubei.gov.cn/" target="_blank"><img class="website_img" src="./images/hbnyt.png"
+          alt="website"></a>
+      <a href="http://www.jianli.gov.cn/" target="_blank"><img class="website_img" src="./images/jlsrmzf.png"
+          alt="website"></a>
+      <a href="http://www.zgny.com.cn/" target="_blank"><img class="website_img" src="./images/zgnyw.png"
+          alt="website"></a>
+    </div>
+  </div>
+  <div class="footer_unit">
+    <span>Copyright &copy; &nbsp;2020-2021</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/" style="display: inline-block;">
+      <p class="company_name-footer"> 监利市农业农村局 </p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/" style="display: inline-block; ">
+      <p class="company_name-footer">武汉中迪联创科技有限公司 </p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <div>地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</div>
+  </div>
+</footer>
+<script src="./assets/vue/vue.min.js"></script>
+<script src="./assets/element/index.js"></script>
+<script src="./js/api.js"></script>
+<script src="./assets/jquery/jquery.min.js"></script>
+<script src="./js/function.js"></script>
+<script> </script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        swiperList: [
+          './images/swiper01.jpg',
+          './images/swiper02.jpg',
+          './images/swiper03.jpg',
+          './images/swiper04.jpg',
+          './images/swiper05.jpg',
+        ],
+        productItem: [
+          { value: 0, name: '水果', url: './images/fruits.png' },
+          { value: 1, name: '蔬菜', url: './images/fruits_logo.png' },
+          { value: 2, name: '粮油', url: './images/grain.png' },
+          { value: 3, name: '牛羊猪肉', url: './images/meat.png' },
+          { value: 4, name: '家禽蛋类', url: './images/egg.png' },
+          { value: 5, name: '水产品', url: './images/fish.png' },
+        ],
+        activeValue: 0,
+        trackCode: '',
+        companyList: [],
+        farmNewsList: [],
+        farmProductRows: [],
+        params: {
+          page: 1,
+          limit: 8,
+          productCategory: '',
+        },
+      };
+    },
+    created() {
+      this.getcompanyData();
+      this.getFarmNews();
+      this.getFarmProductsList();
+    },
+    mounted() {
+      this.imgInit();
+    },
+    methods: {
+      seleted(value) {
+        this.activeValue = value;
+        this.getFarmProductsList();
+      },
+      getFarmProductsList() {
+        if (this.activeValue == 0) {
+          this.params.productCategory = '水果';
+          this.getApi(this.params);
+        } else if (this.activeValue == 1) {
+          this.params.productCategory = '蔬菜';
+          this.getApi(this.params);
+        } else if (this.activeValue == 2) {
+          this.params.productCategory = '粮油';
+          this.getApi(this.params);
+        } else if (this.activeValue == 3) {
+          this.params.productCategory = '牛羊猪肉';
+          this.getApi(this.params);
+        } else if (this.activeValue == 4) {
+          this.params.productCategory = '家禽蛋类';
+          this.getApi(this.params);
+        } else if (this.activeValue == 5) {
+          this.params.productCategory = '水产品';
+          this.getApi(this.params);
+        }
+      },
+      getApi(params) {
+        doApi_2(
+          (res) => {
+            if (res.status == 200) {
+              this.farmProductRows = res.data.rows;
+              this.$nextTick(() => {
+                this.imgInit();
+              });
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/perfectProduct/listByPage',
+          'get',
+          params,
+          null
+        );
+      },
+      getFarmNews() {
+        doApi_1(res => {
+          if (res.status === 200) {
+            this.farmNewsList = res.data.rows;
+          }
+        },
+          err => {
+            console.error(err);
+          },
+          null,
+          '/article/list',
+          'get',
+          {
+            pageNum: 1,
+            pageRow: 3,
+            sysType: '追溯信息系统',
+            articleType: '农业新闻',
+            status: 1
+          },
+          null
+        )
+      },
+      handleSearchCode() {
+        if (this.trackCode.trim() !== '') {
+          location.href = 'http://39.104.61.47:8093/zlaq_System/html/trace-detail.html?' + this.trackCode;
+          this.trackCode = '';
+        } else {
+          this.$notify({
+            title: '提示',
+            message: '溯源码不能为空！',
+            type: 'warning',
+            duration: 3000,
+            showClose: false
+          });
+        }
+      },
+      getcompanyData() {
+        doApi_1(res => {
+          if (res.status === 200) {
+            this.companyList = res.data.rows;
+            this.$nextTick(() => {
+              this.swiperInit();
+            });
+          }
+        },
+          err => {
+            console.error(err);
+          },
+          null,
+          '/company/allByPage',
+          'get',
+          {
+            page: 1,
+            size: 5
+          },
+          null
+        )
+      },
+      imgInit() {
+        function Index(node) {
+          this.node = node;
+          this.init();
+        };
+        Index.prototype.init = function () {
+          var self = this;
+          this.nodes = [];
+          Array.prototype.slice.call(self.node, 0).forEach(function (item, index) {
+            self.nodes.push(self.update(item));
+            self.bindEvents(item, index);
+          });
+        };
+        Index.prototype.update = function (item) {
+          return {
+            w: item.offsetWidth,
+            h: item.offsetHeight,
+            l: item.offsetLeft,
+            t: item.offsetTop
+          }
+        };
+        Index.prototype.bindEvents = function (item, index) {
+          var self = this;
+          $(item).on('mouseenter', function (e) {
+            self.addClass(e, item, 'in', index);
+            return false;
+
+          })
+          $(item).on('mouseleave', function (e) {
+            self.addClass(e, item, 'out', index);
+            return false;
+          })
+        };
+        Index.prototype.addClass = function (e, item, state, index) {
+          var direction = this.getDirection(e, index);
+          var class_suffix = '';
+          switch (direction) {
+            case 0:
+              class_suffix = '-top';
+              break;
+            case 1:
+              class_suffix = '-right';
+              break;
+            case 2:
+              class_suffix = '-bottom';
+              break;
+            case 3:
+              class_suffix = '-left';
+              break;
+          }
+          item.className = '';
+          item.classList.add(state + class_suffix);
+        };
+        Index.prototype.getDirection = function (e, index) {
+          var w = this.nodes[index].w,
+            h = this.nodes[index].h,
+            x = e.pageX - this.nodes[index].l - w / 2,
+            y = e.pageY - this.nodes[index].t - h / 2;
+          d = (Math.round(((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
+
+
+          return d;
+        };
+        new Index($('.td_box'));
+      },
+      swiperInit() {
+        new Swiper('#certify .swiper-container', {
+          watchSlidesProgress: true,
+          slidesPerView: 'auto',
+          centeredSlides: true,
+          loop: true,
+          loopedSlides: 5,
+          autoplay: true,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+          autoplay: {
+            delay: 5000, //5秒切换一次
+            disableOnInteraction: false,
+          },
+
+          on: {
+            progress: function (progress) {
+              for (i = 0; i < this.slides.length; i++) {
+                var slide = this.slides.eq(i);
+                var slideProgress = this.slides[i].progress;
+
+                if (Math.abs(slideProgress) > 1) {
+                  modify = (Math.abs(slideProgress) - 1) * 0.4 + 1;
+                }
+                translate = slideProgress * modify * 318 + 'px';
+                scale = 1 - Math.abs(slideProgress) / 5;
+                zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
+                slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+                slide.css('zIndex', zIndex);
+                slide.css('opacity', 1);
+                if (Math.abs(slideProgress) > 3) {
+                  slide.css('opacity', 0);
+                }
+              }
+            },
+            setTransition: function (transition) {
+              for (var i = 0; i < this.slides.length; i++) {
+                var slide = this.slides.eq(i)
+                slide.transition(transition);
+              }
+            }
+          }
+        })
+      }
+    },
+  });
+</script>
+
+</html>

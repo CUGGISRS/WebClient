@@ -1,0 +1,157 @@
+server:
+  port: 8765
+
+#请求和响应GZIP压缩支持
+feign:
+  #设置调用哪个服务器的接口
+  authUrl: http://${server.ip}:9777
+  comUrl: http://${server.ip}:8897
+
+spring:
+  # 多个接口上的@FeignClient(“相同服务名”)会报错，overriding is disabled。设置 为true ,即 允许 同名
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    # 应用名称
+    name: ace-gateway
+  redis:
+    database: 2
+    host: ${server.ip}
+    jedis:
+      pool:
+        max-active: 20
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:${server.ip}}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: guest
+    password: guest
+  #服务链路跟踪
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+  cloud:
+    #代理服务中心的所有服务
+    #基于Filter链的方式提供了网关基本的功能，例如：安全，监控/埋点，和限流等
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          # 是否和服务注册与发现组件结合，设置为 true 后可以直接使用应用名称调用服务
+          enabled: true
+      # 路由（routes：路由，它由唯一标识（ID）、目标服务地址（uri）、一组断言（predicates）
+      #和一组过滤器组成（filters）。filters 不是必需参数。）
+      routes:
+        # =====================================
+        # 路由标识（id：标识，具有唯一性）   转发指定地址并传入参数
+        - id: ace-auth
+          # 目标服务地址（uri：地址，请求转发后的地址）
+          uri: lb://ace-auth
+          order: 8000
+          # 路由条件（predicates：断言，匹配 HTTP 请求内容）
+          predicates:
+            - Path=/api/auth/**
+          # 过滤器（filters：过滤器，过滤规则）
+          filters:
+            - StripPrefix=2
+        - id: ace-admin
+          uri: lb://ace-admin
+          order: 8001
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - StripPrefix=2
+        - id: ace-news
+          uri: lb://ace-news
+          order: 8002
+          predicates:
+            - Path=/api/news/**
+          filters:
+            - StripPrefix=2
+        - id: ace-consultation
+          uri: lb://ace-consultation
+          order: 8003
+          predicates:
+            - Path=/api/consultation/**
+          filters:
+            - StripPrefix=2
+        - id: ace-uploadfile
+          uri: lb://ace-uploadfile
+          order: 8004
+          predicates:
+            - Path=/api/uploadfile/**
+          filters:
+            - StripPrefix=2
+        - id: ace-sc-product
+          uri: lb://ace-sc-product
+          order: 8005
+          predicates:
+            - Path=/api/scproduct/**
+          filters:
+            - StripPrefix=2
+        - id: ace-info-sys
+          uri: http://${server.ip}:8766 #指向特定地址服务
+          #uri: lb://ace-info-sys
+          order: 8006
+          predicates:
+            - Path=/api/infoSys/**
+          filters:
+            - StripPrefix=2
+        - id: ace-zs-sys
+          uri: http://${server.ip}:8899 #指向特定地址服务
+          #uri: lb://ace-zs-sys
+          order: 8007
+          predicates:
+            - Path=/api/zsSys/**
+          filters:
+            - StripPrefix=2
+        - id: ace-com-sys
+          uri: http://${server.ip}:8897 #指向特定地址服务
+          #uri: lb://ace-com-sys
+          order: 8008
+          predicates:
+            - Path=/api/comSys/**
+          filters:
+            - StripPrefix=2
+        - id: ace-jd-sys
+          uri: http://${server.ip}:8898 #指向特定地址服务
+          #uri: lb://ace-jd-sys
+          order: 8009
+          predicates:
+            - Path=/api/jdSys/**
+          filters:
+            - StripPrefix=2
+        - id: ace-dzsw-sys
+          uri: http://${server.ip}:8776 #指向特定地址服务
+          #uri: lb://ace-dzsw-sys
+          order: 8010
+          predicates:
+            - Path=/api/dzswSys/**
+          filters:
+            - StripPrefix=2
+        - id: ace-gyx-sys
+          uri: http://${server.ip}:8777 #指向特定地址服务
+          #uri: lb://ace-gyx-sys
+          order: 8011
+          predicates:
+            - Path=/api/gyxSys/**
+          filters:
+            - StripPrefix=2
+    nacos:
+      discovery:
+        server-addr: ${server.ip}:8848
+        #ip: 192.168.8.166
+  sentinel:
+    transport:
+      dashboard: ${server.ip}:8080
+logging:
+  level:
+    # log 级别
+    com.github.wxiaoqi.security.gate.v2: info
+
+
+auth:
+  client:
+    id: ace-gate  #不填则默认读取spring.application.name
+    secret: 123456

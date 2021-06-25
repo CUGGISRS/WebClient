@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wxiaoqi.security.gyx.sys.mapper.ConsultationInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.gyx.sys.entity.ConsultationInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="score" jdbcType="VARCHAR" property="score"/>
+        <result column="expert_id" jdbcType="INTEGER" property="expertId"/>
+        <result column="expert_name" jdbcType="VARCHAR" property="expertName"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="reply_content" jdbcType="LONGVARCHAR" property="replyContent"/>
+    </resultMap>
+
+    <select id="getPageByState" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        a.id id,
+        a.title,
+        a.time,
+        a.content,
+        a.score,
+        a.expert_id expertId,
+        a.expert_name expertName,
+        a.user_id userId,
+        a.user_name userName,
+        a.state,
+        a.reply_content replyContent,
+        a.reply_time replyTime
+        FROM
+        gyx_consultation_info a WHERE 1 = 1
+        <if test="state != null and state != ''">
+            AND
+            state = #{state}
+        </if>
+        <if test="title != null and title != '' and title !='%%'">
+            AND
+            title LIKE #{title}
+        </if>
+        <if test="expertName != null and expertName != '' and expertName !='%%'">
+            AND
+            expert_name LIKE #{expertName}
+        </if>
+        <if test="userName != null and userName != '' and userName !='%%'">
+            AND
+            user_name LIKE #{userName}
+        </if>
+        LIMIT #{page},#{size}
+    </select>
+
+    <select id="getPageByStateCount" resultType="Integer">
+        SELECT
+        COUNT(a.id)
+        FROM
+        gyx_consultation_info a WHERE 1 = 1
+        <if test="state != null and state != ''">
+            AND
+            state = #{state}
+        </if>
+        <if test="title != null and title != '' and title !='%%'">
+            AND
+            title LIKE #{title}
+        </if>
+        <if test="expertName != null and expertName != '' and expertName !='%%'">
+            AND
+            expert_name LIKE #{expertName}
+        </if>
+        <if test="userName != null and userName != '' and userName !='%%'">
+            AND
+            user_name LIKE #{userName}
+        </if>
+    </select>
+</mapper>

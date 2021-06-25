@@ -1,0 +1,65 @@
+/**
+温度计样式
+ */
+@import url("https://fonts.googleapis.com/css?family=Jaldi&display=swap");
+
+#thermometer {
+    width: 8px;
+    background: #ffffff;
+    height: 64px;
+    position: relative;
+    border: 2px solid #2a2a2e;
+    border-radius: 4.5px;
+    z-index: 1;
+    margin: -6px auto 0 auto;
+}
+
+#thermometer:before, #thermometer:after {
+    position: absolute;
+    content: "";
+    border-radius: 50%;
+}
+
+#thermometer:after {
+    transform: translateX(-50%);
+    width: 18px;
+    height: 18px;
+    background-color: #3db1df;
+    bottom: -11px;
+    border: 2px solid #2a2a2e;
+    z-index: -3;
+}
+
+#thermometer #graduations {
+    height: 59%;
+    top: 20%;
+    width: 50%;
+}
+
+#thermometer #graduations, #thermometer #graduations:before {
+    position: absolute;
+    left: 0;
+    border-top: 2px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+#thermometer #graduations:before {
+    content: "";
+    height: 34%;
+    width: 100%;
+    top: 32%;
+}
+
+#thermometer #temperature {
+    bottom: 0;
+    background: linear-gradient(#ff1500, #ffb700, #7bdf3d,
+    #3db1df, #3db1df) no-repeat bottom;
+    width: 100%;
+    border-radius: 5px;
+    background-size: 100% 64px;
+    transition: all 0.2s ease-in-out;
+}
+
+#thermometer #temperature, #thermometer #temperature:before, #thermometer #temperature:after {
+    position: absolute;
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>监利市农产品质量安全追溯管理平台</title>
+</head>
+<link rel="stylesheet" href="../css/index.css" />
+<link rel="stylesheet" href="../css/reset.css" />
+<link rel="stylesheet" href="../fonts/element.css" />
+
+<body>
+  <div id="app">
+    
+    <div class="page-title">
+      <a href="../index.html" class="page-title-cn">监利市农产品质量安全追溯管理平台</a>
+    </div>
+    <div class="page-nav">
+      <a class="page-nav-item" href="./trace-company.html">企业查询</a>
+      <span class="page-nav-item active">农产品安全知识</span>
+      <a class="page-nav-item" href="./warning-info.html">报警信息查询</a>
+    </div>
+    <div class="search-section">
+      <div><b>农产品安全知识查询：</b></div>
+      <div style="margin-right: 10px">
+        <el-select v-model="articleInput" placeholder="请选择文章分类">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+        </el-select>
+      </div>
+      <el-button type="primary" @click="handleSearchArticle">查询</el-button>
+    </div>
+    <div class="company_c_m">
+      <div class="article-list">
+        <div class="article-item" v-for="item in rows">
+          <a target="_blank" :href="'./safety-knowledge-detail.html?' + item.id">
+            <div class="article-item-title">
+              <span class="article-item-title-text">{{item.title}}</span>
+              <span class="article-item-title-time">{{item.pub_time.substr(0,10)}}</span>
+            </div>
+            <div class="article-body">{{item.simple}}</div>
+            <div class="article-more"><span> 查看详情>></span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <el-pagination style="text-align: center; margin: 20px auto" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" :current-page="params.pageNum" :page-sizes="[5, 10, 15]"
+      :page-size="params.pageRow" layout="total, sizes, prev, pager, next, jumper" :total="total">
+    </el-pagination>
+  </div>
+</body>
+<footer class="login_footer">
+  <span>
+    <span>Copyright &copy; &nbsp;</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>监利市农业农村局</p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>武汉中迪联创科技有限公司</p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+  </span>
+</footer>
+
+<script src="../js/jquery3.5.1.js"></script>
+<script src="../js/vue.min.js"></script>
+<script src="../assets/element/index.js"></script>
+<script src="../js/api.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        total: '',
+        rows: [],
+        articleInput: '1',
+        options: [
+          {
+            value: '1',
+            label: '政策法规',
+          },
+          {
+            value: '2',
+            label: '农产品安全常识',
+          },
+        ],
+        params: {
+          pageNum: 1,
+          pageRow: 5,
+          sysType: '追溯信息系统',
+          articleType: '政策法规',
+          status: '1',
+        },
+      };
+    },
+    created() {
+      this.getArticleList();
+    },
+    methods: {
+      getArticleList() {
+        doApi(
+          (res) => {
+            if (res.status === 200) {
+              this.total = res.data.total;
+              this.rows = res.data.rows;
+            }
+          },
+          (err) => {
+            console.log(err);
+          },
+          null,
+          '/article/list',
+          'get',
+          this.params,
+          null
+        );
+      },
+      handleSearchArticle() {
+        console.log(this.articleInput);
+        if (this.articleInput == 1) {
+          this.params.pageNum = 1;
+          this.params.articleType = '政策法规';
+        } else if (this.articleInput == 2) {
+          this.params.pageNum = 1;
+          this.params.articleType = '安全知识';
+        }
+        this.getArticleList();
+      },
+      handleSizeChange(val) {
+        this.params.pageRow = val;
+        this.getArticleList();
+      },
+      handleCurrentChange(val) {
+        this.params.pageNum = val;
+        this.getArticleList();
+      },
+    },
+  });
+</script>
+
+</html>

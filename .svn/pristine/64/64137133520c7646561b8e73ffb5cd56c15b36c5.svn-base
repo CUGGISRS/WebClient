@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--<properties resource="dev.properties"/>-->
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="mergeable" value="false"></property>
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.8.166:3306?useUnicode=true&amp;characterEncoding=UTF8"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}"/>
+
+        <sqlMapGenerator targetPackage="${targetXMLPackage}" targetProject="${targetResourcesProject}"/>
+
+        <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
+                             type="XMLMAPPER"/>
+
+        <!--
+        com_article_info
+        com_article_system_info
+        zsxx_products_agricultural_info
+        zsxx_company _info
+        zsxx_auth_info
+        data_dictionary
+        com_carousel_info
+        com_file_info
+        -->
+        <!--数据库名称 表名 实体名-->
+        <!--        <table tableName="com_article_info" domainObjectName="ArticleInfo"/>-->
+        <!--        <table tableName="com_article_system_info" domainObjectName="ArticleSystemInfo"/>-->
+        <!--        <table tableName="com_carousel_info" domainObjectName="CarouselInfo"/>-->
+        <!--        <table tableName="com_file_info" domainObjectName="FileInfo"/>-->
+        <!--        <table tableName="com_qa_info" domainObjectName="QaInfo"/>-->
+        <!--        <table tableName="zsxx_products_agricultural_info" domainObjectName="ProductsAgriculturalInfo"/>-->
+        <!--        <table tableName="zsxx_company_info" domainObjectName="CompanyInfo"/>-->
+        <!--        <table tableName="zsxx_auth_info" domainObjectName="AuthInfo"/>-->
+        <!--        <table tableName="data_dictionary" domainObjectName="dataDictionary"/>-->
+
+        <!--        <property name="useInformationSchema" value="true"/>-->
+        <!--        <table tableName="zsxx_suggestion" domainObjectName="suggestion"/>-->
+
+    </context>
+</generatorConfiguration>

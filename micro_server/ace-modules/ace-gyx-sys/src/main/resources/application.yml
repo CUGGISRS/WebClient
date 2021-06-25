@@ -1,0 +1,59 @@
+server:
+  port: 8777
+logging:
+  level:
+    #        tk.mybatis: DEBUG
+    com.github.wxiaoqi.security.gyx.sys: DEBUG
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${jar.ip}:8848
+        #ip: 192.168.8.166
+    sentinel:
+      transport:
+        dashboard: ${jar.ip}:8080
+  application:
+    name: ace-gyx-sys
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  #UploadFile:
+  # ROOT_PATH: "F:"
+  #SON_PATH: "/UploadFile/gyxImg/"
+
+# 必须配置
+feign:
+  dzUrl: http://${jar.ip}:8776
+  authUrl: http://${jar.ip}:9777
+
+
+# 配置swagger
+swagger:
+  enabled: true
+  base-package: com.github.wxiaoqi.security.gyx.sys
+  title: ace-gyx-sys
+  version: 1.0.0.SNAPSHOT
+  description: 公益性服务子系统
+  contact:
+    name: gsy
+
+auth:
+  client:
+    id: ace-gyx-sys
+    secret: 123456
+
+#redis-cache 相关
+redis:
+  host: ${REDIS_HOST:${jar.ip}}
+  port: ${REDIS_PORT:6379}
+  password:
+  # 服务或应用名
+  sysName: ace-gyx-sys
+
+    #management:
+    # health: #取消spring boot对Elasticsearch的健康检查(可让idea启动不报错)
+    #  elasticsearch:
+  #   enabled: false
+
+

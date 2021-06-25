@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wxiaoqi.security.dzsw.sys.mapper.QualityProductsInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.dzsw.sys.entity.QualityProductsInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="product_category" jdbcType="VARCHAR" property="productCategory"/>
+        <result column="product_picture" jdbcType="INTEGER" property="productPicture"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="product_origin" jdbcType="VARCHAR" property="productOrigin"/>
+        <result column="purchase_way" jdbcType="VARCHAR" property="purchaseWay"/>
+        <result column="upt_time" jdbcType="TIMESTAMP" property="uptTime"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="popularity" jdbcType="INTEGER" property="popularity"/>
+        <result column="referrerID" jdbcType="INTEGER" property="referrerid"/>
+        <result column="referrer" jdbcType="VARCHAR" property="referrer"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+    </resultMap>
+    <select id="getMostPopularityProducts" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.product_name,
+        a.product_category,
+        a.price,
+        a.product_origin,
+        a.purchase_way,
+        a.upt_time,
+        a.pub_time,
+        a.description,
+        a.status,
+        a.popularity,
+        a.referrerID,
+        a.referrer,
+        b.id imgid,
+        b.path
+        FROM
+        (select id,product_name,product_category,price,product_origin,purchase_way,upt_time,pub_time,
+        description,status,popularity,referrerID,referrer,is_deleted from
+        dzsw_quality_products_info ORDER BY popularity DESC LIMIT #{limit} ) a
+        LEFT JOIN com_file_info b
+        ON a.id = b.table_id
+        AND b.link_table = 'dzsw_quality_products_info'
+    </select>
+
+
+    <resultMap id="listResultMap" type="com.github.wxiaoqi.security.dzsw.sys.entity.QualityProductsAndFile">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_category" property="productCategory"/>
+        <result column="product_picture" property="productPicture"/>
+        <result column="price" property="price"/>
+        <result column="description" property="description"/>
+        <result column="product_origin" property="productOrigin"/>
+        <result column="purchase_way" property="purchaseWay"/>
+        <result column="upt_time" property="uptTime"/>
+        <result column="pub_time" property="pubTime"/>
+        <result column="status" property="status"/>
+        <result column="popularity" property="popularity"/>
+        <result column="referrerID" property="referrerid"/>
+        <result column="referrer" property="referrer"/>
+        <collection property="ImgLists" javaType="list" ofType="com.github.wxiaoqi.security.dzsw.sys.entity.FileInfo">
+            <id column="imgid" property="id"/>
+            <result column="path" property="path"/>
+        </collection>
+    </resultMap>
+
+    <select id="listQualityProducts" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.product_name,
+        a.product_category,
+        a.price,
+        a.product_origin,
+        a.purchase_way,
+        a.upt_time,
+        a.pub_time,
+        a.description,
+        a.status,
+        a.popularity,
+        a.referrerID,
+        a.referrer,
+        b.id imgid,
+        b.path
+        FROM
+        (select id,product_name,product_category,price,product_origin,purchase_way,upt_time,pub_time,
+        description,status,popularity,referrerID,referrer,is_deleted from
+        dzsw_quality_products_info WHERE 1=1
+        <if test="productCategory != null and productCategory != ''">
+            AND
+            product_category = #{productCategory}
+        </if>
+        <if test="status != null and status != ''">
+            AND
+            status = #{status}
+        </if>
+        <if test="productName != null and productName != ''">
+            AND
+            product_name Like #{productName}
+        </if>
+        limit #{page},#{size} ) a
+        LEFT JOIN com_file_info b
+        ON a.id = b.table_id
+        AND b.link_table = 'dzsw_quality_products_info'
+        ORDER BY a.upt_time DESC
+    </select>
+</mapper>

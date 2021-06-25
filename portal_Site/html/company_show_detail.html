@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  <title>监利市农业产业园综合门户网站</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../fonts/element.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="mainer">
+      <div class="head_section">
+        <div class="head_title"><img src="../images/website_title.png" alt=""></div>
+        <div class="head_nav">
+          <ul>
+            <li><a href="../index.html" class="head_nav_li_a">网站首页</a></li>
+            <li><a href="./news_information.html" class="head_nav_li_a">新闻资讯</a></li>
+            <li><a href="./science_service.html" class="head_nav_li_a">科技服务</a></li>
+            <li><a href="./company_show.html" class="head_nav_li_a active">企业风采</a></li>
+            <li><a href="./farm_products.html" class="head_nav_li_a">优质农产品</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="company_show_banner"> </div>
+      <div class="farm_products_mainer">
+        <div class="news_mainer_top">
+          <div class="news_mainer_title">企业风采</div>
+        </div>
+        <div class="farm_products_detail_con">
+          <div class="farm_products_detail_con_left">
+            <div class="farm_products_detail_con_swiper">
+              <el-carousel height="400px">
+                <el-carousel-item v-for="item in companyContent.imgLists" :key="item">
+                  <img class="farm_products_detail_swiper_img" :src="'http://' + item.path" alt="企业轮播图">
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+            <p class="company_show_detail_name">{{companyContent.companyName}}</p>
+            <p class="farm_products_detail_con_cate"><b>企业类型：</b>{{companyContent.companyType}}</p>
+            <p class="farm_products_detail_con_cate"><b>企业负责人：</b>{{companyContent.chargeMan}}</p>
+            <p class="farm_products_detail_con_cate"><b>联系电话：</b>{{companyContent.phone}}</p>
+            <p class="farm_products_detail_con_cate"><b>注册资金：</b>{{companyContent.registMoney}}</p>
+            <p class="farm_products_detail_con_cate"><b>营业执照代码：</b>{{companyContent.businessCode}}</p>
+            <p class="farm_products_detail_con_cate"><b>行业：</b>{{companyContent.industry}}</p>
+            <p class="farm_products_detail_con_cate"><b>企业所在地：</b>{{companyContent.place}}</p>
+            <p class="farm_products_detail_con_cate"><b>企业介绍：</b>{{companyContent.introduction}}</p>
+          </div>
+          <a @click="window.history.back();" class="farm_return_list">返回
+            <img src="../images/return.png" alt="返回上个页面"></a>
+        </div>
+      </div>
+    </div>
+    <el-backtop></el-backtop>
+  </div>
+
+</body>
+<footer class="footer">
+  <div class="url_section">
+    <p class="url_section_text"> 友情链接：</p>
+    <div class="website_img_container">
+      <a href="http://www.hbnyw.com/" target="_blank"><img class="website_img" src="../images/hbsnyw.png"
+          alt="website"></a>
+      <a href="http://www.moa.gov.cn/" target="_blank"><img class="website_img" src="../images/nyb.png"
+          alt="website"></a>
+      <a href="http://nyt.hubei.gov.cn/" target="_blank"><img class="website_img" src="../images/hbnyt.png"
+          alt="website"></a>
+      <a href="http://www.jianli.gov.cn/" target="_blank"><img class="website_img" src="../images/jlsrmzf.png"
+          alt="website"></a>
+      <a href="http://www.zgny.com.cn/" target="_blank"><img class="website_img" src="../images/zgnyw.png"
+          alt="website"></a>
+    </div>
+  </div>
+  <div class="footer_unit">
+    <span>Copyright &copy; &nbsp;2020-2021</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/" style="display: inline-block;">
+      <p class="company_name-footer"> 监利市农业农村局 </p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/" style="display: inline-block; ">
+      <p class="company_name-footer">武汉中迪联创科技有限公司 </p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <div>地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</div>
+  </div>
+</footer>
+<script src="../assets/vue/vue.min.js"></script>
+<script src="../assets/element/index.js"></script>
+<script src="../js/api.js"></script>
+<script src="../assets/jquery/jquery.min.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        companyContent: {}
+      };
+    },
+    created() {
+      this.getCompanyContent();
+    },
+    methods: {
+      getCompanyContent() {
+        let id = window.location.search.substring(1);
+        doApi_1(res => {
+          if (res.status === 200) {
+            this.companyContent = res.data;
+          }
+        },
+          err => {
+            console.error(err);
+          },
+          null,
+          '/company/' + id,
+          'get',
+          null,
+          null
+        )
+      },
+    }
+  });
+</script>
+
+</html>

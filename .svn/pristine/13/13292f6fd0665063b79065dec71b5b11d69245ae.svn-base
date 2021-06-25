@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wxiaoqi.security.dzsw.sys.mapper.MarketingArticleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.dzsw.sys.entity.MarketingArticleInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="product_category" jdbcType="VARCHAR" property="productCategory"/>
+        <result column="reading" jdbcType="INTEGER" property="reading"/>
+        <result column="source" jdbcType="VARCHAR" property="source"/>
+        <result column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <select id="getMostPopularityMarketing" parameterType="com.alibaba.fastjson.JSONObject"
+            resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM dzsw_marketing_article_info WHERE type=#{type} ORDER BY reading DESC LIMIT #{limit}
+    </select>
+    <select id="countListByType" resultType="INTEGER">
+        SELECT COUNT(*) FROM dzsw_marketing_article_info WHERE product_category = #{category} AND status =#{status} AND
+        is_deleted = "0"
+    </select>
+    <select id="listByType" resultType="com.github.wxiaoqi.security.dzsw.sys.entity.MarketingArticleInfo">
+        SELECT *
+        FROM dzsw_marketing_article_info
+        WHERE product_category = #{category} AND status =#{status} AND is_deleted = "0"
+        ORDER BY pub_time DESC
+        LIMIT #{offSet},#{pageRow}
+    </select>
+
+    <select id="countAllList" resultType="INTEGER">
+        SELECT COUNT(*) FROM dzsw_marketing_article_info
+    </select>
+
+    <select id="listAllInfo" resultType="com.github.wxiaoqi.security.dzsw.sys.entity.MarketingArticleInfo">
+        SELECT * FROM dzsw_marketing_article_info ORDER BY pub_time DESC LIMIT #{offSet},#{pageRow}
+    </select>
+
+    <select id="listDic" resultType="com.github.wxiaoqi.security.dzsw.sys.entity.DataDictionary">
+        select * FROM data_dictionary
+    </select>
+</mapper>

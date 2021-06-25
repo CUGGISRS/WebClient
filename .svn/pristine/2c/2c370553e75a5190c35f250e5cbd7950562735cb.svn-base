@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.HarvestMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.Harvest">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="trace_code" property="traceCode" jdbcType="VARCHAR"/>
+
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="harvest_amount" property="harvestAmount" jdbcType="DECIMAL"/>
+        <result column="harvest_amount_unit" property="harvestAmountUnit" jdbcType="VARCHAR"/>
+        <result column="harvest_way" property="harvestWay" jdbcType="VARCHAR"/>
+        <result column="harvest_date" property="harvestDate" jdbcType="TIMESTAMP"/>
+        <result column="weather" property="weather" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

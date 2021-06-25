@@ -1,0 +1,108 @@
+license:
+  #授权服务前缀
+  prefix: http://39.104.61.47:8099
+  #prefix: http://192.168.8.166:8099
+  #授权码文件父路径
+  fileParentPath: D:/license
+  #授权码文件名
+  fileName: licenseCode_EarthManage.txt
+
+tmpParentPath: D:/tmp/   #临时文件的存储路径的父路径
+spring:
+  profiles:
+    active: local  #多环境配置文件选用 local 166  39
+  servlet:
+    #    tomcat:
+    #      max-http-header-size: 500MB
+    #      max-http-post-size: 500MB
+    #设置上传文件最大值和请求最大值
+    multipart:
+      max-file-size: 500MB #上传文件的大小限定；只有上传采用文件格式进行接收时起作用，针对上面的base64格式图片（后台是String进行接收）不起作用
+      max-request-size: 500MB
+  application:
+    name: EarthManage
+  datasource:
+    name: test
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+logging:
+  level:
+    # tk.mybatis: DEBUG ERROR
+    com.zd.earth.manage: DEBUG
+    #swagger关于接口的打印日志等级
+    springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: ERROR
+#程序默认加载通用Mapper，自己的Mapper必须配置
+mapper:
+  mappers: com.zd.earth.manage.common.CommonMapper
+mybatis:
+  mapper-locations: "classpath*:mapper/*.xml"
+
+server:
+  ip: localhost
+  port: 8091
+  #springboot2.0以后需要配置error属性才能将抛出的错误信息返回
+  error:
+    include-exception: true
+    include-message: always
+  tomcat:
+    max-connections: 20000  #设置最大连接数
+    max-threads: 2000 #设置最大线程数
+    connection-timeout: 60000
+  #压缩json
+  compression:
+    enabled: true
+    min-response-size: 2048
+    mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+
+
+
+# 配置swagger  starter的配置
+swagger:
+  commonHeader:
+    name: Authorization  #公共请求头(string类型)
+    description: AccessToken令牌  #公共请求头描述
+  #enabled: true
+  base-package: com.zd.earth.manage #扫描包位置
+  title: EarthManage #标题
+  version: 1.0.0.SNAPSHOT #版本
+  description: 三维球配置服务 #描述
+  contact:
+    url:  #查看更多的路径
+    email:     #开发者邮箱
+    name: yinxiuqi    #开发者名称
+
+
+#token生成属性（发布即可自动刷新的属性）
+jwt:
+  issuer: zd
+  subject: EarthManage
+  token-header: Authorization
+  expire: 14400000
+  rsa-secret: qq1WET12^%3^(WE41
+
+#不需要验证token的请求  uri后缀为/**代表放行多个除/**外为开头的uri
+noVerify:
+  get: /FlyPath/**,/FlyPathPoint/**,/FlyPathPointSingle/**,/FigureData/**,/ViewManage/**,/swagger/**,/webjars/**,/v2/**,/favicon.ico,/FileDirOpt/**
+  post: /FlyPath/**,/FlyPathPoint/**,/FlyPathPointSingle/**,/FigureData/**,/ViewManage/**,/login,/FileDirOpt/getJsonByPath
+  put: /FlyPath/**,/FlyPathPoint/**,/FlyPathPointSingle/**,/FigureData/**,/ViewManage/**
+  delete: /FlyPath/**,/FlyPathPoint/**,/FlyPathPointSingle/**,/FigureData/**,/ViewManage/**
+
+#文件配置
+file:
+  visitPrefix: /earth_manage/   #文件访问路径前缀
+  savePath: D:/earth_manage/   #文件存放路径

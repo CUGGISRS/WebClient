@@ -1,0 +1,9 @@
+{
+  "name": "ace-com-sys",
+  "version": "1.0.0",
+  "description": "共用项目接口文档",
+  "title": "ace-com-sys",
+  "url": "http://192.168.8.166:8765/api/comSys",
+  "sampleUrl": "http://192.168.8.166:8765/api/comSys"
+}
+

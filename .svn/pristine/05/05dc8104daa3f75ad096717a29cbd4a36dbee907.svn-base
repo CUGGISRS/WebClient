@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zd.earth.manage.mapper.FlyPathPointMapper" >
+  <resultMap id="BaseResultMap" type="com.zd.earth.manage.entity.FlyPathPoint" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fly_path_id" property="flyPathId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+    <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+    <result column="altitude" property="altitude" jdbcType="DECIMAL" />
+    <result column="height" property="height" jdbcType="DECIMAL" />
+    <result column="orientation_angle" property="orientationAngle" jdbcType="DECIMAL" />
+    <result column="pitch_angle" property="pitchAngle" jdbcType="DECIMAL" />
+    <result column="rotate_angle" property="rotateAngle" jdbcType="DECIMAL" />
+    <result column="dead_time" property="deadTime" jdbcType="DECIMAL" />
+    <result column="speed" property="speed" jdbcType="DECIMAL" />
+    <result column="radius" property="radius" jdbcType="DECIMAL" />
+    <result column="circle_num" property="circleNum" jdbcType="DECIMAL" />
+  </resultMap>
+</mapper>

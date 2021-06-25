@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <!--    <script src="js/jquery.js"></script>-->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/front.js"></script>
+    <title>监利市农业公益性服务子系统</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/other.css" />
+    <style>
+      /*勿删，控制个别网站文章字体大小*/
+      .keylink {
+        font-weight: normal;
+      }
+    </style>
+  </head>
+
+  <body class="shichang-list">
+    <script>
+      function qkeypress() {
+        var q = $('input[name=q]');
+        if (q.val().trim() != '') {
+          $('input[name=q]').autocomplete('enable');
+        } else {
+          $('input[name=q]').autocomplete('disable');
+        }
+      }
+    </script>
+    <div class="header">
+      <div class="container m-container">
+        <div class="row">
+          <div style="height: 50px" class="col-md-12">
+            <div class="website">
+              当前位置: <a href="./index.html">首页</a> > <span class="nav-path"></span> > <a class="newsTypes"></a>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div style="background-color: #ffffff" class="col-md-9 margin-bottom-40">
+            <div class="content-box">
+              <h2 class="title"></h2>
+              <div style="padding-top: 10px" class="content-inf">
+                <span style="font-family: 宋体，SimSun; font-size: 12px" class="author"></span>
+                &nbsp;
+                <span style="font-family: 宋体，SimSun; font-size: 12px" class="updatetime"></span>
+              </div>
+              <div class="content-article">
+                <div
+                  style="padding-top: 10px"
+                  class="view TRS_UEDITOR trs_paper_default trs_word trs_key4format trs_web"
+                >
+                  <p style="font-family: 宋体，SimSun; font-size: 18px" class="content"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding-top: 5px" class="col-md-3">
+            <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg1.jpg" /></div>
+            <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg2.jpg" /></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="login_footer">
+        <span>
+          <span>Copyright &copy; &nbsp;</span>
+          <a
+            target="_blank"
+            href="http://www.jianli.gov.cn/"
+            style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+          >
+            <p>监利市农业农村局</p>
+          </a>
+          <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <a
+            target="_blank"
+            href="http://www.zd-tech.net/"
+            style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+          >
+            <p>武汉中迪联创科技有限公司</p>
+          </a>
+          <span>&nbsp;技术支持</span>
+          <br />
+          <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+        </span>
+      </footer>
+    </div>
+  </body>
+  <script src="js/header.js"></script>
+
+  <script src="./js/commom/api.js"></script>
+  <script>
+    var url = window.location.search.indexOf('=');
+    var id = window.location.search.substr(url + 1);
+
+    $(document).ready(function () {
+      $.ajax({
+        url: Interface + '/article/id?id=' + id, //请求地址
+        dataType: 'json', //数据格式
+        type: 'get', //请求方式
+        cache: true,
+        contentType: 'application/json;charset=utf-8',
+        async: false, //是否异步请求
+        success: function (data) {
+          console.log(data);
+          $('.title,.newsTypes').html(data.data.title);
+          $('.nav-path').html(data.data.articleSysList[0].articleTypeid);
+          $('.author').html('来源：' + data.data.author);
+          if (data.data.pubTime != undefined) {
+            $('.updatetime').html('发布时间：' + data.data.pubTime.substr(0, 10));
+          }
+          $('.newsTypes').html(data.data.type);
+
+          $('.content').html(data.data.content);
+        },
+        error: function (e) {
+          console.log('2222');
+        },
+      });
+    });
+  </script>
+</html>

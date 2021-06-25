@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>监利市农产品质量安全追溯管理平台</title>
+  </head>
+  <link rel="stylesheet" href="./css/index.css" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./fonts/element.css" />
+  <link rel="stylesheet" href="./css/common.css" />
+  <body>
+    <div id="app">
+      <div class="page-title">
+        <h1 class="page-title-cn">监利市农产品质量安全追溯管理平台</h1>
+      </div>
+      <div class="mainer">
+        <ul class="web-list">
+          <li class="web-item" @click="handlePlatformIntroduce" target="_blank">
+            <a>
+              <img class="web-item-icon" src="./images/platform.png" alt="platform" />
+              <p class="platform-introduce">平台介绍</p>
+            </a>
+          </li>
+          <li class="web-item">
+            <a href="http://39.104.61.47:8093/zszz" target="_blank">
+              <img class="web-item-icon" src="./images/plant.png" alt="plant" />
+              <p class="platform-introduce">监利市农产品质量安全追溯应用系统（种植企业版）</p>
+            </a>
+          </li>
+          <li class="web-item">
+            <a href="http://39.104.61.47:8093/zssc" target="_blank">
+              <img class="web-item-icon" src="./images/aquatic-product.png" alt="aquatic" />
+              <p class="platform-introduce">监利市农产品质量安全追溯应用系统（水产企业版）</p>
+            </a>
+          </li>
+          <li class="web-item">
+            <a href="http://39.104.61.47:8093/zsjd" target="_blank">
+              <img class="web-item-icon" src="./images/supervision.png" alt="supervision" />
+              <p class="platform-introduce">监利市农产品质量安全监督管理系统</p>
+            </a>
+          </li>
+          <li class="web-item">
+            <a href="http://39.104.61.47:8093/zsxx_System/index.html" target="_blank">
+              <img class="web-item-icon" src="./images/public.png" alt="public" />
+              <p class="platform-introduce">监利市农产品质量安全追溯信息子系统</p>
+            </a>
+          </li>
+          <li class="web-item">
+            <a href="./html/trace-company.html">
+              <img class="web-item-icon" src="./images/message.png" alt="message" />
+              <p class="platform-introduce">监利市农产品质量安全追溯管理平台</p>
+            </a>
+          </li>
+        </ul>
+        <div class="sidebar">
+          <div class="code-input-container">
+            <el-input
+              id="code-input"
+              v-model="codeValue"
+              @input="codeValue=codeValue.replace(/[^\d]/g,'')"
+              placeholder="请输入溯源码查询"
+              @keyup.enter.native="handleSearchCode"
+            >
+              <i slot="suffix" class="el-icon-search" @click="handleSearchCode"></i>
+            </el-input>
+          </div>
+          <div class="search-num">
+            <span class="code-num" @click="handleCode($event)">1</span>
+            <span class="code-num" @click="handleCode($event)">2</span>
+            <span class="code-num" @click="handleCode($event)">3</span>
+            <span class="code-close" @click="handleCloseCode">
+              <i class="el-icon-close"></i>
+            </span>
+            <span class="code-num" @click="handleCode($event)">4</span>
+            <span class="code-num" @click="handleCode($event)">5</span>
+            <span class="code-num" @click="handleCode($event)">6</span>
+            <span class="code-delete" @click="handleDeleteCode">
+              <i class="el-icon-back"></i>
+            </span>
+            <span class="code-num" @click="handleCode($event)">7</span>
+            <span class="code-num" @click="handleCode($event)">8</span>
+            <span class="code-num" @click="handleCode($event)">9</span>
+            <span class="code-num" @click="handleCode($event)">0</span>
+          </div>
+        </div>
+      </div>
+      <el-dialog :visible.sync="dialogVisible" width="50%">
+        <p class="dialog-title">监利市农产品质量安全追溯管理平台</p>
+        <p class="dialog-content-text">
+          &emsp;&emsp;监利市农产品质量安全追溯管理平台（以下简称“监利市追溯平台”，http://39.104.61.47:8093/zlaq_System/）是农产品质量安全追溯应用系统种植企业版、水产企业版、追溯信息系统、安全监督管理和企业信息、农产品安全知识、报警信息查询、追溯码查询组成。以“提升政府监督能力、规范主题生产经营行为，增强社会公众消费信心”为宗旨，为各级农产品质量安全监督机构、检测机构、执法机构以及广大农产品生产经营者、社会公众提供信息化服务。<br />
+          &emsp;&emsp;服务政府：为政府肩负提供信息化管理手段，通过对追溯、监督、监测、执法基础数据的集中管理，实现政府监督的移动化、智能化、可视化，提升政府科学决策、风险预警。<br />
+          &emsp;&emsp;服务企业：为企业搭建统一的内外追溯平台，规范企业生产经营活动，实现农产品“来源可追溯、流向可追溯、风险可预警、产品可召回、责任可追究”。<br />
+          &emsp;&emsp;服务公众：为公众提供追溯统一查询入口，快捷和实时查询农产品的追溯信息。
+        </p>
+      </el-dialog>
+    </div>
+  </body>
+
+  <footer class="login-footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </footer>
+
+  <script src="./js/jquery3.5.1.js"></script>
+  <script src="./js/vue.min.js"></script>
+  <script src="./assets/element/index.js"></script>
+  <script src="./js/api.js"></script>
+  <script>
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          codeValue: '',
+          dialogVisible: false,
+        };
+      },
+      created() {},
+      methods: {
+        handleSearchCode() {
+          if (this.codeValue.trim() !== '') {
+            location.href = './html/trace-detail.html?' + this.codeValue;
+            this.codeValue = '';
+          } else {
+            alert('溯源码不能为空！');
+          }
+        },
+        handleCloseCode() {
+          this.codeValue = '';
+        },
+        handleCode(e) {
+          var number = e.currentTarget.innerHTML;
+          this.codeValue = this.codeValue + number;
+        },
+        handleDeleteCode() {
+          this.codeValue = this.codeValue.substr(0, this.codeValue.length - 1);
+        },
+        handlePlatformIntroduce() {
+          this.dialogVisible = true;
+        },
+      },
+    });
+  </script>
+</html>

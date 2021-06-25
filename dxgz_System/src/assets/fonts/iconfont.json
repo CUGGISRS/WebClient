@@ -1,0 +1,163 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1930921",
+      "name": "水平翻转",
+      "font_class": "icon-test",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "1931336",
+      "name": "垂直翻转",
+      "font_class": "icon-test-copy",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "2480672",
+      "name": "退出登录",
+      "font_class": "tuichudenglu",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "4139455",
+      "name": "下降 下箭头 向下 跌 面性",
+      "font_class": "xiajiangxiajiantouxiangxiadiemianxing",
+      "unicode": "e8fe",
+      "unicode_decimal": 59646
+    },
+    {
+      "icon_id": "4139462",
+      "name": "左箭头 向左 返回 面性",
+      "font_class": "zuojiantouxiangzuofanhuimianxing",
+      "unicode": "e900",
+      "unicode_decimal": 59648
+    },
+    {
+      "icon_id": "4139472",
+      "name": "右箭头 向右 前往 面性",
+      "font_class": "youjiantouxiangyouqianwangmianxing",
+      "unicode": "e902",
+      "unicode_decimal": 59650
+    },
+    {
+      "icon_id": "6002037",
+      "name": "刷新",
+      "font_class": "shuaxin",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "7791977",
+      "name": "设备监控",
+      "font_class": "ziyuanxhdpi",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "8220508",
+      "name": "数据查询",
+      "font_class": "shujuchaxun",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "8505542",
+      "name": "抓拍",
+      "font_class": "zhuapai",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "8676709",
+      "name": "右上",
+      "font_class": "youshang",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "8676710",
+      "name": "右下",
+      "font_class": "youxia",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "8676713",
+      "name": "左上",
+      "font_class": "zuoshang",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "8676719",
+      "name": "左下",
+      "font_class": "zuoxia",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "10417264",
+      "name": "放大",
+      "font_class": "fangda1111",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "10463790",
+      "name": "上升 上箭头 向上 涨 面性",
+      "font_class": "shangshengshangjiantouxiangshangzhangmianxing",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "10733363",
+      "name": "拉远焦距",
+      "font_class": "layuanjiaoju",
+      "unicode": "e775",
+      "unicode_decimal": 59253
+    },
+    {
+      "icon_id": "10733364",
+      "name": "拉近焦距",
+      "font_class": "lajinjiaoju",
+      "unicode": "e776",
+      "unicode_decimal": 59254
+    },
+    {
+      "icon_id": "11698498",
+      "name": "缩小",
+      "font_class": "suoxiao",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "12875291",
+      "name": "数据分析",
+      "font_class": "shujufenxi",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "16891889",
+      "name": "设备分组",
+      "font_class": "shebeifenzu",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "17619182",
+      "name": "设备管理",
+      "font_class": "tubiaozhizuomoban-91",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    }
+  ]
+}

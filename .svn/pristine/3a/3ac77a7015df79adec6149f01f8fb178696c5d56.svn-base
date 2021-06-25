@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <title></title>
+    <style>
+      .user-headimg {
+        width: 130px;
+      }
+      .user-headimg:hover {
+        cursor: pointer;
+        background: #000;
+        opacity: 0.3;
+        z-index: 999;
+      }
+
+      .update-img {
+        display: none;
+        position: absolute;
+        bottom: -20px;
+        left: 40px;
+        cursor: pointer;
+      }
+
+      .text-center:hover span {
+        display: inline-block;
+      }
+      .text-center {
+        position: relative;
+        width: 130px;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!--    <div class="row m-pos"><snap>您所在的位置：个人中心 &gt; <span>基本资料</span></snap></div>-->
+      <div class="row">
+        <div class="col-md-12">
+          <!--这里是普通用户看到的信息 begin-->
+          <div class="row padding-15" id="memberdiv" style="display: block">
+            <div class="col-sm-9">
+              <ul class="user-info clearfix" id="personal-info">
+                <li>
+                  <label>用户类型：</label>
+                  <span>管理员</span>
+                </li>
+                <li>
+                  <label>用<span class="small"></span>户<span class="small"></span>名：</label>
+                  <span class="account"></span>
+                </li>
+                <li>
+                  <label>姓名：</label>
+                  <span id="name"></span>
+                </li>
+                <li>
+                  <label style="cursor: pointer" id="personal-admin"><u>修改密码</u></label>
+                </li>
+                <li>
+                  <label>手机号码：</label>
+                  <span id="telphone"></span>
+                </li>
+                <!-- <li>
+                  <label>是否认证：</label>
+                  <span id="isVerify"></span>
+                </li> -->
+              </ul>
+              <ul class="user-info clearfix" id="reset-password" style="display: none">
+                <li>
+                  <label>用户类型：</label>
+                  <span>个人用户</span>
+                </li>
+                <li>
+                  <label>用<span class="small"></span>户<span class="small"></span>名：</label>
+                  <span class="account"></span>
+                </li>
+                <li>
+                  <label>性<span class="big"></span>别：</label>
+                  <span>保密</span>
+                </li>
+                <li>
+                  <label>旧密码：</label>
+                  <input type="text" name="qq" id="oldPassword" value="" maxlength="100" class="member-change" />
+                </li>
+                <li>
+                  <label>新密码：</label>
+                  <input type="text" name="qq" id="newPassword" value="" maxlength="100" class="member-change" />
+                </li>
+                <li>
+                  <label>确认新密码：</label>
+                  <input type="text" name="qq" id="newPasswordConfirm" value="" maxlength="100" class="member-change" />
+                </li>
+                <div class="col-sm-12 padding-15 user-btn">
+                  <input type="hidden" name="nextUrl" value="index_info.jspx" /><input
+                    type="submit"
+                    value="提交"
+                    onclick="memberSubmit();"
+                  />
+                </div>
+              </ul>
+            </div>
+            <div class="col-sm-3 text-center">
+              <img class="user-headimg" id="user-img" onclick="F_Open_dialog()" src="./images/head.png" />
+              <span class="update-img">点击更换头像</span>
+            </div>
+            <input type="file" id="btn_file" onchange="previewImage(this)" style="display: none" />
+          </div>
+          <!--这里是普通用户看到的信息 end-->
+        </div>
+      </div>
+    </div>
+    <script>
+      var oToken = localStorage.getItem('token');
+
+      loadPersonal();
+      function loadPersonal() {
+        $.ajax({
+          url: InterfaceDZSW + '/user/getUserInfoByTokenPart?token=' + oToken,
+          dataType: 'json', //数据格式
+          type: 'post', //请求方式
+          cache: true,
+          contentType: 'application/json; charset=utf-8',
+          success: function (res) {
+            console.log(res);
+            if (res.status === 200) {
+              $('.account').html(res.data.account);
+              $('#name').html(res.data.name);
+              $('#telphone').html(res.data.telephone);
+              if (res.data.isVerify == 0) {
+                $('#isVerify').html('否');
+              } else {
+                $('#isVerify').html('是');
+              }
+
+              $('#user-img').attr('src', InterfaceDZSW + res.data.photo);
+
+              $('#personal-admin').click(function () {
+                $('#personal-info').css({ display: 'none' });
+                $('#reset-password').css({ display: 'block !important' });
+              });
+            }
+          },
+          error: function (e) {},
+        });
+      }
+
+      function F_Open_dialog() {
+        $('#btn_file').click();
+      }
+
+      //图片上传预览
+      function previewImage(file) {
+        var img = document.getElementById('user-img');
+
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file.files[0]);
+        let photoFile = file.files[0];
+        let formData = new FormData();
+        formData.append('photoFile', photoFile);
+        formData.append('token', oToken);
+        doApi_3(
+          (res) => {
+            console.log(res);
+            if (res.status === 200) {
+              alert('修改头像成功！');
+            }
+          },
+          (error) => console.log(error),
+          null,
+          '/user/uploadUserPhoto',
+          'post',
+          formData,
+          false,
+          null
+        );
+      }
+
+      function memberSubmit() {
+        let oldPassword = $('#oldPassword').val().trim();
+        let newPassword = $('#newPassword').val().trim();
+        let newPassWordConfirm = $('#newPasswordConfirm').val().trim();
+        if (oldPassword !== '' && newPassword !== '' && newPassWordConfirm !== '') {
+          if (newPassword != newPassWordConfirm) {
+            alert('新密码不一致！');
+          } else {
+            let params = {
+              token: oToken,
+              oldPassword: oldPassword,
+              newPassword: newPassword,
+            };
+            doApi_2(
+              (res) => {
+                if (res.status === 200) {
+                  alert('修改密码成功！');
+
+                  localStorage.removeItem('username');
+                  window.localStorage.removeItem('token');
+                  window.location.replace('../../gyx_System/login.html');
+
+                  $('#oldPassword').val('');
+                  $('#newPassword').val('');
+                  $('#newPasswordConfirm').val('');
+                } else {
+                  alert('修改失败！');
+                }
+              },
+              (error) => console.log(error),
+              null,
+              '/user/updatePassword?' +
+                'token=' +
+                oToken +
+                '&' +
+                'oldPassword=' +
+                oldPassword +
+                '&' +
+                'newPassword=' +
+                newPassword,
+              'put',
+              null,
+              null
+            );
+          }
+        } else {
+          alert('请输入密码！');
+        }
+      }
+    </script>
+  </body>
+</html>

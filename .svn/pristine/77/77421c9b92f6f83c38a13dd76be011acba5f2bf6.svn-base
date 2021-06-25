@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <!--	<meta name="description" content="Twitter Bootstrap Multicon-page pagination example">-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/media.css" />
+    <link rel="stylesheet" type="text/css" href="css/member.css" />
+
+    <!--滑动星星星-->
+    <link rel="stylesheet" href="css/css.css" />
+    <script src="js/jquery.js"></script>
+    <!--滑动星星星-->
+    <title>监利市农业公益性服务子系统</title>
+    <style>
+      .top-user {
+        width: 100%;
+        height: 100px;
+        /*border: solid 1px red;*/
+      }
+      .center_user {
+        width: 100%;
+        height: 275px;
+        /*border: solid 1px red;*/
+      }
+      .center_user ul li {
+        border-bottom: 1px solid #f2f2f2;
+        padding: 15px 10px 5px 25px;
+      }
+      .user-image {
+        padding: 10px 10px 10px 10px;
+        width: 90px;
+        height: auto;
+        /*border: solid 1px red;*/
+        border-radius: 55px;
+        float: left;
+      }
+      .top-left {
+        float: left;
+        /*border: solid 1px red;*/
+        padding: 24px 100px 10px 6px;
+      }
+      .newslist {
+      }
+
+      .newslist ul li {
+        border-bottom: 1px solid #f2f2f2;
+        padding: 15px 10px 5px 15px;
+      }
+      textarea {
+        border: solid 1px red;
+        width: 100%;
+        height: 100px;
+      }
+      .re2 {
+        width: 70%;
+        float: left;
+      }
+      .rbthcent {
+        float: left;
+        padding: 16px 0px 0px 36px;
+      }
+      .rbth {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container m-container">
+      <div class="container-fluid" id="expertAsk">
+        <div class="row m-pos">
+          <snap
+            >当前位置: <a href="index.html">首页</a>&gt; <span><a href="rxwd.html">热线问答</a></span> &gt;
+            <span id="titleTop"></span>
+            <a href="./rxwd.html" class="pull-right">返回列表</a>
+          </snap>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row padding-15">
+              <div class="col-sm-2 text-center">
+                <img id="expertImg" width="70" height="81" src="" />
+              </div>
+              <div class="col-sm-10">
+                <ul class="user-info clearfix">
+                  <li>
+                    <label>专家姓名：</label>
+                    <span id="expertName">梁朴</span>
+                  </li>
+                  <li>
+                    <label>服务区县：</label>
+                    <span id="area">贺兰县</span>
+                  </li>
+                  <li>
+                    <label>职务职称：</label>
+                    <span id="job"></span>
+                  </li>
+                  <li>
+                    <label>业务专长：</label>
+                    <span id="expertise">蔬菜技术推广</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row user-yh">
+              <div class="yh-title">用户提问</div>
+              <div class="pull-right" id="askTime">提问时间：2020-08-10</div>
+              <div class="yh-info">
+                <p class="padding-bottom-5"><b>问题：</b><span id="askTitle">大白菜种植要注意的问题</span></p>
+                <p class="padding-bottom-5">
+                  <b>描述：</b>
+                  <span id="askContent">
+                    有大棚种植、中小拱棚种植、地膜覆盖种植和露地栽培等多种方式，我该如何选择呢。
+                  </span>
+                </p>
+                <div class="baguetteBoxOne gallery clearfix"></div>
+              </div>
+            </div>
+            <div class="row user-zj">
+              <div class="zj-title">专家回复</div>
+              <div class="pull-right" id="replyTime">回复时间：</div>
+              <div class="zj-info" id="replyContent">专家未回复。</div>
+            </div>
+
+            <!--                <input class="evaluate_btn" type="submit" value="我要评价" onclick="expertEvaluate();">-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <footer class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </footer>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/zixun-jiaodian.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/commom/api.js"></script>
+
+    <script>
+      $(function () {
+        var id = window.location.search.substr(1); //2
+        askDetail(id);
+      });
+
+      //获取单个问答详情
+      function askDetail(id) {
+        $.ajax({
+          url: InterfaceGYX + '/consult/getOneById?id=' + id,
+          type: 'get',
+          dataType: 'json',
+          async: true,
+          success: function (res) {
+            console.log(res);
+            $('#askTime').html('提问时间：' + res.data.askDetail.time);
+            $('#askTitle,#titleTop').html(res.data.askDetail.title);
+            $('#askContent').html(res.data.askDetail.content);
+
+            if (res.data.askDetail.replyContent == null) {
+              $('#replyContent').html('专家未回复。');
+            } else {
+              $('#replyContent').html(res.data.askDetail.replyContent);
+            }
+            if (res.data.askDetail.replyTime !== undefined) {
+              $('#replyTime').html('回复时间：' + res.data.askDetail.replyTime);
+            }
+            //专家信息
+            $('#expertName').html(res.data.expertInfo.expertName);
+            $('#expertImg').attr('src', res.data.expertInfo.photo);
+            $('#area').html(res.data.expertInfo.serviceArea);
+            $('#job').html(res.data.expertInfo.jobTitle);
+            $('#expertise').html(res.data.expertInfo.expertise);
+          },
+          error: function (e) {
+            console.info(e);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

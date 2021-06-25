@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.info.sys.mapper.CarouselInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.info.sys.entity.CarouselInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="img" property="img" jdbcType="INTEGER"/>
+        <result column="target_system" property="targetSystem" jdbcType="VARCHAR"/>
+        <result column="article_id" property="articleId" jdbcType="INTEGER"/>
+        <result column="article_typeid" property="articleTypeid" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="publisher" property="publisher" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="order" property="order" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--  <select id="page" resultType="com.alibaba.fastjson.JSONObject">-->
+    <select id="page" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+        a.id,
+        a.img,
+        a.target_system,
+        a.article_id articleId,
+        a.STATUS status,
+        a.article_typeid articleTypeid,
+        a.publisher,
+        a.order_id orderId,
+        c.path,
+        b.title
+        FROM
+        com_carousel_info a
+        LEFT JOIN com_article_info b ON a.article_id = b.id
+        LEFT JOIN com_file_info c ON a.img = c.id
+        WHERE
+        a.target_system = #{targetSystem}
+        LIMIT #{page},#{size}
+    </select>
+</mapper>

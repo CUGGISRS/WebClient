@@ -1,0 +1,48 @@
+# apidoc  -i src/main/java/com/github/wxiaoqi/security/com/sys -o src/main/resources/static/apidoc
+
+
+# 必须配置
+feign:
+  #设置调用哪个服务器的接口
+  authUrl: http://${server.ip}:9777
+  zsUrl: http://${server.ip}:8899
+  jdUrl: http://${server.ip}:8898
+logging:
+  level:
+    # tk.mybatis: DEBUG
+    com.github.wxiaoqi.security.com.sys: DEBUG
+server:
+  port: 8897
+spring:
+  # 多个接口上的@FeignClient(“相同服务名”)会报错，overriding is disabled。设置 为true ,即 允许 同名
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: ace-com-sys
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${server.ip}:8848
+        #ip: 192.168.8.166
+    sentinel:
+      transport:
+        dashboard: ${server.ip}:8080
+sample:
+  zipkin:
+    # When enabled=false, traces log to the console. Comment to send to zipkin
+    enabled: false
+
+
+auth:
+  client:
+    id: ace-com-sys
+    secret: 123456
+
+#redis-cache 相关
+redis:
+  host: ${REDIS_HOST:${server.ip}}
+  port: ${REDIS_PORT:6379}
+  password:
+  # 服务或应用名
+  sysName: ace-com-sys

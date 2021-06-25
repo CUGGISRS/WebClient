@@ -1,0 +1,7 @@
+#私有配置    39.104.61.47
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3700}/earth_manage?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+    username: root
+    password: s%q!8<zUcPMo
+

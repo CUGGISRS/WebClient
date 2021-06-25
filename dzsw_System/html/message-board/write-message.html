@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>监利市农业电子商务综合服务子系统</title>
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <link rel="stylesheet" href="../../fonts/element.css" />
+    <!-- 去除input输入框 type=number时的上下箭头 -->
+    <style>
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+      input[type='number'] {
+        -moz-appearance: textfield;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="title-section">
+        <div class="title-section-content">
+          <a href="../../index.html" class="system-title">监利市农业电子商务综合服务子系统</a>
+        </div>
+      </div>
+      <div class="nav-list">
+        <div class="nav-list-content">
+          <a class="nav-item" href="../../index.html">首页</a>
+          <a class="nav-item" href="../market-condition.html">市场行情</a>
+          <a class="nav-item" href="../price-condition.html">价格行情</a>
+          <a class="nav-item" href="../statistical-chart/statistical-chart.html">行情统计</a>
+          <a class="nav-item" href="../price-trend.html">价格走势</a>
+          <a class="nav-item" href="../farm-products.html">优质农产品</a>
+          <a class="nav-item" href="../production-market/production-market.html">农产品产销信息</a>
+          <a class="nav-item active" href="./message-board.html">留言板</a>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="banner-section" style="height: 200px">
+          <img src="../../images/banner-6.png" alt="" style="height: 200px" />
+        </div>
+
+        <div class="message-board-section">
+          <div class="message-board-nav">
+            <h2 class="message-board-nav-left">
+              您所在的位置： <a href="../../index.html" style="color: #888">首页</a>
+              <i class="el-icon-d-arrow-right"></i> 留言板
+            </h2>
+            <el-button @click="goBack" type="success" style="width: 100px !important">返回</el-button>
+          </div>
+          <p class="message-board-suggest">留言建议</p>
+          <div class="message-board-suggest-content">
+            <div class="message-board-suggest-content-item">
+              <span class="message-board-theme"><span style="color: red">*</span> 留言主题：</span>
+              <el-input placeholder="这里是留言主题" v-model="themeInput" clearable style="width: 330px !important">
+              </el-input>
+            </div>
+            <div class="message-board-suggest-content-item">
+              <span class="message-board-theme"><span style="color: red">*</span> 姓名：</span>
+              <el-input
+                placeholder="我们会对真实姓名做隐私处理"
+                v-model="userName"
+                clearable
+                style="width: 330px !important"
+              >
+              </el-input>
+            </div>
+            <div class="message-board-suggest-content-item">
+              <span class="message-board-theme"><span style="color: red">*</span> 联系方式：</span>
+              <el-input
+                placeholder="我们会对联系方式做隐私处理"
+                v-model="phoneNum"
+                type="number"
+                clearable
+                style="width: 330px !important"
+              >
+              </el-input>
+            </div>
+            <div class="message-board-suggest-content-item">
+              <p class="message-board-theme"><span style="color: red">*</span> 留言内容：</p>
+              <el-input
+                type="textarea"
+                placeholder="请输入留言内容"
+                v-model="textarea"
+                clearable
+                :autosize="{ minRows: 6, maxRows: 10 }"
+                style="width: 330px !important"
+              >
+              </el-input>
+            </div>
+            <div class="message-board-suggest-content-item">
+              <span class="message-board-theme"><span style="color: red">*</span> 验证码：</span>
+              <el-input
+                placeholder="请输入验证码(不分大小写)"
+                v-model="verifyNum"
+                clearable
+                style="width: 210px !important"
+                class="input-val"
+              >
+              </el-input>
+              <canvas id="canvas" width="100" height="40" @click="handleChangeCanvas()"></canvas>
+            </div>
+            <div class="message-board-suggest-btn">
+              <el-button type="success" class="btn" style="width: 200px !important" @click="handleSubmit()"
+                >提交</el-button
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="link-section">
+        <div class="link-section-content">
+          <p><b>友情链接：</b></p>
+          <div class="link-list">
+            <a class="link-item" href="http://39.104.61.47:8093/gyx_System/">监利市农业公益性服务子系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/3d_ball_cesium">监利市产业园三维可视化子系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/dzsw_System/index.html"
+              >监利市农业电子商务综合服务子系统</a
+            >
+
+            <a class="link-item" href="http://39.104.61.47:8093/zsjd/#/login">监利市农产品质量安全监督管理系统</a>
+
+            <a class="link-item" href="http://39.104.61.47:8093/zsxx_System/">监利市农产品质量安全追溯信息系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/dxgz/#/login">监利市稻虾共作物联网应用系统</a>
+
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/element/index.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../assets/jquery/jquery.min.js"></script>
+  <script type="text/javascript">
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          themeInput: '',
+          userName: '',
+          phoneNum: '',
+          textarea: '',
+          verifyNum: '',
+          show_num: [],
+        };
+      },
+      created() {},
+      mounted() {
+        this.handleChangeCanvas(this.show_num);
+      },
+      methods: {
+        goBack() {
+          window.history.back(); //返回上一页，并且强行刷新
+        },
+        handleChangeCanvas() {
+          this.draw(this.show_num);
+        },
+        handleSubmit() {
+          let val = this.verifyNum.toLowerCase();
+          let num = this.show_num.join('');
+          if (
+            val == '' ||
+            this.themeInput == '' ||
+            this.userName == '' ||
+            this.phoneNum == '' ||
+            // !/^1[3456789]\d{9}$/.test(this.phoneNum) ||
+            this.textarea == '' ||
+            this.verifyNum == ''
+          ) {
+            this.$message.warning('请检查信息是否填写完善或者正确！');
+          } else if (val == num) {
+            let formData = new FormData();
+            formData.append('title', this.themeInput);
+            formData.append('content', this.textarea);
+            formData.append('commenter', this.userName);
+            formData.append('commenterPhone', this.phoneNum);
+            formData.append('targetSystem', '电子商务系统');
+            doApi_3(
+              (res) => {
+                if (res.status == 200) {
+                  this.$message.success('提交成功！');
+                }
+              },
+              function (err) {
+                console.log(err);
+              },
+              null,
+              '/qa/addQA',
+              'post',
+              formData,
+              false
+            );
+            this.verifyNum = '';
+            this.themeInput = '';
+            this.userName = '';
+            this.phoneNum = '';
+            this.textarea = '';
+            this.verifyNum = '';
+            this.draw(this.show_num);
+          } else {
+            this.$message.error('验证码错误！请重新输入');
+            this.verifyNum = '';
+            this.draw(this.show_num);
+          }
+        },
+        //生成并渲染出验证码图形
+        draw(show_num) {
+          var canvas_width = $('#canvas').width();
+          var canvas_height = $('#canvas').height();
+          var canvas = document.getElementById('canvas'); //获取到canvas的对象，演员
+          var context = canvas.getContext('2d'); //获取到canvas画图的环境，演员表演的舞台
+          canvas.width = canvas_width;
+          canvas.height = canvas_height;
+          var sCode =
+            'a,b,c,d,e,f,g,h,i,j,k,m,n,p,q,r,s,t,u,v,w,x,y,z,A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0';
+          var aCode = sCode.split(',');
+          var aLength = aCode.length; //获取到数组的长度
+
+          for (var i = 0; i < 4; i++) {
+            //这里的for循环可以控制验证码位数（如果想显示6位数，4改成6即可）
+            var j = Math.floor(Math.random() * aLength); //获取到随机的索引值
+            // var deg = Math.random() * 30 * Math.PI / 180;//产生0~30之间的随机弧度
+            var deg = Math.random() - 0.5; //产生一个随机弧度
+            var txt = aCode[j]; //得到随机的一个内容
+            show_num[i] = txt.toLowerCase();
+            var x = 10 + i * 20; //文字在canvas上的x坐标
+            var y = 20 + Math.random() * 8; //文字在canvas上的y坐标
+            context.font = 'bold 23px 微软雅黑';
+
+            context.translate(x, y);
+            context.rotate(deg);
+
+            context.fillStyle = this.randomColor();
+            context.fillText(txt, 0, 0);
+
+            context.rotate(-deg);
+            context.translate(-x, -y);
+          }
+          for (var i = 0; i <= 5; i++) {
+            //验证码上显示线条
+            context.strokeStyle = this.randomColor();
+            context.beginPath();
+            context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.stroke();
+          }
+          for (var i = 0; i <= 30; i++) {
+            //验证码上显示小点
+            context.strokeStyle = this.randomColor();
+            context.beginPath();
+            var x = Math.random() * canvas_width;
+            var y = Math.random() * canvas_height;
+            context.moveTo(x, y);
+            context.lineTo(x + 1, y + 1);
+            context.stroke();
+          }
+        },
+
+        //得到随机的颜色值
+        randomColor() {
+          var r = Math.floor(Math.random() * 256);
+          var g = Math.floor(Math.random() * 256);
+          var b = Math.floor(Math.random() * 256);
+          return 'rgb(' + r + ',' + g + ',' + b + ')';
+        },
+      },
+    });
+  </script>
+  <script></script>
+</html>

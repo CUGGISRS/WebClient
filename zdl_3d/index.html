@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>监利市产业园三维可视化子系统</title>
+
+    <!-- loading层 -->
+    <link rel="stylesheet" href="./lib/low-loading/low-loading.css" />
+
+    <!-- cesium样式 -->
+    <link rel="stylesheet" href="./lib/Cesium/Widgets/widgets.css" />
+
+    <!-- 引入iview组件库 -->
+    <link rel="stylesheet" type="text/css" href="./lib/iview/styles/iview.css" />
+
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="./main.css" />
+
+    <!-- loading层 -->
+    <script src="./lib/low-loading/low-loading.js"></script>
+    <!-- 引入vue -->
+    <script src="./lib/vue/vue.js"></script>
+    <!-- 引入iview组件库 -->
+    <script src="./lib/iview/iview.min.js"></script>
+  </head>
+
+  <body>
+    <script>
+      // loading加载
+      loading.open({
+        loadClass: 'round-no1',
+        preColor: 'rgba(0,0,0,1)',
+        childColor: '#fff',
+        preEl: document.body,
+      });
+    </script>
+
+    <div id="app" v-cloak>
+      <!-- 初始化页面 -->
+      <div class="init" v-if="initBool">
+        <div>
+          <button class="btn" @click="clickAccess">走进产业园</button>
+          <em></em>
+        </div>
+      </div>
+
+      <!-- head -->
+      <div class="head" :class="headBool?'head-active':''">
+        <div class="head-bg"><img src="./images/bg_1.png" alt="" /></div>
+        <div class="head-bg-left"><img src="./images/bg_l.png" alt="" /></div>
+        <div class="head-bg-right"><img src="./images/bg_r.png" alt="" /></div>
+        <div class="head-bg-l-l"><img src="./images/bg_l_l.png" alt="" /></div>
+        <div class="head-bg-r-r"><img src="./images/bg_r_r.png" alt="" /></div>
+        <div class="head-text">
+          <p>监利市产业园三维可视化子系统</p>
+          <p>Jianli city industrial park three-dimensional visualization subsystem</p>
+        </div>
+        <div class="head-cont-l">
+          <div>{{dateHour}}:{{dateMinu}}:{{dateSec}}</div>
+          <div>
+            <span>{{dateWeek}}</span>
+            <span>{{dateYear}}年{{dateMonth}}月{{dateDate}}日</span>
+          </div>
+        </div>
+        <!-- <div class="head-cont-r">
+          <div>
+            <img src="./images/duoyun.png" alt="" />
+          </div>
+          <div>多云 5℃-17℃</div>
+        </div> -->
+        <!-- 切换地图 -->
+        <div class="switch-map">
+          <span class="span1" @click="switchMap()">{{mapType}}</span>
+        </div>
+      </div>
+      <div id="toolTip"></div>
+
+      <!-- 左侧搜索框 -->
+      <div class="nav-left" :class="{'nav-left-active' : selBool,'nav-left-child-active' : alertboxBool}">
+        <div class="nav-left-box">
+          <div class="nav-left-sel" data-step="2">
+            <div>
+              <input
+                v-model="searchInputValue"
+                type="text"
+                autocomplete="off"
+                placeholder="请输入搜索内容"
+                @focus="searchFocus"
+                @blur="searchBlur"
+              />
+              <img src="./img/close@2x.png" @click="searchClear" />
+            </div>
+            <button class="btn" @click="searchClick">
+              <img src="./img/search@2x.png" alt="" />
+              <em></em>
+            </button>
+          </div>
+        </div>
+        <div class="nav-alertbox">
+          <div class="alertbox-stree" v-if="streeBool">
+            <div class="stree-title">图层管理</div>
+
+            <Tree
+              :data="data4"
+              ref="tree"
+              show-checkbox
+              @on-check-change="checkChange"
+              @on-select-change="selectChange"
+              :render="renderContent"
+            ></Tree>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下导航 -->
+      <div
+        class="nav-bottom-box"
+        v-if="navNewBool"
+        data-step="1"
+        data-intro="导航栏可帮助您快捷选择分类!"
+        v-show="true"
+      >
+        <div @click="tipsClickItem('图层管理')" :class="navState.indexOf('图层管理')!=-1?'nav-bottom-box-item-act':''">
+          <div><img src="./images/tucengguanli.png" alt="" /></div>
+          <div>图层管理</div>
+        </div>
+        <div
+          @click="watchTipsClickItem('视点列表')"
+          :class="navState.indexOf('视点列表')!=-1?'nav-bottom-box-item-act':''"
+        >
+          <div><img src="./images/shidianlist.png" alt="" /></div>
+          <div>视点列表</div>
+        </div>
+        <div
+          @click="tipsClickVehicle('虚拟活动')"
+          :class="navState.indexOf('虚拟活动')!=-1?'nav-bottom-box-item-act':''"
+        >
+          <div><img src="./images/basicfun.png" alt="" /></div>
+          <div>虚拟活动</div>
+        </div>
+        <div
+          @click="tipsClickVehicle('三维分析')"
+          :class="navState.indexOf('三维分析')!=-1?'nav-bottom-box-item-act':''"
+        >
+          <div><img src="./images/3Danalyze.png" alt="" /></div>
+          <div>三维分析</div>
+        </div>
+        <div
+          @click="tipsClickVehicle('全面感知')"
+          :class="navState.indexOf('全面感知')!=-1?'nav-bottom-box-item-act':''"
+        >
+          <div><img src="./images/allppt.png" alt="" /></div>
+          <div>全面感知</div>
+        </div>
+        <div
+          @click="tipsClickVehicle('系统量算')"
+          :class="navState.indexOf('系统量算')!=-1?'nav-bottom-box-item-act':''"
+        >
+          <div><img src="./images/3Dmeasure.png" alt="" /></div>
+          <div>系统量算</div>
+        </div>
+        <div
+          @click="tipsClickVehicle('场景特效')"
+          :class="navState.indexOf('场景特效')!=-1?'nav-bottom-box-item-act':''"
+        >
+          <div><img src="./images/3Dmeasure.png" alt="" /></div>
+          <div>场景特效</div>
+        </div>
+        <!-- <div @click="routerLinkClick" :class="navState.indexOf('数据大屏')!=-1?'nav-bottom-box-item-act':''">
+          <div><img src="./images/shujudaping.png" alt="" /></div>
+          <div>数据大屏</div>
+        </div> -->
+      </div>
+
+      <!-- map容器 -->
+      <div id="cesiumContainer" v-show="!mapSwitch"></div>
+
+      <!-- 初始化l图表  左侧-->
+      <div v-show="initEchartsBool " class="e-l-box">
+        <div class="shadow_bg"></div>
+        <div class="e-l-box-no1">
+          <div class="e-box-cont jibenxinxi-cont">
+            <div class="jibenxinxi-tit-cont">
+              <div>监利市现代农业产业园</div>
+            </div>
+            <div class="jibenxinxi-cont-cont">
+              <div>
+                <div>
+                  <div><img src="./images/mianji.png" alt="" /></div>
+                  <div>面积：10.5平方公里</div>
+                </div>
+                <div>
+                  <div><img src="./images/yingjian.png" alt="" /></div>
+                  <div>物联网设备：12个</div>
+                </div>
+              </div>
+              <!-- <div>
+                <div>
+                  <div><img src="./images/jingdian.png" alt="" /></div>
+                  <div>场景特效</div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧管理弹框 -->
+      <div class="con-alert-box" :class="{'con-alert-box-active':vehicleBool,'con-alert-box-big':vehicleBigBool}">
+        <div class="vehicle-box">
+          <div class="vehicle-box-head">
+            <div id="vehicle-box-head-name"></div>
+            <div>
+              <i-button type="text" icon="md-close" ghost @click="vehicleClose"></i-button>
+            </div>
+          </div>
+          <div class="vehicle-box-cont">
+            <ul class="spot-con" v-if="showIoT">
+              <li v-for="item in ioTData" @click="flyToDevice(item)">
+                <div class="spot-con-lef">
+                  <p>{{textSubstr(item.info.name,10)}}</p>
+                </div>
+              </li>
+              <li>
+                <Page
+                  size="small"
+                  :page-size="ioTPageSize"
+                  :current="ioTCurrent"
+                  @on-change="changeIoTPage"
+                  :total="ioTTotal"
+                  simple
+                />
+              </li>
+            </ul>
+            <ul class="spot-con" v-else>
+              <li v-for="item in spotDataIdx" @click="spotInfoClick(item)">
+                <div class="spot-con-lef">
+                  <div><img :src="item.cate_image" alt="" /></div>
+                  <div>
+                    <p>{{textSubstr(item.name,10)}}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧飞行轨迹弹框 -->
+      <div class="fly-alert-box" :class="{'fly-alert-box-active':flyBool,'fly-alert-box-big':flyBigBool}">
+        <div class="fly-box">
+          <div class="fly-box-head">
+            <div id="fly-box-head-name"></div>
+            <div>
+              <i-button type="text" icon="md-close" ghost @click="flyViewClose"></i-button>
+            </div>
+          </div>
+          <div class="fly-box-cont">
+            <div class="fly-spot-con">
+              <div class="fly-spot-con-item" @click="addFlyPath">
+                <img class="fly-spot-con-img" src="./images/newPro.png" alt="newPro" />
+                <span class="fly-spot-con-title">新建飞行</span>
+              </div>
+              <div class="fly-spot-con-item" @click="setPathPlan">
+                <img class="fly-spot-con-img" src="./images/flag.png" alt="flag" />
+                <span class="fly-spot-con-title">设定路线</span>
+              </div>
+              <div class="fly-spot-con-item" @click="startFly">
+                <img class="fly-spot-con-img" src="./images/flystart.png" alt="flystart" />
+                <span class="fly-spot-con-title">开始飞行</span>
+              </div>
+              <div class="fly-spot-con-item" @click="stopFly">
+                <img class="fly-spot-con-img" src="./images/pauseFly.png" alt="pauseFly" />
+                <span class="fly-spot-con-title">暂停飞行</span>
+              </div>
+              <div class="fly-spot-con-item" @click="continueFly">
+                <img class="fly-spot-con-img" src="images/continueFly.png" alt="continueFly" />
+                <span class="fly-spot-con-title">继续飞行</span>
+              </div>
+              <div class="fly-spot-con-item" @click="exitFly">
+                <img class="fly-spot-con-img" src="./images/stopFly.png" alt="stopFly" />
+                <span class="fly-spot-con-title">停止飞行</span>
+              </div>
+            </div>
+            <div>
+              <ul class="spot-con">
+                <li
+                  v-for="(item,index) in flyTrackList"
+                  :class="{'active':index == isActive}"
+                  @click="handleFlyTrack(item,index)"
+                >
+                  <div class="spot-con-lef">{{item.name}}</div>
+
+                  <i-button type="text" shape="circle" size="small" icon="md-close" ghost @click="delFlyTrack(item.id)">
+                  </i-button>
+                </li>
+                <li>
+                  <Page
+                    size="small"
+                    :page-size="flyPageSize"
+                    :current="flyLimit"
+                    @on-change="flyChangepage"
+                    :total="flyTotal"
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 左侧视点列表弹框 -->
+      <div class="watch-alert-box" :class="{'watch-alert-box-active':watchBool,'watch-alert-box-big':watchBigBool}">
+        <div class="watch-box">
+          <div class="watch-box-head">
+            <div id="watch-box-head-name"></div>
+            <i-button type="text" icon="md-close" ghost @click="watchClose"></i-button>
+          </div>
+          <div class="watch-box-cont">
+            <ul class="spot-con">
+              <i-button type="info" @click="handleModalShow" style="margin-bottom: 5px">点击新增当前视点</i-button>
+              <li v-for="(item,index) in watchList" @click="handleWatchPoint(item)">
+                <div class="spot-con-lef">{{item.watchValue}}</div>
+                <i-button
+                  type="text"
+                  shape="circle"
+                  size="small"
+                  icon="md-close"
+                  ghost
+                  @click.stop="delWatchPoint(item.id)"
+                >
+                </i-button>
+              </li>
+              <li>
+                <Page size="small" :page-size="pageSize" :current="dataCount" @on-change="changepage" :total="total" />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 点击增加视点对话框 -->
+      <Modal v-model="modal2" width="360">
+        <p slot="header" style="color: #2d8cf0; text-align: center">
+          <Icon type="ios-add-circle"></Icon>
+          <span>新增视点</span>
+        </p>
+        <div style="text-align: center">
+          <p>请输入新增视点名称</p>
+          <i-Input v-model="watchValue" placeholder="请输入新增视点名称..." style="width: 300px" />
+        </div>
+        <div slot="footer">
+          <i-button type="primary" size="large" long @click="saveWatchList">确定</i-button>
+        </div>
+      </Modal>
+      <!-- 点击增加飞行浏览对话框 -->
+      <Modal v-model="modal3" width="360">
+        <p slot="header" style="color: #2d8cf0; text-align: center">
+          <Icon type="ios-add-circle"></Icon>
+          <span>新增飞行浏览</span>
+        </p>
+        <div style="text-align: center">
+          <p>请输入飞行浏览名称</p>
+          <i-Input v-model="flyValue" placeholder="请输入飞行浏览名称..." style="width: 300px" />
+        </div>
+        <div slot="footer">
+          <i-button type="primary" size="large" long @click="saveFlyList">确定</i-button>
+        </div>
+      </Modal>
+      <!-- 场景特效设置弹框 -->
+      <div
+        class="con-alert-box con-alert-box-setting"
+        :class="{'con-alert-box-active':vehicleSettingBool,'con-alert-box-big':vehicleSettingBigBool}"
+      >
+        <div class="vehicle-box">
+          <div class="vehicle-box-head">
+            <div>场景特效设置</div>
+            <div>
+              <!-- <i-button type="text" :icon="vehicleBigBool ? 'md-contract' : 'md-expand'" ghost @click="vehicleBigClick"></i-button> -->
+              <i-button type="text" icon="md-close" ghost @click="vehicleSettingClose"></i-button>
+            </div>
+          </div>
+          <div class="vehicle-box-cont">
+            <div>
+              <span>下雨量：</span>
+              <Slider
+                :min="1"
+                :max="999"
+                :step="1"
+                v-model="rainValue"
+                @on-change="refreshRain"
+                class="slider-setting"
+                :tip-format="rainFormat"
+              ></Slider>
+            </div>
+            <div>
+              <span>下雪量：</span>
+              <Slider
+                :min="0"
+                :max="0.8"
+                :step="0.01"
+                v-model="snowValue"
+                @on-change="refreshSnow"
+                class="slider-setting"
+              ></Slider>
+            </div>
+            <div>
+              <span>雾浓度：</span>
+              <Slider
+                :min="0.01"
+                :max="0.99"
+                :step="0.01"
+                v-model="fogValue"
+                @on-change="refreshFog"
+                class="slider-setting"
+              ></Slider>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 日照分析设置框 -->
+      <div
+        class="con-alert-box con-alert-box-setting"
+        :class="{'con-alert-box-active':vehicleSunshineBool,'con-alert-box-big':vehicleSunshineBigBool}"
+      >
+        <div class="vehicle-box">
+          <div class="vehicle-box-head">
+            <div>日照分析设置</div>
+            <div>
+              <i-button type="text" icon="md-close" ghost @click="vehicleExcavationClose"></i-button>
+            </div>
+          </div>
+        </div>
+        <div class="vehicle-box-cont">
+          <div>
+            <span>开挖深度：</span>
+            <i-input v-model="cuttingDepth" style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;米</span>
+          </div>
+          <div>
+            <span>挖方面积：</span>
+            <i-input v-model="excavationArea" disabled style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;平方米</span>
+          </div>
+          <div>
+            <span>挖方体积：</span>
+            <i-input v-model="excavationResult" disabled style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;立方米</span>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <i-button type="primary" size="small" @click="getExcavation" style="margin-right: 20px">开始分析</i-button>
+            <i-button type="primary" size="small" @click="clearExcavation">清除分析</i-button>
+          </div>
+        </div>
+      </div>
+      <!-- 挖填方分析设置框 -->
+      <div
+        class="con-alert-box con-alert-box-setting"
+        :class="{'con-alert-box-active':vehicleExcavationBool,'con-alert-box-big':vehicleExcavationBigBool}"
+      >
+        <div class="vehicle-box">
+          <div class="vehicle-box-head">
+            <div>挖填方分析设置</div>
+            <div>
+              <i-button type="text" icon="md-close" ghost @click="vehicleExcavationClose"></i-button>
+            </div>
+          </div>
+        </div>
+        <div class="vehicle-box-cont">
+          <div>
+            <span>开挖深度：</span>
+            <i-input v-model="cuttingDepth" style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;米</span>
+          </div>
+          <div>
+            <span>挖方面积：</span>
+            <i-input v-model="excavationArea" disabled style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;平方米</span>
+          </div>
+          <div>
+            <span>挖方体积：</span>
+            <i-input v-model="excavationResult" disabled style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;立方米</span>
+          </div>
+          <div>
+            <span>填方体积：</span>
+            <i-input v-model="excavationFillResult" disabled style="width: 120px"></i-input>
+            <span>&nbsp;&nbsp;立方米</span>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <i-button type="primary" size="small" @click="getExcavation" style="margin-right: 20px">开始分析</i-button>
+            <i-button type="primary" size="small" @click="clearExcavation">清除分析</i-button>
+          </div>
+        </div>
+      </div>
+      <!-- 传感器设备框 -->
+      <div
+        class="con-alert-box con-alert-box-setting"
+        :class="{'con-alert-box-active':vehicleSensorBool,'con-alert-box-big':vehicleSensorBigBool}"
+      >
+        <div class="vehicle-box">
+          <div class="vehicle-box-head">
+            <div>视频监控列表</div>
+            <div>
+              <i-button type="text" icon="md-close" ghost @click="vehicleSensorClose"></i-button>
+            </div>
+          </div>
+        </div>
+        <div class="vehicle-box-cont">
+          <ul class="spot-con">
+            <li v-for="item in sensorData" @click="showVideo(item)">
+              <div class="spot-con-lef">
+                <p>{{textSubstr(item.serialNum,10)}}</p>
+              </div>
+            </li>
+            <li>
+              <Page
+                size="small"
+                :page-size="sensorPageSize "
+                :current="sensorCurrent"
+                @on-change="changeSensorPage"
+                :total="sensorTotal"
+                simple
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--测量划线-->
+      <div style="position: absolute; width: 350px; height: 30px; top: 25px; left: 10px">
+        <div id="measure"></div>
+      </div>
+      <!--地形剖面分析结果展示框-->
+      <div
+        style="top: 42vh"
+        class="con-alert-box"
+        :class="{'con-alert-box-active':vehicleClippingBool,'con-alert-box-big':vehicleClippingBigBool}"
+        @resize="clippingResultResize()"
+        @transitionend="clippingResultResize()"
+      >
+        <div class="vehicle-box">
+          <div class="vehicle-box-head">
+            <div>地形剖面图</div>
+            <div>
+              <!-- <i-button type="text" :icon="vehicleBigBool ? 'md-contract' : 'md-expand'" ghost @click="vehicleBigClick"></i-button> -->
+              <i-button type="text" icon="md-close" ghost @click="vehicleClippingClose"></i-button>
+            </div>
+          </div>
+          <div style="max-height: unset; height: 40vh" class="vehicle-box-cont">
+            <div style="width: 100%; height: 100%" id="profileChart"></div>
+          </div>
+        </div>
+      </div>
+      <!--经纬度显示-->
+      <div
+        id="latlng_show"
+        style="background: rgba(56,64,57,0.5);padding: 1px 15px;border-radius: 5px; width: auto; height: 28px; position: absolute; bottom: 0px; right: 39px; z-index: 1; font-size: 15px"
+      >
+        <div style="width: 140px; height: 30px; float: left">
+          <font size="3" color="white">经度：<span id="longitude_show"></span></font>
+        </div>
+        <div style="width: 140px; height: 30px; float: left">
+          <font size="3" color="white">纬度：<span id="latitude_show"></span></font>
+        </div>
+        <div style="width: 160px; height: 30px; float: left">
+          <font size="3" color="white">视角高：<span id="altitude_show"></span>km</font>
+        </div>
+      </div>
+      <!-- 视频投影 -->
+      <video id="videoElement" controls muted style="object-fit: fill; display: none">您的浏览器不支持Video标签</video>
+    </div>
+  </body>
+  <script type="text/javascript" src="./lib/iview/iview.min.js"></script>
+  <!-- 调接口 -->
+  <script src="./lib/service/api.js"></script>
+  <!-- 引入cesium -->
+  <script src="./lib/Cesium/Cesium.js"></script>
+<!--  &lt;!&ndash; 引入cesium 天地图插件 &ndash;&gt;-->
+<!--  <script src="http://api.tianditu.gov.cn/cdn/plugins/cesium/cesiumTdt.js"></script>-->
+  <!-- 工具 -->
+  <script src="./lib/utils/tools.js"></script>
+  <!-- 测量 -->
+  <script src="./lib/utils/cesium-measure.js"></script>
+  <!-- 天气 -->
+  <script src="./lib/utils/weather.js"></script>
+  <!-- 自由视角 -->
+  <script src="./lib/utils/flyModel.js"></script>
+  <!-- 通视分析 -->
+  <script src="./lib/utils/visibilityAnalysis.js"></script>
+  <!-- 视域分析 -->
+  <script src="./lib/utils/viewableAnalysis.js"></script>
+  <!-- 阴影分析 -->
+  <script src="./lib/utils/shadowAnalysis.js"></script>
+  <!-- 天际线分析 -->
+  <script src="./lib/utils/skylineAnalysis.js"></script>
+  <!-- 挖填方分析 -->
+  <script src="./lib/utils/excavationAnalysis.js"></script>
+  <script src="./lib/utils/terrainClipPlan.js"></script>
+  <script src="./lib/utils/turf.min.js"></script>
+  <!-- 地形剖面 -->
+  <script src="./lib/utils/clippingAnalysis.js"></script>
+  <!-- 物联网 -->
+  <script src="./lib/utils/ioT.js"></script>
+  <!-- 视频监控播放插件 -->
+  <script src="./lib/utils/flv.min.js"></script>
+
+  <!-- 主js -->
+  <script type="module" src="./main.js"></script>
+
+  <!-- 引入JQ -->
+  <script src="./lib/jquery/jquery-1.10.2.min.js"></script>
+  <!--引入echarts-->
+  <script src="./lib/echarts/echarts.min.js"></script>
+</html>

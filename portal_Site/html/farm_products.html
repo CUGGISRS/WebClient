@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  <title>监利市农业产业园综合门户网站</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../fonts/element.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="mainer">
+      <div class="head_section">
+        <div class="head_title"><img src="../images/website_title.png" alt=""></div>
+        <div class="head_nav">
+          <ul>
+            <li><a href="../index.html" class="head_nav_li_a">网站首页</a></li>
+            <li><a href="./news_information.html" class="head_nav_li_a">新闻资讯</a></li>
+            <li><a href="./science_service.html" class="head_nav_li_a">科技服务</a></li>
+            <li><a href="./company_show.html" class="head_nav_li_a">企业风采</a></li>
+            <li><a class="head_nav_li_a active">优质农产品</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="farm_products_banner"> </div>
+      <div class="farm_products_mainer">
+        <div class="farm_products_nav">
+          <ul class="farm_products_nav_list">
+            <li v-for="(item,index) in productItem">
+              <nav class="farm_products_nav_item" :class="activeValue == index? 'active' : ''"
+                @click="seleted(item.value)">
+                {{item.name}}
+              </nav>
+            </li>
+          </ul>
+        </div>
+        <div class="farm_products_con_list">
+          <ul>
+            <li v-for="item in rows">
+              <a :href="'./farm_products_detail.html?' + item.id">
+                <div class="n_pro_li">
+                  <div class="n_pro_li_img">
+                    <img v-if="item.imgLists.length > 0" :src="'http://' + item.imgLists[0].path" alt="vegetable">
+                  </div>
+                  <div class="n_pro_li_con">
+                    <div class="n_pro_li_con_top">
+                      <div class="n_pro_li_con_name">{{item.productName}}</div>
+                      <div class="n_pro_li_con_price">￥{{item.price}}</div>
+                    </div>
+
+                    <div class="n_pro_li_con_text">
+                      {{item.description}}
+                    </div>
+                    <div class="n_pro_li_con_bottom">
+                      <div class="n_pro_li_con_place">{{item.productOrigin}}</div>
+                      <div class="n_pro_li_con_date">{{item.pubTime.substr(0,10)}}</div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <el-backtop></el-backtop>
+    <div class="pagination_section">
+      <el-pagination background @current-change="handleChangePage" :current-page="params.page" :page-size="params.limit"
+        layout="total, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+    </div>
+  </div>
+
+</body>
+<footer class="footer">
+  <div class="url_section">
+    <p class="url_section_text"> 友情链接：</p>
+    <div class="website_img_container">
+      <a href="http://www.hbnyw.com/" target="_blank"><img class="website_img" src="../images/hbsnyw.png"
+          alt="website"></a>
+      <a href="http://www.moa.gov.cn/" target="_blank"><img class="website_img" src="../images/nyb.png"
+          alt="website"></a>
+      <a href="http://nyt.hubei.gov.cn/" target="_blank"><img class="website_img" src="../images/hbnyt.png"
+          alt="website"></a>
+      <a href="http://www.jianli.gov.cn/" target="_blank"><img class="website_img" src="../images/jlsrmzf.png"
+          alt="website"></a>
+      <a href="http://www.zgny.com.cn/" target="_blank"><img class="website_img" src="../images/zgnyw.png"
+          alt="website"></a>
+    </div>
+  </div>
+  <div class="footer_unit">
+    <span>Copyright &copy; &nbsp;2020-2021</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/" style="display: inline-block;">
+      <p class="company_name-footer"> 监利市农业农村局 </p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/" style="display: inline-block; ">
+      <p class="company_name-footer">武汉中迪联创科技有限公司 </p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <div>地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</div>
+  </div>
+</footer>
+<script src="../assets/vue/vue.min.js"></script>
+<script src="../assets/element/index.js"></script>
+<script src="../js/api.js"></script>
+<script src="../assets/jquery/jquery.min.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        params: {
+          page: 1,
+          limit: 16,
+          productCategory: '',
+        },
+        productItem: [
+          { value: 0, name: '全部' },
+          { value: 1, name: '水果' },
+          { value: 2, name: '蔬菜' },
+          { value: 3, name: '粮油' },
+          { value: 4, name: '牛羊猪肉' },
+          { value: 5, name: '家禽蛋类' },
+          { value: 6, name: '水产品' },
+          { value: 7, name: '自制品' },
+        ],
+        activeValue: 0,
+        rows: [],
+        total: ''
+      };
+    },
+    created() {
+      this.getAllList();
+    },
+    methods: {
+      seleted(value) {
+        this.activeValue = value;
+        this.getAllList();
+      },
+      getAllList() {
+        if (this.activeValue == 0) {
+          this.params.productCategory = '';
+          this.getApi(this.params);
+        } else if (this.activeValue == 1) {
+          this.params.productCategory = '水果';
+          this.getApi(this.params);
+        } else if (this.activeValue == 2) {
+          this.params.productCategory = '蔬菜';
+          this.getApi(this.params);
+        } else if (this.activeValue == 3) {
+          this.params.productCategory = '粮油';
+          this.getApi(this.params);
+        } else if (this.activeValue == 4) {
+          this.params.productCategory = '牛羊猪肉';
+          this.getApi(this.params);
+        } else if (this.activeValue == 5) {
+          this.params.productCategory = '家禽蛋类';
+          this.getApi(this.params);
+        } else if (this.activeValue == 6) {
+          this.params.productCategory = '水产品';
+          this.getApi(this.params);
+        } else {
+          this.params.productCategory = '自制品';
+          this.getApi(this.params);
+        }
+      },
+      getApi(params) {
+        doApi_2(
+          (res) => {
+            if (res.status == 200) {
+              this.rows = res.data.rows;
+              this.total = res.data.total;
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/perfectProduct/listByPage',
+          'get',
+          params,
+          null
+        );
+      },
+      handleChangePage(page) {
+        this.params.page = page;
+        this.getAllList();
+      }
+    }
+  });
+</script>
+
+</html>

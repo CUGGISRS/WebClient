@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="../../assets/vant/vant.css" />
+    <title>监利市农产品质量安全追溯信息系统</title>
+    <script src="../../js/rem.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/mobile.css" />
+  </head>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+  <body>
+    <div id="app" v-cloak>
+      <div class="page-mainer">
+        <div class="retrospect-title">
+          <span class="retrospect-title-ch">追溯码查询详情</span>
+          <span class="retrospect-title-en">/ Trace Code Query Information</span>
+        </div>
+        <div class="product-retrospect-section">
+          <div class="product-retrospect-info">
+            <div class="product-retrospect-info-img">
+              <img src="../../images/a1.jpg" alt="" />
+            </div>
+            <div class="product-retrospect-info-text">
+              <p><b>追溯码：</b>{{code}}</p>
+              <p><b>产品名称：</b>{{aqzsProduct.name}}</p>
+              <p><b>开始时间：</b>{{aqzsProduct.startDate.substr(0, 10)}}</p>
+              <p><b>结束时间：</b>{{aqzsProduct.endDate.substr(0, 10)}}</p>
+            </div>
+          </div>
+        </div>
+        <van-collapse v-model="activeName" accordion>
+          <van-collapse-item title="产品信息" name="1">
+            <van-cell-group>
+              <van-cell title="商品名称">{{aqzsDetail.name}}</van-cell>
+              <van-cell title="商品保质期">{{aqzsDetail.shelfLife}}</van-cell>
+              <van-cell title="开始时间">{{aqzsProduct.startDate.substr(0,10)}}</van-cell>
+              <van-cell title="结束时间">{{aqzsProduct.endDate.substr(0,10)}}</van-cell>
+              <van-cell title="商品条码">{{aqzsDetail.code}}</van-cell>
+              <van-cell title="商品规格">{{aqzsDetail.specs}}</van-cell>
+              <van-cell title="商品介绍" class="productInfo" @click="handleCheckInfo(aqzsDetail.introduce)"
+                >{{aqzsDetail.introduce}}</van-cell
+              >
+
+              <van-cell title="产品图片" is-link arrow-direction="down"> </van-cell>
+              <van-image
+                width="100"
+                height="100"
+                v-for="(item,index) in imgUrl"
+                :src="item.url"
+                @click="sceneImg(srcList,index)"
+              >
+                <template v-slot:error>加载失败</template>
+              </van-image>
+
+              <van-cell title="产品证书" is-link arrow-direction="down"></van-cell>
+              <van-image
+                width="100"
+                height="100"
+                v-for="(item,index) in certificateUrl"
+                :src="item.url"
+                @click="sceneImg(certificateList,index)"
+              >
+                <template v-slot:error>加载失败</template>
+              </van-image>
+            </van-cell-group>
+          </van-collapse-item>
+          <van-collapse-item title="基地信息" name="2">
+            <van-cell-group>
+              <van-cell title="种植基地名称">{{aqzs_base1.name}}</van-cell>
+              <van-cell title="种植基地位置">{{aqzs_base1.address}}</van-cell>
+              <van-cell title="种植基地面积/规模(亩)">{{aqzs_base1.area}}</van-cell>
+              <van-cell title="种植环境检验结果">{{aqzs_base1.isReportQualified}}</van-cell>
+              <van-cell title="种植基地负责人">{{aqzs_base1.lender}}</van-cell>
+              <van-cell title="种植基地负责人电话">{{aqzs_base1.lenderPhone}}</van-cell>
+              <van-cell title="生产基地名称">{{aqzs_base2.name}}</van-cell>
+              <van-cell title="生产基地位置">{{aqzs_base2.address}}</van-cell>
+              <van-cell title="生产基地面积/规模(亩)">{{aqzs_base2.area}}</van-cell>
+              <van-cell title="生产基地检验结果">{{aqzs_base2.isReportQualified}}</van-cell>
+              <van-cell title="生产基地负责人">{{aqzs_base2.lender}}</van-cell>
+              <van-cell title="生产基地负责人电话">{{aqzs_base2.lenderPhone}}</van-cell>
+              <van-cell title="种植基地照片" is-link arrow-direction="down"></van-cell>
+              <van-image
+                width="100"
+                height="100"
+                v-for="(item,index) in imgUrl2"
+                @click="sceneImg(srcList2,index)"
+                :src="item.url"
+              >
+                <template v-slot:error>加载失败</template>
+              </van-image>
+              <van-cell title="生产基地照片" is-link arrow-direction="down"></van-cell>
+              <van-image
+                width="100"
+                height="100"
+                @click="sceneImg(srcList4,index)"
+                v-for="(item,index) in imgUrl4"
+                :src="item.url"
+              >
+                <template v-slot:error>加载失败</template>
+              </van-image>
+              <van-cell title="种植基地检验报告" is-link arrow-direction="down"></van-cell>
+              <van-image
+                width="100"
+                height="100"
+                @click="sceneImg(srcList3,index)"
+                v-for="(item,index) in imgUrl3"
+                :src="item.url"
+              >
+                <template v-slot:error>加载失败</template>
+              </van-image>
+              <van-cell title="生产基地检验报告" is-link arrow-direction="down"></van-cell>
+              <van-image
+                width="100"
+                height="100"
+                @click="sceneImg(srcList5,index)"
+                v-for="(item,index) in imgUrl5"
+                :src="item.url"
+              >
+                <template v-slot:error>加载失败</template>
+              </van-image>
+            </van-cell-group>
+          </van-collapse-item>
+          <van-collapse-item title="基本作业信息" name="3">
+            <van-tabs>
+              <van-tab v-for="(item,index) in aqzs_base_work" :title="item.workObjectName">
+                <van-cell title="作业类型">{{getDictionaryName3(item.workType)}}</van-cell>
+                <van-cell title="作业物名称">{{item.workObjectName}}</van-cell>
+                <van-cell title="作业物类型">{{item.workObjectType}}</van-cell>
+                <van-cell title="作业物来源">{{item.workObjectSource}}</van-cell>
+                <van-cell title="作业物数量"
+                  >{{item.workObjectAmount + getDictionaryName2(item.workObjectAmountUnit)}}</van-cell
+                >
+                <van-cell title="作业开始日期">{{item.startDate.substr(0,10)}}</van-cell>
+                <van-cell title="作业结束日期">{{item.endDate.substr(0,10)}}</van-cell>
+                <van-cell title="天气状况">{{item.weather}}</van-cell>
+                <van-cell title="作业图片" is-link arrow-direction="down"></van-cell>
+                <van-image
+                  width="100"
+                  height="100"
+                  @click="sceneImgCheck(item.workPictureList,index)"
+                  v-for="(data,index) in item.workPictureList"
+                  :src="baseImgUrl + data.url"
+                >
+                  <template v-slot:error>加载失败</template>
+                </van-image>
+              </van-tab>
+            </van-tabs>
+          </van-collapse-item>
+          <van-collapse-item title="生产作业信息" name="4">
+            <van-cell title="收获方式"> {{aqzs_harvest.harvestWay}}</van-cell>
+            <van-cell title="收获数量"
+              >{{aqzs_harvest.harvestAmount + getDictionaryName2(aqzs_harvest.harvestAmountUnit)}}</van-cell
+            >
+            <van-cell title="收获时间">{{aqzs_harvest.harvestDate.substr(0,10)}}</van-cell>
+            <van-cell title="天气状况">{{aqzs_harvest.weather}}</van-cell>
+            <van-cell title="加工开始时间">{{aqzsProduct.startDate.substr(0,10)}}</van-cell>
+            <van-cell title="加工结束时间">{{aqzsProduct.endDate.substr(0,10)}}</van-cell>
+            <van-cell title="加工数量"
+              >{{aqzs_harvest.harvestAmount + getDictionaryName2(aqzs_process_batch.processAmountUnit)}}</van-cell
+            >
+            <van-cell title="加工方式">{{aqzs_process_batch.processWay}}</van-cell>
+            <van-cell title="采收图片" is-link arrow-direction="down"></van-cell>
+            <van-image
+              width="100"
+              height="100"
+              @click="sceneImg(srcList6,index)"
+              v-for="(item,index) in imgUrl6"
+              :src="item.url"
+            >
+              <template v-slot:error>加载失败</template>
+            </van-image>
+            <van-cell title="加工图片" is-link arrow-direction="down"></van-cell>
+            <van-image
+              width="100"
+              height="100"
+              @click="sceneImg(srcList7,index)"
+              v-for="(item,index) in imgUrl7"
+              :src="item.url"
+            >
+              <template v-slot:error>加载失败</template>
+            </van-image>
+          </van-collapse-item>
+          <van-collapse-item title="检验信息" name="5">
+            <van-tabs>
+              <van-tab v-for="(item,index) in aqzsTest" :title="item.testDate.substr(0,10)">
+                <van-cell title="检验数量">{{item.testAmount + getDictionaryName2(item.testAmountUnit)}}</van-cell>
+                <van-cell title="检验日期">{{item.testDate.substr(0,10)}}</van-cell>
+                <van-cell title="检验结果">{{item.testResult}}</van-cell>
+                <van-cell title="检验图片" is-link arrow-direction="down"></van-cell>
+                <van-image
+                  width="100"
+                  height="100"
+                  @click="sceneImgCheck(item.testResultPictureList,index)"
+                  v-for="(data,index) in item.testResultPictureList"
+                  :src="baseImgUrl + data.url"
+                >
+                  <template v-slot:error>加载失败</template>
+                </van-image>
+              </van-tab>
+            </van-tabs>
+          </van-collapse-item>
+          <van-collapse-item title="销售信息" name="6">
+            <van-tabs>
+              <van-tab v-for="(item,index) in aqzsSale" :title="item.orderNumber">
+                <van-cell title="订单编号">{{item.orderNumber}}</van-cell>
+                <van-cell title="销售数量">{{item.saleAmount + getDictionaryName2(item.saleAmountUnit)}}</van-cell>
+                <van-cell title="销售商名称">{{getName(item.sellerId)}}</van-cell>
+                <van-cell title="发货时间">{{item.sendDate.substr(0,10)}}</van-cell>
+                <van-cell title="发货人">{{item.sender}}</van-cell>
+                <van-cell title="收货人">{{item.receiver}}</van-cell>
+                <van-cell title="始发地">{{item.startPlace}}</van-cell>
+                <van-cell title="目的地">{{item.endPlace}}</van-cell>
+              </van-tab>
+            </van-tabs>
+          </van-collapse-item>
+        </van-collapse>
+      </div>
+    </div>
+  </body>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/vant//vant.js"></script>
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/api.js"></script>
+  <script>
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          activeName: '1',
+          activeNames2: '1',
+          code: '',
+          baseImgUrl: data.ip_2,
+          aqzsProduct: {},
+          aqzsDetail: {},
+          imgUrl: [],
+          srcList: [],
+          certificateUrl: [],
+          certificateList: [],
+          aqzs_base1: {},
+          aqzs_base2: {},
+          imgUrl2: [],
+          srcList2: [],
+          imgUrl3: [],
+          srcList3: [],
+          imgUrl4: [],
+          srcList4: [],
+          imgUrl5: [],
+          srcList5: [],
+          imgUrl6: [],
+          srcList6: [],
+          imgUrl7: [],
+          srcList7: [],
+          aqzs_base_work: {},
+          aqzs_harvest: {},
+          aqzsTest: [],
+          aqzsSale: [],
+          amountUnitOptions: [],
+          aqzs_process_batch: {},
+          baseOperationOptions: [],
+          retailerOptions: [],
+        };
+      },
+      created() {
+        this.getRetrospectCode();
+        this.getAmountUnitDictionary();
+      },
+      methods: {
+        getRetrospectCode() {
+          let search = location.search;
+          this.code = search.substr(1);
+          // this.code = '42712111420201032329';
+          let params = { productBatchNumber: this.code };
+          $.ajax({
+            url: data.ip_3 + '/api/zsSys/ProcessBatch/traceByPBN',
+            data: params,
+            type: 'GET',
+            success: (res) => {
+              if (res.status == 200) {
+                this.aqzsProduct = res.data.aqzs_product;
+                this.aqzsDetail = res.data.aqzs_product_detail;
+                this.aqzs_base_work = res.data.aqzs_base_work;
+                this.aqzs_harvest = res.data.aqzs_harvest;
+                this.aqzsTest = res.data.aqzs_finish_product_test;
+                this.aqzsSale = res.data.aqzs_sale;
+                this.aqzs_process_batch = res.data.aqzs_process_batch;
+                this.aqzs_base1 = res.data.aqzs_base1;
+                this.aqzs_base2 = res.data.aqzs_base2;
+                if (!res.data.aqzs_product) {
+                  this.aqzsProduct = {};
+                }
+                if (!res.data.aqzs_product_detail) {
+                  this.aqzsDetail = {};
+                }
+                if (!res.data.aqzs_base1) {
+                  this.aqzs_base1 = {};
+                }
+                if (!res.data.aqzs_base2) {
+                  this.aqzs_base2 = {};
+                } else {
+                  this.aqzs_base2.isReportQualified = this.aqzs_base2.isReportQualified ? '合格' : '不合格';
+                }
+                if (!res.data.aqzs_harvest) {
+                  this.aqzs_harvest = {};
+                }
+                if (!res.data.aqzs_process_batch) {
+                  this.aqzs_process_batch = {};
+                }
+                if (!res.data.aqzs_sale) {
+                  this.aqzsSale = {};
+                }
+
+                this.aqzs_base1.isReportQualified = this.aqzs_base1.isReportQualified ? '合格' : '不合格';
+                if (this.aqzsDetail.pictureList) {
+                  this.imgUrl = this.aqzsDetail.pictureList.map((item) => {
+                    this.srcList.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzsDetail.certificateList) {
+                  this.certificateUrl = this.aqzsDetail.certificateList.map((item) => {
+                    this.certificateList.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzs_base1.basePictureList) {
+                  this.imgUrl2 = this.aqzs_base1.basePictureList.map((item) => {
+                    this.srcList2.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzs_base2.basePictureList) {
+                  this.imgUrl4 = this.aqzs_base2.basePictureList.map((item) => {
+                    this.srcList4.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzs_base1.reportPictureList) {
+                  this.imgUrl3 = this.aqzs_base1.reportPictureList.map((item) => {
+                    this.srcList3.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzs_base2.reportPictureList) {
+                  this.imgUrl5 = this.aqzs_base2.reportPictureList.map((item) => {
+                    this.srcList5.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzs_harvest.harvestPictureList) {
+                  this.imgUrl6 = this.aqzs_harvest.harvestPictureList.map((item) => {
+                    this.srcList6.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+                if (this.aqzs_process_batch.productBatchNumberPictureList) {
+                  this.imgUrl7 = this.aqzs_process_batch.productBatchNumberPictureList.map((item) => {
+                    this.srcList7.push(this.baseImgUrl + item.url);
+                    return {
+                      url: this.baseImgUrl + item.url,
+                    };
+                  });
+                }
+              }
+              this.getRetailerDictionary();
+              this.getBaseOperationDictionary();
+            },
+            error: function (err) {
+              console.log(err);
+            },
+          });
+        },
+        getRetailerDictionary() {
+          $.ajax({
+            url: data.ip_3 + '/api/zsSys/Seller/pageByEId',
+            data: { enterpriseId: this.aqzs_base1.enterpriseId },
+            type: 'GET',
+            success: (res) => {
+              if (res.status !== 200) {
+                return vant.Notify({ type: 'danger', message: '获取失败' });
+              }
+              this.retailerOptions = res.data.rows;
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
+        },
+        // 根据id获取name
+        getName(id) {
+          for (let i = 0; i < this.retailerOptions.length; i++) {
+            if (id === this.retailerOptions[i].id) {
+              return this.retailerOptions[i].name;
+            }
+          }
+        },
+        handleCheckInfo(value) {
+          vant.Dialog({ title: '商品介绍', message: value });
+        },
+        getAmountUnitDictionary() {
+          $.ajax({
+            url: data.ip_3 + '/api/comSys/DataDictionary/getAllMayToCondition',
+            data: { type: '数量单位' },
+            type: 'GET',
+            success: (res) => {
+              if (res.status !== 200) {
+                return vant.Notify({ type: 'danger', message: '获取失败' });
+              }
+              this.amountUnitOptions = res.data;
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
+        },
+        getBaseOperationDictionary() {
+          $.ajax({
+            url: data.ip_3 + '/api/comSys/DataDictionary/getAllMayToCondition',
+            data: {
+              type: this.aqzs_base1.baseType === '种植基地' ? '种植作业类型' : '水产作业类型',
+              remark: 'X2',
+            },
+            type: 'GET',
+            success: (res) => {
+              if (res.status !== 200) {
+                return vant.Notify({ type: 'danger', message: '获取失败' });
+              }
+              this.baseOperationOptions = res.data;
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
+        },
+        // 图片预览
+        sceneImg(images, index) {
+          vant.ImagePreview({
+            images: images, //需要预览的图片 URL 数组
+            showIndex: true, //是否显示页码
+            loop: false, //是否开启循环播放
+            startPosition: index, //图片预览起始位置索引
+          });
+        },
+        sceneImgCheck(images, index) {
+          let imageArr = [];
+          images.map((item) => {
+            imageArr.push(this.baseImgUrl + item.url);
+          });
+          vant.ImagePreview({
+            images: imageArr, //需要预览的图片 URL 数组
+            showIndex: true, //是否显示页码
+            loop: false, //是否开启循环播放
+            startPosition: index, //图片预览起始位置索引
+          });
+        },
+        // 根据code转换成name
+        getDictionaryName(code) {
+          for (let i = 0; i < this.typeOptions.length; i++) {
+            if (code === this.typeOptions[i].code) {
+              return this.typeOptions[i].name;
+            }
+          }
+        },
+        getDictionaryName2(code) {
+          for (let i = 0; i < this.amountUnitOptions.length; i++) {
+            if (code === this.amountUnitOptions[i].code) {
+              return this.amountUnitOptions[i].name;
+            }
+          }
+        },
+        getDictionaryName3(code) {
+          for (let i = 0; i < this.baseOperationOptions.length; i++) {
+            if (code === this.baseOperationOptions[i].code) {
+              return this.baseOperationOptions[i].name;
+            }
+          }
+        },
+      },
+    });
+  </script>
+</html>

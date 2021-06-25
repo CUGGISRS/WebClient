@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/media.css" />
+    <!--分页-->
+    <link rel="stylesheet" type="text/css" href="./pagination/pagination.css" media="screen" />
+    <title>监利市农业公益性服务子系统</title>
+  </head>
+  <body class="shichang-list">
+    <script>
+      function qkeypress() {
+        var q = $('input[name=q]');
+        if (q.val().trim() != '') {
+          $('input[name=q]').autocomplete('enable');
+        } else {
+          $('input[name=q]').autocomplete('disable');
+        }
+      }
+    </script>
+
+    <div class="container m-container">
+      <div class="rows">
+        <div class="col-md-12">
+          <div class="website">
+            当前位置: <a href="index.html">首页</a> > <a>益农服务</a> > <a href="qbzj.html">全部专家</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="rows">
+        <div class="col-md-12">
+          <div class="ej-menu">
+            <ul>
+              <a href="rxwd.html">热线问答</a>
+              <a href="zjsp.html">专家视频</a>
+              <!--				<a href="zjpx.html">专家排行</a>-->
+              <a class="active" href="qbzj.html">全部专家</a>
+            </ul>
+          </div>
+          <div class="expert-select">
+            <span
+              ><b>专家业务查询：</b>
+              <input type="text" id="district_id" /> </span
+            ><!--服务县区-->
+            <input
+              style="width: 60px; height: 30px; line-height: 30px"
+              class="query"
+              id="onSearch"
+              type="button"
+              value="查询"
+            />
+          </div>
+          <div class="pic-list-zj">
+            <ul class="clearfix" id="allExpertInfo"></ul>
+
+            <!--分页-->
+            <div style="float: right; padding-bottom: 30px" class="m-style M-box4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </footer>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="js/kkpager.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/zixun-jiaodian.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/commom/api.js"></script>
+
+    <script src="js/pagination/jquery.pagination.js"></script>
+    <script>
+      $(function () {
+        selectDepartMent();
+        selectExpertType();
+
+        var data = {
+          page: 1,
+          limit: 12,
+        };
+        var total;
+        queryAllExpert();
+        function queryAllExpert() {
+          $('#allExpertInfo').empty();
+          $.ajax({
+            url: InterfaceGYX + '/expert/getExpertInfoList',
+            type: 'get',
+            async: false,
+            cache: true,
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            data: data,
+            success: function (data) {
+              total = data.data.total;
+              var html = '';
+              if (data.data.rows.length > 0) {
+                //职称
+                let official;
+                //业务专长
+                let business;
+                //微信号码
+                let wechat;
+                //服务区县
+                let serviceArea;
+
+                for (let i = 0; i < data.data.rows.length; i++) {
+                  let image = data.data.rows[i].photo;
+                  if (image === '' || image == null) {
+                    image = './picture/logo.png'; //默认头像
+                  }
+                  //职称
+                  official = data.data.rows[i].jobTitle;
+                  official = Trim(official);
+                  official = official.substring(0, 5) + '...';
+                  //业务专长
+                  business = data.data.rows[i].expertise;
+                  business = Trim(business);
+                  business = business.substring(0, 5) + '...';
+                  //电话号码
+                  phone = data.data.rows[i].phone;
+                  phonePre = Trim(phone).substring(0, 3);
+                  phoneNext = Trim(phone).substring(7, 11);
+                  phoneShow = phonePre + '****' + phoneNext;
+                  //微信号码
+                  wechat = data.data.rows[i].wechat;
+                  wechatPre = Trim(wechat).substring(0, 3);
+                  wechatNext = Trim(wechat).substring(7, 11);
+                  wechatShow = wechatPre + '****' + wechatNext;
+                  //服务区县
+                  serviceArea = data.data.rows[i].serviceArea;
+
+                  html +=
+                    "<li class='col-md-4'>" +
+                    "<div class='zj-pic'>" +
+                    "<a href='consultation.html?" +
+                    data.data.rows[i].id +
+                    "'>" +
+                    "<img class='img-responsive' src='" +
+                    image +
+                    "'></a>" +
+                    '<p>' +
+                    "<button onclick='checkIsLogin(" +
+                    data.data.rows[i].id +
+                    ")'>我要咨询</button>" +
+                    '</p>' +
+                    '</div>' +
+                    "<div class='zj-info'>" +
+                    "<a href='consultation.html?" +
+                    data.data.rows[i].id +
+                    "'>" +
+                    data.data.rows[i].expertName +
+                    '</a>' +
+                    '<p title="' +
+                    data.data.rows[i].jobTitle +
+                    '"><label>职务/职称：</label>' +
+                    official +
+                    '</p>' +
+                    '<p title="' +
+                    data.data.rows[i].expertise +
+                    '"><label>业务专长：</label>' +
+                    business +
+                    '</p>' +
+                    '<p><label>联系方式：</label>' +
+                    phoneShow +
+                    '</p>' +
+                    '<p title="' +
+                    data.data.rows[i].wechat +
+                    '"><label>微信号码：</label>' +
+                    wechatShow +
+                    '</p>' +
+                    '<p><label>服务区县：</label>' +
+                    data.data.rows[i].serviceArea +
+                    '</p>' +
+                    '</div>' +
+                    '</li>';
+                }
+              } else {
+                html += '<div>暂无专家信息！</div>';
+              }
+              $('#allExpertInfo').append(html);
+            },
+            error: function (e) {
+              console.info(e);
+            },
+          });
+        }
+
+        $('.M-box4').pagination({
+          //总条数
+          totalData: total,
+          //每页条数
+          showData: 12,
+          //固定页码数
+          mode: 'unfixed',
+          count: 3,
+          isHide: true,
+          //是否一直显示上一页下一页
+          keepShowPN: false,
+          callback: function (api) {
+            data.page = api.getCurrent();
+            queryAllExpert();
+          },
+        });
+        $('#onSearch').on('click', function () {
+          let expertise = $(' #district_id ').val();
+          data.expertise = expertise;
+          queryAllExpert();
+        });
+      });
+
+      // function retStar(index) {
+      //   if (index == undefined || index == null || index == '') {
+      //     index = 0;
+      //   }
+      //   switch (index) {
+      //     case 1:
+      //       return '<span class="pxStar"><span class="star_score_full"></span><span class="star_score"></span><span class="star_score"></span><span class="star_score"></span><span class="star_score"></span></span>';
+      //       break;
+      //     case 2:
+      //       return '<span class="pxStar"><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score"></span><span class="star_score"></span><span class="star_score"></span></span>';
+      //       break;
+      //     case 3:
+      //       return '<span class="pxStar"><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score"></span><span class="star_score"></span></span>';
+      //       break;
+      //     case 4:
+      //       return '<span class="pxStar"><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score"></span></span>';
+      //       break;
+      //     case 5:
+      //       return '<span class="pxStar"><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score_full"></span><span class="star_score_full"></span></span>';
+      //       break;
+      //     default:
+      //       return '<span class="pxStar"><span class="star_score"></span><span class="star_score"></span><span class="star_score"></span><span class="star_score"></span><span class="star_score"></span></span>';
+      //   }
+      // }
+
+      //去除字符串两边的空格
+      function Trim(str) {
+        return str.replace(/(^\s*)|(\s*$)/g, '');
+      }
+      function selectDepartMent() {
+        //获取自治区和地市单位
+        $('#deptId').empty();
+        $.ajax({
+          type: 'POST',
+          url: '#',
+          data: {},
+          async: false,
+          dataType: 'json',
+          success: function (data) {
+            var html = '';
+            if (data != null && data.length > 0) {
+              for (var i = 0; i < data.length; i++) {
+                html = "<option value='" + data.rows[i].id + "'>" + data.rows[i].name + '</option>';
+                $('#deptId').append(html);
+              }
+            } else {
+              html = "<option value='0'>全部</option>";
+              $('#deptId').append(html);
+            }
+          },
+        });
+      }
+      function selectCity() {
+        //根据地市查询区县
+        var deptId = $('#deptId').val();
+        $('#district_id').empty();
+        $.ajax({
+          type: 'POST',
+          url: '/v_queryDistrict.jspx',
+          data: { deptId: deptId },
+          dataType: 'json',
+          async: false,
+          success: function (data) {
+            var html = '';
+            if (data != null && data.length > 0) {
+              for (var i = 0; i < data.length; i++) {
+                html = "<option value='" + data.rows[i].id + "'>" + data.rows[i].name + '</option>';
+                $('#district_id').append(html);
+              }
+            } else {
+              html = "<option value='0'>全部</option>";
+              $('#district_id').append(html);
+            }
+          },
+        });
+      }
+      function selectExpertType() {
+        //获取专家类型
+        $('#expertType').empty();
+        $.ajax({
+          type: 'POST',
+          url: '#',
+          data: {},
+          async: false,
+          dataType: 'json',
+          success: function (data) {
+            var html = '';
+            if (data != null && data.length > 0) {
+              for (var i = 0; i < data.length; i++) {
+                html = "<option value='" + data.rows[i].value + "'>" + data.rows[i].name + '</option>';
+                $('#expertType').append(html);
+              }
+            } else {
+              html = "<option value='0'>全部</option>";
+              $('#expertType').append(html);
+            }
+          },
+        });
+      }
+      function checkIsLogin(_userid) {
+        // var url="/expert.jspx?id="+_userid;
+        var user = localStorage.getItem('username');
+        if (user === '' || user == null) {
+          confirm('您好！请先登录后再咨询。');
+        } else {
+          window.location.href = 'consultation.html?' + _userid;
+        }
+        /*if(confirm("您好！请先登录后再咨询。")){
+	}*/
+      }
+    </script>
+  </body>
+</html>

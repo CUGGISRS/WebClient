@@ -1,0 +1,8 @@
+{
+  "name": "ace-jd-sys",
+  "version": "1.0.0",
+  "description": "监督系统接口文档",
+  "title": "ace-jd-sys",
+  "url": "http://192.168.8.166:8765/api/jdSys",
+  "sampleUrl": "http://192.168.8.166:8765/api/jdSys"
+}

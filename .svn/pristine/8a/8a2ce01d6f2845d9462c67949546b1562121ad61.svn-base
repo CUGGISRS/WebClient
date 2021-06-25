@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    <button id="but">按钮</button>
+    <a href="javascript:">弹框</a>
+</body>
+<script>
+    var car = {realName:"admin"};
+    $('#but').click(function () {
+        $.ajax({
+            url : "http://192.168.8.111:7000/ad-sponsor/create/user",
+            type : "POST",
+            contentType: 'application/json',
+            data : JSON.stringify(car),
+            dataType : "json",
+            //data : car,
+            success : function(data) {
+                console.log(data)
+            },
+            error : function(e) {
+                console.log(e)
+            }
+        });
+    })
+
+</script>
+</html>

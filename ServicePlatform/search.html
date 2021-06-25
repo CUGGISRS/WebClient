@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/front.js"></script>
+    <title>监利市农业公益性服务子系统</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/iconfont.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="./css/pagination.css" media="screen" />
+
+    <style>
+      .eslight {
+        color: #f00;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body class="shichang-list">
+    <script>
+      function qkeypress() {
+        var q = $('input[name=q]');
+        if (q.val().trim() != '') {
+          $('input[name=q]').autocomplete('enable');
+        } else {
+          $('input[name=q]').autocomplete('disable');
+        }
+      }
+    </script>
+    <div class="header">
+      <div class="container m-container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="search-info">您搜索的“<span id="searchVal"></span>”， 共有<span id="total"></span>个结果</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="searchList">
+              <div class="item">
+                <div class="search-title">
+                  <a href="http://www.nx12316.com.cn/yzq/2688.jhtml" title="原州区开展植保机械调查工作" target="_blank"
+                    ><span>原州区</span>开展植保机械调查工作</a
+                  >
+                </div>
+                <div class="search-txt">
+                  9月29日至30日，<span>原州区</span>农技中心选取三个乡镇开展了植保机械调查工作，初步掌握了这些乡镇农户和种植大户植保机械保有量与使用情况，为测算农药利用率提供了重要依据。一是<span>原州区</span>农户当前使用植保机械以背负式手动喷雾器和背负式电动喷雾器为主，共调查90户，背负式手动喷雾器53台，背负式电动喷雾器50台，日作业能力7-8亩左右。二是合作...
+                </div>
+                <div class="search-date">
+                  <em>2020-10-10 16:20:05</em>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-style M-box4" style="margin: 20px 0px"></div>
+      </div>
+    </div>
+    <footer class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </footer>
+  </body>
+  <script src="js/header.js"></script>
+
+  <script src="js/pagination/jquery.pagination.js"></script>
+  <script src="js/commom/api.js"></script>
+  <script type="text/javascript">
+    let search = location.search;
+    let s = decodeURIComponent(search);
+    let searchVal = s.substring(1);
+    let total;
+    $('#searchVal').html(searchVal);
+    let data = {
+      page: 1,
+      size: 12,
+      keyword: searchVal,
+      system: 'gyx_system',
+    };
+
+    InitList(); //初始化列表数据
+    function InitList() {
+      let s1 = JSON.stringify(data);
+      $('.searchList').empty();
+      $.ajax({
+        url: Interface + '/search/article/list', //请求地址
+        dataType: 'json', //数据格式
+        type: 'post', //请求方式
+        cache: true,
+        contentType: 'application/json;charset=utf-8',
+        async: false, //是否异步请求
+        data: s1,
+        success: function (data) {
+          for (let i = 0; i < data.data.rows.length; i++) {
+            if (data.data.rows[i].pubTime !== null && data.data.rows[i].simple !== null) {
+              let date = data.data.rows[i].pubTime.substring(0, 10);
+              $('.searchList').append(
+                '<div class="item">\n' +
+                  '                        <div class="search-title">\n' +
+                  '                            <a href="./common.html?id=' +
+                  data.data.rows[i].id +
+                  '" title="' +
+                  data.data.rows[i].title +
+                  '" target="_blank">' +
+                  data.data.rows[i].title +
+                  '</a>\n' +
+                  '                        </div>\n' +
+                  '                        <div class="search-txt">' +
+                  data.data.rows[i].simple +
+                  '</div>\n' +
+                  '                        <div class="search-date">\n' +
+                  '                            <em>' +
+                  date +
+                  '</em>\n' +
+                  '                        </div>\n' +
+                  '                    </div>'
+              );
+            }
+
+            $('.searchList').append(
+              '<div class="item">\n' +
+                '                        <div class="search-title">\n' +
+                '                            <a href="./common.html?id=' +
+                data.data.rows[i].id +
+                '" title="' +
+                data.data.rows[i].title +
+                '" target="_blank">' +
+                data.data.rows[i].title +
+                '</a>\n' +
+                '                        </div>\n' +
+                '                        <div class="search-txt">' +
+                '</div>\n' +
+                '                    </div>'
+            );
+          }
+          total = data.data.total;
+          $('#total').html(total);
+        },
+        error: function (e) {
+          console.log(e);
+        },
+      });
+    }
+
+    if (total !== 0) {
+      $('.M-box4').pagination({
+        //总条数
+        totalData: total,
+        //每页条数
+        showData: 12,
+        //固定页码数
+        mode: 'fixed',
+        // count:3,
+        //开启第一页和最后一页的按钮,
+        coping: true,
+        homePage: '首页',
+        endPage: '末页',
+        prevContent: '<',
+        nextContent: '>',
+        callback: function (api) {
+          data.page = api.getCurrent();
+          InitList();
+        },
+      });
+    }
+  </script>
+</html>

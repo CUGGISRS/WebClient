@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>监利市农业电子商务综合服务子系统</title>
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <link rel="stylesheet" href="../../fonts/element.css" />
+  </head>
+  <style>
+    .el-textarea__inner {
+      font-size: 16px;
+      font-weight: 600;
+      color: #000 !important;
+      cursor: text !important;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <div class="title-section">
+        <div class="title-section-content">
+          <a href="../../index.html" class="system-title">监利市农业电子商务综合服务子系统</a>
+          <div class="login-content">
+            <a href="../login/login.html" v-if="loginShow">
+              <el-button type="success">登录</el-button>
+            </a>
+            <el-button type="info" v-if="!loginShow">用户：{{userName}}</el-button>
+            <el-button type="primary" @click="handleLogOut" v-if="!loginShow">退出登录</el-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-list">
+        <div class="nav-list-content">
+          <a class="nav-item" href="../../index.html">首页</a>
+          <a class="nav-item" href="../market-condition.html">市场行情</a>
+          <a class="nav-item" href="../price-condition.html">价格行情</a>
+          <a class="nav-item" href="../statistical-chart/statistical-chart.html">行情统计</a>
+          <a class="nav-item" href="../price-trend.html">价格走势</a>
+          <a class="nav-item" href="../farm-products.html">优质农产品</a>
+          <a class="nav-item" href="../production-market/production-market.html">农产品产销信息</a>
+          <a class="nav-item active" href="./message-board.html">留言板</a>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="banner-section" style="height: 200px">
+          <img src="../../images/banner-6.png" alt="" style="height: 200px" />
+        </div>
+
+        <div class="message-board-section">
+          <div class="message-board-nav">
+            <h2 class="message-board-nav-left">
+              您所在的位置： <a href="../../index.html" style="color: #888">首页</a> >
+              <a href="./message-board.html" style="color: #888">留言板</a>
+            </h2>
+            <el-button @click="goBack" type="success" style="width: 100px !important">返回</el-button>
+          </div>
+          <div class="message-board-content">
+            <p class="message-board-content-title">用户留言</p>
+            <div class="message-board-content-detail">
+              <h2 class="message-board-detail-title">{{row.title}}</h2>
+              <div class="message-board-detail-container">
+                <div class="message-board-detail-top-info">
+                  <span>时间：{{row.messageTime}}</span>
+                  <span>留言人: ***</span>
+                </div>
+                <div class="message-board-detail-text">
+                  <el-input type="textarea" disabled :rows="3" v-model="row.content"> </el-input>
+                </div>
+                <p class="message-board-detail-reply">回复内容：</p>
+                <el-input type="textarea" disabled :rows="3" v-if="row.isReply == 1" v-model="textarea"> </el-input>
+                <p class="message-board-reply-time" v-if="row.isReply == 1">
+                  <span>管理员：{{replayInfos.responder}}</span>
+                  <span>时间：{{replayInfos.replyTime}}</span>
+                </p>
+                <p class="message-board-reply-time" v-else>
+                  <span>暂未回复</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="link-section">
+        <div class="link-section-content">
+          <p><b>友情链接：</b></p>
+          <div class="link-list">
+            <a class="link-item" href="http://39.104.61.47:8093/gyx_System/">监利市农业公益性服务子系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/3d_ball_cesium">监利市产业园三维可视化子系统</a>
+
+            <a class="link-item" href="http://39.104.61.47:8093/zsjd/#/login">监利市农产品质量安全监督管理系统</a>
+
+            <a class="link-item" href="http://39.104.61.47:8093/zsxx_System/">监利市农产品质量安全追溯信息系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/dxgz/#/login">监利市稻虾共作物联网应用系统</a>
+
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/element/index.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../assets/jquery/jquery.min.js"></script>
+  <script type="text/javascript">
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          row: {},
+          replayInfos: {},
+          textarea: '',
+          loginShow: true,
+          userName: '',
+        };
+      },
+      created() {
+        this.getAllList();
+        this.showLogin();
+      },
+      methods: {
+        getAllList() {
+          let search = location.search;
+          let id = search.substr(1);
+          doApi_2(
+            (res) => {
+              console.log(res);
+              if (res.status == 200) {
+                this.row = res.data;
+                this.replayInfos = res.data.replyInfos[0];
+                this.textarea = res.data.replyInfos[0].content;
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/qa/getQA?qaId=' + id,
+            'post',
+            null,
+            null
+          );
+        },
+        handleLogOut() {
+          this.$confirm('确认是否退出登陆, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          })
+            .then(() => {
+              this.$message({
+                type: 'success',
+                message: '退出成功!',
+              });
+              localStorage.removeItem('token');
+              localStorage.removeItem('username');
+              localStorage.removeItem('loginForm');
+              this.loginShow = true;
+            })
+            .catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消退出',
+              });
+            });
+        },
+        showLogin() {
+          if (localStorage.getItem('token')) {
+            this.loginShow = false;
+            this.userName = localStorage.getItem('username');
+          }
+        },
+        goBack() {
+          window.history.back(); //返回上一页，并且强行刷新
+        },
+      },
+    });
+  </script>
+</html>

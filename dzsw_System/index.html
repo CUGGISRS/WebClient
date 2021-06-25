@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>监利市农业电子商务综合服务子系统</title>
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/index.css" />
+  <link rel="stylesheet" href="./fonts/element.css" />
+  <link rel="stylesheet" href="./css/swiper.min.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="title-section">
+      <div class="title-section-content">
+        <a class="system-title">监利市农业电子商务综合服务子系统</a>
+        <div class="login-content">
+          <a href="./html/login/login.html" v-if="loginShow">
+            <el-button type="success">登录</el-button>
+          </a>
+          <el-button type="info" v-if="!loginShow">用户：{{userName}}</el-button>
+          <el-button type="primary" @click="handleLogOut" v-if="!loginShow">退出登录</el-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-list">
+      <div class="nav-list-content">
+        <a class="nav-item active" href="javascript:;">首页</a>
+        <a class="nav-item" href="./html/market-condition.html">市场行情</a>
+        <a class="nav-item" href="./html/price-condition.html">价格行情</a>
+        <a class="nav-item" href="./html/statistical-chart/statistical-chart.html">行情统计</a>
+        <a class="nav-item" href="./html/price-trend.html">价格走势</a>
+        <a class="nav-item" href="./html/farm-products.html">优质农产品</a>
+        <a class="nav-item" href="./html/production-market/production-market.html">农产品产销信息</a>
+        <a class="nav-item" href="./html/message-board/message-board.html">留言板</a>
+      </div>
+    </div>
+
+    <div class="mainer">
+      <div class="swiper-container swiper1">
+        <el-carousel height="400px">
+          <el-carousel-item style="width: 1300px; height: 400px" v-for="item in swiperList">
+            <a :href="'./html/index-detail.html?'+ item.id">
+              <img style="width: 1300px; height: 400px" :src="item.path" />
+            </a>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+
+      <div class="dynamic-section">
+        <div class="dynamic-main">
+          <div class="dynamic-content-list">
+            <div class="dynamic-left-top">
+              <div class="dynamic-right-top">
+                <span class="dynamic-right-title">政策法规</span>
+                <a href="./html/laws-list.html?=2" class="dynamic-right-more">更多 >> </a>
+              </div>
+              <div class="dynamic-content-item" v-for="item in policyArticleList">
+                <a class="dynamic-item-text" :href="'./html/index-detail.html?'+ item.id">{{item.title}}</a>
+                <span class="dynamic-item-time">{{item.pubTime.substr(0,10)}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dynamic-main">
+          <div class="dynamic-content-list">
+            <div class="dynamic-left-top">
+              <div class="dynamic-right-top">
+                <span class="dynamic-right-title">产销信息</span>
+                <a href="./html/production-market/production-market.html" class="dynamic-right-more">更多 >> </a>
+              </div>
+              <div class="dynamic-content-item" v-for="item in marketArticleList">
+                <a class="dynamic-item-text"
+                  :href="'./html/production-market/production-market-detail.html?' + item.id">{{item.title}}</a>
+                <span class="dynamic-item-time">{{item.pubTime.substr(0,10)}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="farm-knowledge-section">
+        <div class="farm-knowledge-left">
+          <div class="farm-knowledge-nav">
+            <div class="farm-knowledge-nav-title">
+              <a class="farm-nav-item" :class="activeValue == index? 'active': ''" v-for="(item,index) in farmNavItem"
+                @click="selected(item.value)">{{item.name}}</a>
+            </div>
+            <div style="margin-right: 20px">
+              <a href="./html/laws-list.html?=3" class="dynamic-right-more" v-if="activeValue == 0">更多 >> </a>
+              <a href="./html/laws-list.html?=4" class="dynamic-right-more" v-else-if="activeValue == 1">更多 >> </a>
+              <a href="./html/laws-list.html?=5" class="dynamic-right-more" v-else>更多 >> </a>
+            </div>
+          </div>
+          <div class="farm-knowledge-content">
+            <div class="swiper-container swiper3">
+              <el-carousel height="380px" style="width: 400px">
+                <el-carousel-item>
+                  <img style="width: 400px; height: 380px" src="./images/farm-info.jpg" />
+                </el-carousel-item>
+                <el-carousel-item>
+                  <img style="width: 400px; height: 380px" src="./images/farm-info2.jpg" />
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+            <div class="farm-knowledge-content-right">
+              <div class="dynamic-content-list-detail" v-if="activeValue == 0">
+                <div class="dynamic-list-top">
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <!-- <span class="dynamic-content-list-title"> 农业资讯</span> -->
+                    <!-- <a href="./html/laws-list.html?=3" class="dynamic-right-more">更多 >> </a> -->
+                  </div>
+
+                  <div class="dynamic-content-item" v-for="item in farmArticleList">
+                    <a class="dynamic-item-text" :href="'./html/index-detail.html?'+ item.id">{{item.title}}</a>
+                    <span class="dynamic-item-time">{{item.pubTime}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dynamic-content-list-detail" v-else-if="activeValue == 1">
+                <div class="dynamic-list-top">
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <!-- <span class="dynamic-content-list-title">农事指导</span> -->
+                    <!-- <a href="./html/laws-list.html?=4" class="dynamic-right-more">更多 >> </a> -->
+                  </div>
+                  <div class="dynamic-content-item" v-for="item in farmArticleList">
+                    <a class="dynamic-item-text" :href="'./html/index-detail.html?'+ item.id">{{item.title}}</a>
+                    <span class="dynamic-item-time">{{item.pubTime}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dynamic-content-list-detail" v-else>
+                <div class="dynamic-list-top">
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <!-- <span class="dynamic-content-list-title">种植知识</span> -->
+                    <!-- <a href="./html/laws-list.html?=5" class="dynamic-right-more">更多 >> </a> -->
+                  </div>
+                  <div class="dynamic-content-item" v-for="item in farmArticleList">
+                    <a class="dynamic-item-text" :href="'./html/index-detail.html?'+ item.id">{{item.title}}</a>
+                    <span class="dynamic-item-time">{{item.pubTime}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="farm-knowledge-right">
+          <div style="width: 350px; height: 440px; background: #fff; padding: 10px;overflow: hidden;">
+            <div style="
+                  display: flex;
+                  justify-content: space-between;
+                  height: 30px;
+                  line-height: 30px;
+                  border-bottom: 1px solid forestgreen;
+                ">
+              <span style="font-size: 14px; color: forestgreen"><b>最新行情</b> </span>
+              <!-- <span style="cursor: pointer; color: teal">更多>></span> -->
+            </div>
+            <div>
+              <el-table :data="conditionTableData" style="font-size: 13px; font-weight: 600">
+                <el-table-column prop="productName" label="品名" align="center"> </el-table-column>
+                <el-table-column prop="collectionPoint" label="采集点" align="center"> </el-table-column>
+                <el-table-column prop="price" label="价格" align="center"> </el-table-column>
+                <el-table-column prop="offerTime" label="时间" width="90" align="center">
+                  <template v-slot="scope"> {{scope.row.offerTime.substr(0,10)}} </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="farm-production-section">
+        <div class="farm-procution-swiper">
+          <div class="product-top">
+            <span class="product-show">优质农产品</span>
+            <a href="./html/farm-products.html">
+              <span class="product-more">更多 >></span>
+            </a>
+          </div>
+          <div class="swiper-container swiper2">
+            <div class="swiper-wrapper" style="width: 1200px">
+              <div class="swiper-slide" style="width: 240px" v-for="item in productSwiper">
+                <a :href="'./html/farm-products.html?' + item.id">
+                  <img :src="item.path" style="width: 217px; height: 160px; border-radius: 2px; cursor: pointer" />
+                </a>
+                <p class="product-swiper-text"><b>{{item.name}}</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="link-section">
+      <div class="link-section-content">
+        <p><b>友情链接：</b></p>
+        <div class="link-list">
+          <a target="_blank" class="link-item" href="http://39.104.61.47:8093/gyx_System/">监利市农业公益性服务子系统</a>
+          <a target="_blank" class="link-item" href="http://39.104.61.47:8093/3d_ball_cesium">监利市产业园三维可视化子系统</a>
+
+          <a target="_blank" class="link-item" href="http://39.104.61.47:8093/zsjd/#/login">监利市农产品质量安全监督管理系统</a>
+
+          <a target="_blank" class="link-item" href="http://39.104.61.47:8093/zsxx_System/">监利市农产品质量安全追溯信息系统</a>
+          <a target="_blank" class="link-item" href="http://39.104.61.47:8093/dxgz/#/login">监利市稻虾共作物联网应用系统</a>
+          <a class="link-item"></a>
+          <a class="link-item"></a>
+          <a class="link-item"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<div class="login_footer">
+  <span>
+    <span>Copyright &copy; &nbsp;</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>监利市农业农村局</p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>武汉中迪联创科技有限公司</p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+  </span>
+</div>
+<script src="./assets/vue/vue.min.js"></script>
+<script src="./assets/element/index.js"></script>
+<script src="./js/swiper.min.js"></script>
+<script src="./js/api.js"></script>
+<script src="./assets/jquery/jquery.min.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        swiperList: [],
+        productSwiper: [],
+        //政策法规文章标题arr
+        policyArticleList: [],
+        //工作动态文章标题arr
+        workArticleList: [],
+        //产销信息文章标题arr
+        marketArticleList: [],
+        //农事指导,农业资讯,种植知识arr
+        farmArticleList: [],
+        //农事指导,农业资讯,种植知识轮播图arr
+        farmSwiperList: [],
+        farmNavItem: [
+          { value: 0, name: '农业资讯' },
+          { value: 1, name: '农事指导' },
+          { value: 2, name: '种植知识' },
+        ],
+        activeValue: 0,
+        params: {
+          pageNum: 1,
+          pageRow: 10,
+          sysType: '电子商务系统',
+          articleType: '',
+          status: 1,
+        },
+        loginShow: true,
+        userName: '',
+        conditionTableData: [],
+      };
+    },
+    created() {
+      this.getSwiperItem();
+      this.getArticleList();
+      this.showLogin();
+      this.getConditionTableValue();
+    },
+    methods: {
+      handleLogOut() {
+        this.$confirm('确认是否退出登陆, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '退出成功!',
+            });
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            localStorage.removeItem('loginForm');
+            this.loginShow = true;
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消退出',
+            });
+          });
+      },
+      getConditionTableValue() {
+        doApi_2(
+          (res) => {
+            if (res.status == 200) {
+              this.conditionTableData = res.data.rows.slice(0, 5);
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/price/listRecentPriceInfo?limit=8',
+          'post',
+          null,
+          null
+        );
+      },
+      selected(value) {
+        this.activeValue = value;
+        this.getArticleList();
+      },
+      showLogin() {
+        if (localStorage.getItem('token')) {
+          this.loginShow = false;
+          this.userName = localStorage.getItem('username');
+        }
+      },
+      getSwiperItem() {
+        let params = {
+          page: 1,
+          size: 5,
+          targetSystem: '电子商务系统',
+        };
+        let productParams = {
+          page: 1,
+          limit: 10,
+        };
+        //banner轮播图
+        doApi_1(
+          (res) => {
+            if (res.status == 200) {
+              this.swiperList = res.data.rows.map((item) => {
+                return {
+                  id: item.articleId,
+                  path: item.path,
+                };
+              });
+            }
+            // this.initSwiper();
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/carousel/page',
+          'get',
+          params,
+          null
+        );
+        //优质农产品轮播图
+        doApi_2(
+          (res) => {
+            if (res.status == 200) {
+              this.productSwiper = res.data.rows.map((item) => {
+                if (item.imgLists == '') {
+                  return {
+                    id: item.id,
+                    name: item.productName,
+                    path: '/images/null-img.png',
+                  };
+                } else {
+                  return {
+                    id: item.id,
+                    name: item.productName,
+                    path: 'http://' + item.imgLists[0].path,
+                  };
+                }
+              });
+              this.initProductSwiper();
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/perfectProduct/listByPage',
+          'get',
+          productParams,
+          null
+        );
+      },
+      initProductSwiper() {
+        var swiper2 = new Swiper('.swiper2', {
+          observer: true,
+          observeParents: true,
+          autoplay: 2000,
+          autoplayDisableOnInteraction: false,
+          slidesPerView: 'auto',
+          loopedSlides: 5,
+          centeredSlides: false,
+          spaceBetween: 5,
+          // freeMode: true,
+          grabCursor: true,
+          loop: true, // 循环模式选项
+        });
+        this.$nextTick(() => {
+          swiper2.init();
+        });
+      },
+      getArticleList() {
+        let params = {
+          pageNum: 1,
+          pageRow: 10,
+          sysType: '电子商务系统',
+          articleType: '政策法规',
+          status: 1,
+        };
+        let workParams = {
+          pageNum: 1,
+          pageRow: 10,
+          sysType: '电子商务系统',
+          articleType: '工作动态',
+          status: 1,
+        };
+        let marketParams = {
+          page: 1,
+          limit: 10,
+          type: '产销信息',
+        };
+        //农事指导内容
+        if (this.activeValue == 0) {
+          this.params.articleType = '农事指导';
+          this.getApi(this.params);
+        } else if (this.activeValue == 1) {
+          this.params.articleType = '农业资讯';
+          this.getApi(this.params);
+        } else {
+          this.params.articleType = '种植知识';
+          this.getApi(this.params);
+        }
+        //产销信息文章标题
+        doApi_2(
+          (res) => {
+            if (res.status == 200) {
+              this.marketArticleList = res.data.rows.map((item) => {
+                return {
+                  id: item.id,
+                  title: item.title,
+                  pubTime: item.pubTime.substr(0, 10),
+                };
+              });
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/marketing/listByPage',
+          'get',
+          marketParams,
+          null
+        );
+        //工作动态文章标题
+        doApi_1(
+          (res) => {
+            if (res.status == 200) {
+              this.workArticleList = res.data.rows.map((item) => {
+                return {
+                  id: item.id,
+                  title: item.title,
+                  pubTime: item.pub_time.substr(0, 10),
+                };
+              });
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/article/list',
+          'get',
+          workParams,
+          null
+        );
+        //政策法规文章标题
+        doApi_1(
+          (res) => {
+            if (res.status == 200) {
+              this.policyArticleList = res.data.rows.map((item) => {
+                return {
+                  id: item.id,
+                  title: item.title,
+                  pubTime: item.pub_time,
+                };
+              });
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/article/list',
+          'get',
+          params,
+          null
+        );
+      },
+      getApi(params) {
+        doApi_1(
+          (res) => {
+            if (res.status == 200) {
+              this.farmArticleList = res.data.rows.map((item) => {
+                return {
+                  id: item.id,
+                  title: item.title,
+                  pubTime: item.pub_time.substr(0, 10),
+                };
+              });
+            }
+          },
+          function (err) {
+            console.log(err);
+          },
+          null,
+          '/article/list',
+          'get',
+          this.params,
+          null
+        );
+      },
+    },
+  });
+</script>
+
+</html>

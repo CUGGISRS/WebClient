@@ -1,0 +1,1 @@
+F:\mysql-5.6.24-win32\bin\mysql -uroot -p123456 -Dtest<%1

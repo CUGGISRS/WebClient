@@ -1,0 +1,34 @@
+.page-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mb-30 {
+  margin-bottom: 30px;
+}
+#nprogress .bar {
+  background: #35b558 !important;
+}
+.container-1080 {
+  width: 1080px;
+  margin: 0 auto;
+}
+.iconfont {
+  margin-right: 8px;
+}
+.el-table .cell {
+  text-align: center;
+}
+.el-breadcrumb {
+  margin-bottom: 10px;
+}
+.el-card__body {
+  height: 100%;
+}
+.el-input--mini .el-input__inner {
+  height: 20px;
+  line-height: 20px;
+}

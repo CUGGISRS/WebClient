@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>监利市农业电子商务综合服务子系统</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../fonts/element.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="title-section">
+        <div class="title-section-content">
+          <a href="../index.html" class="system-title">监利市农业电子商务综合服务子系统</a>
+        </div>
+      </div>
+
+      <div class="nav-list">
+        <div class="nav-list-content">
+          <a class="nav-item" href="../index.html">首页</a>
+          <a class="nav-item" href="./market-condition.html">市场行情</a>
+          <a class="nav-item" href="./price-condition.html">价格行情</a>
+          <a class="nav-item" href="./statistical-chart/statistical-chart.html">行情统计</a>
+          <a class="nav-item" href="./price-trend.html">价格走势</a>
+          <a class="nav-item" href="./farm-products.html">优质农产品</a>
+          <a class="nav-item" href="./production-market/production-market.html">农产品产销信息</a>
+          <a class="nav-item" href="./message-board/message-board.html">留言板</a>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="banner-section" style="height: 200px">
+          <img src="../images/banner-6.png" alt="" style="height: 200px" />
+        </div>
+
+        <div class="message-board-section">
+          <div class="message-board-nav">
+            <h2 class="message-board-nav-left">
+              您所在的位置： 首页 <i class="el-icon-d-arrow-right"></i> {{articleTypeTitle}}
+            </h2>
+          </div>
+          <div class="message-board-content">
+            <p class="message-board-content-title">{{articleTypeTitle}}</p>
+            <div class="message-board-content-list" v-for="item in policyArticleList">
+              <a :href="'./index-detail.html?' + item.id" class="message-board-content-item">
+                <span class="message-board-content-desc">{{item.title}}</span>
+                <span class="message-board-content-time">{{item.time.substr(0,10)}}</span>
+              </a>
+            </div>
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="params.pageNum"
+              :page-sizes="[5,10]"
+              :page-size="params.pageRow"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+              style="margin-top: 30px; text-align: center"
+            >
+            </el-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      <!--            <p style="font-size: 12px;">-->
+      <!--              <a style="color: rgb(128, 128, 128); text-decoration: none; display: inline-block;"-->
+      <!--                 href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">-->
+      <!--              备案序号：浙ICP备16035102号-2-->
+      <!--                &lt;!&ndash;<p style="color:#939393;font-size: 14px"><img style="position: relative;top: 4px" src="./img/备案图标.png">浙公网安备 33060202000302号</p>&ndash;&gt;-->
+      <!--              </a>-->
+      <!--            </p>-->
+    </span>
+  </div>
+  <script src="../assets/vue/vue.min.js"></script>
+  <script src="../assets/element/index.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../assets/jquery/jquery.min.js"></script>
+  <script type="text/javascript">
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          params: {
+            pageNum: 1,
+            pageRow: 10,
+            sysType: '电子商务系统',
+            articleType: '',
+            status: 1,
+          },
+          policyArticleList: [],
+          total: '',
+          articleTypeTitle: '',
+        };
+      },
+      created() {
+        this.getAllList();
+      },
+      methods: {
+        getAllList() {
+          let search = location.search;
+          let sysTypeId = search.substr(2);
+          // let params = {
+          //   pageNum: 1,
+          //   pageRow: 10,
+          //   sysType: '电子商务系统',
+          //   articleType: '',
+          //   status: 1,
+          // };
+          if (sysTypeId == 1) {
+            this.params.articleType = '工作动态';
+            this.articleTypeTitle = '工作动态';
+          } else if (sysTypeId == 2) {
+            this.params.articleType = '政策法规';
+            this.articleTypeTitle = '政策法规';
+          } else if (sysTypeId == 3) {
+            this.params.articleType = '农业资讯';
+            this.articleTypeTitle = '农业资讯';
+          } else if (sysTypeId == 4) {
+            this.params.articleType = '农事指导';
+            this.articleTypeTitle = '农事指导';
+          } else {
+            this.params.articleType = '种植知识';
+            this.articleTypeTitle = '种植知识';
+          }
+          doApi_1(
+            (res) => {
+              if (res.status == 200) {
+                this.total = res.data.total;
+                this.policyArticleList = res.data.rows.map((item) => {
+                  return {
+                    id: item.id,
+                    title: item.title,
+                    time: item.pub_time,
+                  };
+                });
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/article/list',
+            'get',
+            this.params,
+            null
+          );
+        },
+        handleSizeChange(size) {
+          this.params.pageRow = size;
+          this.getAllList();
+        },
+        handleCurrentChange(page) {
+          this.params.pageNum = page;
+          this.getAllList();
+        },
+      },
+    });
+  </script>
+</html>

@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/media.css" />
+    <link rel="stylesheet" type="text/css" href="./css/pagination.css" media="screen" />
+    <title>监利市农业公益性服务子系统</title>
+  </head>
+  <body class="shichang-list">
+    <script>
+      function qkeypress() {
+        var q = $('input[name=q]');
+        if (q.val().trim() != '') {
+          $('input[name=q]').autocomplete('enable');
+        } else {
+          $('input[name=q]').autocomplete('disable');
+        }
+      }
+    </script>
+
+    <div class="container m-container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="website">
+            当前位置: <a href="/">首页</a> > <a href="jiage.html">市场动态</a> > <a href="jiage.html">价格行情</a>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="content-box">
+            <h2 id="title"></h2>
+            <div class="content-article">
+              <table class="table table-bordered table-jiage">
+                <thead>
+                  <tr>
+                    <th>类别</th>
+                    <th>产品</th>
+                    <th>单位</th>
+                    <th>价格</th>
+                    <th>数据来源</th>
+                  </tr>
+                </thead>
+                <tbody id="PriceDetails">
+                  <!-- <tr>
+                            <td>鲤鱼</td>
+                            <td>元/斤</td>
+                            <td>7</td>
+                            <td> 全区9个县（区）13个农贸市场</td>
+                        </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg1.jpg" /></div>
+          <div class="margin-bottom-40"><img class="img-responsive" src="picture/right-gg2.jpg" /></div>
+        </div>
+      </div>
+    </div>
+    <footer class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </footer>
+    <!--ad-ceshi-->
+    <!--<div style="position: fixed; left: 0; bottom: 200px; width: 60px; height: 150px;">
+	<script type="text/javascript" src="js/adspace.js"></script>
+</div>-->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/zixun-jiaodian.js"></script>
+    <script src="js/header.js"></script>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/kkpager.js"></script>
+
+    <script src="./js/pagination/jquery.pagination.js"></script>
+    <script src="./js/commom/api.js"></script>
+    <script>
+      var return_none = '1';
+      var list = $('.text');
+      var channel_name = '市场动态';
+      for (i = 0; i < $('.text').length; i++) {
+        var active = $('.text').eq(i).text();
+        if (active == channel_name) {
+          $('li').removeClass('active');
+          list.eq(i).parents('li').addClass('active');
+          return_none = '0';
+        }
+      }
+
+      $(function () {
+        let s1 = location.search.substring(1);
+        let data = {
+          date: s1,
+        };
+        PriceQuotation(data);
+        console.log(s1);
+        $('#title').html(s1 + '农产品价格行情');
+      });
+
+      function PriceQuotation(data) {
+        $('#PriceDetails').empty();
+        $.ajax({
+          url: InterfaceDZSW + '/price/getPriceListByOneDate',
+          type: 'get',
+          async: false,
+          dataType: 'json',
+          data: data,
+          success: function (data) {
+            console.log(data);
+            var html = '';
+            var unit = '元/斤';
+            if (data.length > 0) {
+              for (var i in data) {
+                var key = data[i];
+                html +=
+                  '<tr>' +
+                  "<td rowspan='" +
+                  key.list.length +
+                  "' class='middle'>" +
+                  key.type +
+                  '</td>' +
+                  '<td>' +
+                  key.list[0].name +
+                  '</td>' +
+                  '<td>' +
+                  unit +
+                  '</td>' +
+                  '<td>' +
+                  key.list[0].price +
+                  '</td>' +
+                  '<td>' +
+                  key.list[0].source +
+                  '</td></tr>';
+                for (var j = 1; j < key.list.length; j++) {
+                  html +=
+                    '<tr><td>' +
+                    key.list[j].name +
+                    '</td>' +
+                    '<td>' +
+                    unit +
+                    '</td>' +
+                    '<td>' +
+                    key.list[j].price +
+                    '</td>' +
+                    '<td>' +
+                    key.list[j].source +
+                    '</td></tr>';
+                }
+              }
+            }
+            $('#PriceDetails').append(html);
+          },
+          error: function (e) {
+            console.info(e);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

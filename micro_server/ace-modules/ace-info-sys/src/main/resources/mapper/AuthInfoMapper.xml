@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.info.sys.mapper.AuthInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.info.sys.entity.AuthInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="auth _name" property="authName" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
+        <result column="institution" property="institution" jdbcType="VARCHAR"/>
+        <result column="auth_date" property="authDate" jdbcType="DATE"/>
+        <result column="past_date" property="pastDate" jdbcType="DATE"/>
+        <result column="auth_img" property="authImg" jdbcType="INTEGER"/>
+        <result column="products_id" property="productsId" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--<resultMap id="queryMap" type="com.github.wxiaoqi.security.info.sys.utils.model.One2Many">
+      <id column=""></id>
+      <collection property="fileInfos" ofType="com.alibaba.fastjson.JSONObject">
+
+      </collection>
+    </resultMap>
+    <select id="query" resultMap="queryMap">
+       SELECT
+          a.id,
+          a.auth_name,
+          a.number,
+          a.institution,
+          a.auth_date,
+          a.past_date,
+          a.products_id,
+          b.id imgid,
+          b.path
+        FROM
+  &#45;&#45;       id,auth_name,number,institution,auth_date,past_date,products_id
+            (select * from zsxx_auth_info limit #{page},#{size}) a
+            LEFT JOIN com_file_info b
+            ON a.id = b.table_id
+            AND a.is_deleted = '0'
+            AND b.link_table = 'zsxx_auth_info'
+    </select>-->
+
+    <resultMap id="AuthFileMap" type="com.github.wxiaoqi.security.info.sys.utils.model.One2Many">
+        <id column="id" property="authId"></id>
+        <result column="authName" property="authName"/>
+        <result column="number" property="number"/>
+        <result column="institution" property="institution"/>
+        <result column="authDate" property="authDate"/>
+        <result column="pastDate" property="pastDate"/>
+        <result column="productsId" property="productsId"/>
+        <collection property="fileLists" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="fileId" property="fileId"/>
+            <result column="path" property="path"/>
+        </collection>
+    </resultMap>
+
+    <!--通过农产品id查询认证信息和图片 一对多-->
+    <select id="getByProductId" resultMap="AuthFileMap">
+        SELECT
+        a.id,
+        a.`auth _name` authName,
+        a.number,
+        a.institution,
+        a.auth_date,
+        a.past_date,
+        a.products_id,
+        b.id fileId,
+        b.path
+        FROM
+        zsxx_auth_info a
+        LEFT JOIN com_file_info b ON a.id = b.table_id
+        AND b.link_table = 'zsxx_auth_info'
+        WHERE
+        products_id = 51
+    </select>
+
+    <select id="getAuthInfoById" resultMap="AuthFileMap">
+        SELECT
+        a.id,
+        a.`auth _name` authName,
+        a.number,
+        a.institution,
+        a.`auth_date` authDate,
+        a.`past_date` pastDate,
+        a.`products_id` productsId,
+        b.id fileId,
+        b.path
+        FROM
+        zsxx_auth_info a
+        LEFT JOIN com_file_info b ON a.id = b.table_id
+        AND b.link_table = 'zsxx_auth_info'
+        WHERE
+        a.id = #{id}
+    </select>
+</mapper>

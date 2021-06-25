@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.consultation.mapper.BiConsultationMapper" >
+  <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.consultation.entity.BiConsultation" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Date" property="date" jdbcType="TIMESTAMP" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Score" property="score" jdbcType="DOUBLE" />
+    <result column="ExpertID" property="expertid" jdbcType="INTEGER" />
+    <result column="ExpertName" property="expertname" jdbcType="VARCHAR" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="State" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--传日提问标题的id，获得详细问答-->
+  <select id="aksListByExpertId" resultType="com.github.wxiaoqi.security.consultation.entity.BiConsultation">
+  SELECT * FROM bi_consultation WHERE ExpertID=#{id};
+  </select>
+
+</mapper>

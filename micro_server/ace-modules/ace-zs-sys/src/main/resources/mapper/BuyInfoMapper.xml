@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.BuyInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.BuyInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="trace_code" property="traceCode" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="buy_total" property="buyTotal" jdbcType="DECIMAL"/>
+        <result column="buy_amount" property="buyAmount" jdbcType="DECIMAL"/>
+        <result column="buy_amount_unit" property="buyAmountUnit" jdbcType="VARCHAR"/>
+        <result column="buy_date" property="buyDate" jdbcType="TIMESTAMP"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="INTEGER"/>
+        <result column="enterprise_name" property="enterpriseName" jdbcType="VARCHAR"/>
+
+        <result column="sys_module" property="sysModule" jdbcType="INTEGER"/>
+    </resultMap>
+</mapper>

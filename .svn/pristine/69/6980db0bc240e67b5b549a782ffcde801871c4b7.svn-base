@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--<properties resource="dev.properties"/>-->
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!--针对mybatis生成的SQL映射文件（xml文件）只能追加，不能覆盖-->
+        <property name="mergeable" value="false"></property>
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.8.166:3306?useUnicode=true&amp;characterEncoding=UTF8"
+                        userId="root"
+                        password="123456">
+            <!--添加下面这一行，自动添加主键-->
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="${targetModelPackage}" targetProject="${targetJavaProject}"/>
+
+        <sqlMapGenerator targetPackage="${targetXMLPackage}" targetProject="${targetResourcesProject}"/>
+
+        <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
+                             type="XMLMAPPER"/>
+
+        <!--
+dzsw_marketing_article_info
+dzsw_price_quotation_info
+dzsw_quality_products_info
+        -->
+        <!--数据库名称 表名 实体名-->
+        <!--                <table tableName="dzsw_marketing_article_info" domainObjectName="MarketingArticleInfo"/>-->
+        <!--        <table tableName="dzsw_price_quotation_info" domainObjectName="PriceQuotationInfo"/>-->
+        <!--        <table tableName="dzsw_quality_products_info" domainObjectName="QualityProductsInfo"/>-->
+        <!--        <table tableName="com_sys_user_info" domainObjectName="User"/>-->
+        <!--        <table tableName="com_file_info" domainObjectName="FileInfo"/>-->
+        <!--                <table tableName="com_qa_info" domainObjectName="QAInfo"/>-->
+        <!--        <table tableName="com_qa_reply_info" domainObjectName="QAReplyInfo"/>-->
+        <!--        <table tableName="zsxx_company_info" domainObjectName="CompanyInfo"/>-->
+        <!--        <table tableName="com_video_info" domainObjectName="VideoInfo"/>-->
+
+
+    </context>
+</generatorConfiguration>

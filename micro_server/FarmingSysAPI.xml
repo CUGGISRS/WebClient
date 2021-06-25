@@ -1,0 +1,950 @@
+<api>
+    <ace-admin>
+        <api>
+            <user>
+                <POST>
+                    <validate/>
+                </POST>
+            </user>
+        </api>
+    </ace-admin>
+
+    <admin desc="权限管理">
+        <element>
+            <list desc="基础元素列表">
+                <GET>
+                    <Param name="limit" dataType="int" defaultValue="10"/>
+                    <Param name="offset" dataType="int" defaultValue="1"/>
+                    <Param name="name" dataType="String"/>
+                    <Param name="menuId" dataType="int"/>
+                </GET>
+            </list>
+            <user desc="获取指定menuid的元素列表">
+                <GET>
+                    <Param name="menuId" dataType="String" desc="菜单ID"/>
+                </GET>
+            </user>
+            <user>
+                <GET>
+                    <menu desc="获取用户菜单列表"/>
+                </GET>
+            </user>
+        </element>
+    </admin>
+
+    <group>
+        <list desc="获取指定群组名称和群组类型的群组信息">
+            <GET>
+                <Param name="name" dataType="String" desc="群组名称"/>
+                <Param name="groupType" dataType="String" desc="群组类型"/>
+            </GET>
+        </list>
+        <Param.id>
+            <authority>
+                <menu desc="通过groupId获取菜单权限列表">
+                    <GET>
+                        <Param name="groupId" dataType="int" desc="群组id"/>
+                    </GET>
+                </menu>
+                <menu desc="修改指定groupId菜单权限">
+                    <PUT>
+                        <Param name="groupId" dataType="int"/>
+                        <Param name="menus" dataType="String[]" desc="菜单数组"/>
+                    </PUT>
+                </menu>
+                <element desc="通过groupId获取元素id列表">
+                    <GET>
+                        <Param name="id" dataType="int" desc="群组id"/>
+                    </GET>
+                    <add desc="新增元素权限">
+                        <PUT>
+                            <Param name="id" dataType="int" desc="群组id"/>
+                            <Param name="menuId" dataType="int" desc="菜单id"/>
+                            <Param name="elementId" dataType="int" desc="元素id"/>
+                        </PUT>
+                    </add>
+                    <remove desc="删除元素权限">
+                        <PUT>
+                            <Param name="id" dataType="int" desc="群组id"/>
+                            <Param name="menuId" dataType="int" desc="菜单id"/>
+                            <Param name="elementId" dataType="int" desc="元素id"/>
+                        </PUT>
+                    </remove>
+                </element>
+            </authority>
+            <user desc="通过groupId ">
+                <PUT>
+                    <Param name="id" dataType="int" desc="群组id"/>
+                </PUT>
+            </user>
+            <user desc="通过群组id获取群组用户">
+                <GET>
+                    <Param name="id" dataType="int" desc="群组id"/>
+                </GET>
+            </user>
+        </Param.id>
+        <tree desc="获取群组树">
+            <GET>
+                <Param name="name" dataType="String" desc="群组名称"/>
+                <Param name="groupType" dataType="int" desc="群组类型id"/>
+            </GET>
+        </tree>
+    </group>
+
+    <menu>
+        <list desc="通过title获取菜单列表">
+            <GET>
+                <Param name="title" dataType="String" desc="标题"/>
+            </GET>
+        </list>
+        <tree desc="通过title获取树列表">
+            <GET>
+                <Param name="title" dataType="String" desc="标题"/>
+            </GET>
+        </tree>
+
+        <GET>
+            <system desc="获取当前用户的系统菜单"/>
+        </GET>
+
+        <menuTree desc="通过父级节点获取当前用户的菜单树">
+            <GET>
+                <Param name="parentId" dataType="Integer" desc="父级节点"/>
+            </GET>
+        </menuTree>
+
+        <authorityTree desc="获取权限树">
+            <user>
+                <authorityTree desc="通过父级节点获取权限树">
+                    <GET>
+                        <Param name="parentId" dataType="Integer" desc="父级节点"/>
+                    </GET>
+                </authorityTree>
+                <system method="GET" desc="当前权限系统"/>
+            </user>
+        </authorityTree>
+    </menu>
+
+    <user>
+        <front>
+            <info desc="当前用户前端信息">
+                <GET>
+                    <Param name="token" dataType="String" desc="当前用户token"/>
+                </GET>
+            </info>
+            <menus desc="当前用户菜单信息">
+                <GET>
+                    <Param name="token" dataType="String" desc="当前用户token"/>
+                </GET>
+            </menus>
+            <menu>
+                <all method="GET" desc="获取所有菜单信息"/>
+            </menu>
+        </front>
+    </user>
+
+    <log>
+        <save desc="保存日志">
+            <POST>
+                <Param name="info" dataType="LogInfo"/>
+            </POST>
+        </save>
+    </log>
+
+    <permissions method="GET" desc="获取所有权限信息"/>
+
+    <user>
+        <un>
+            <Param.username>
+                <permissions desc="通过用户名获取权限信息">
+                    <GET>
+                        <Param name="username" dataType="String" desc="用户名"/>
+                    </GET>
+                </permissions>
+            </Param.username>
+        </un>
+        <validate desc="通过用户名和密码验证账户的合法性">
+            <POST>
+                <Param name="body" dataType="Map<String,String>"/>
+            </POST>
+        </validate>
+    </user>
+
+    <client>
+        <token desc="获取client Token">
+            <POST>
+                <Param name="clientId" dataType="String" desc="客户端id"/>
+                <Param name="secret" dataType="String" desc="密钥"/>
+            </POST>
+        </token>
+        <myClient desc="获取可用的客户端">
+            <GET>
+                <Param name="serviceId" dataType="String" desc="服务id"/>
+                <Param name="secret" dataType="String" desc="密钥"/>
+            </GET>
+        </myClient>
+        <servicePubKey desc="获取服务公钥">
+            <POST>
+                <Param name="clientId" dataType="String" desc="客户端id"/>
+                <Param name="secret" dataType="String" desc="密钥"/>
+            </POST>
+        </servicePubKey>
+        <userPubKey desc="获取用户公钥">
+            <POST>
+                <Param name="clientId" dataType="String" desc="客户端id"/>
+                <Param name="secret" dataType="String" desc="密钥"/>
+            </POST>
+        </userPubKey>
+    </client>
+
+    <consultation desc='专家咨询服务'>
+        <page desc='跳转的页数'>
+            <GET>
+                <Param name="params" dataType="Map<String, Object>"/>
+            </GET>
+        </page>
+
+        <noread desc="通过token获取用户信息">
+            <GET>
+                <Param name="token" dataType="String" desc="Token值"/>
+            </GET>
+        </noread>
+
+        <dt>
+            <page desc='跳转咨询信息的页数'>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>"/>
+                </GET>
+            </page>
+        </dt>
+    </consultation>
+
+    <expert desc='专家信息'>
+        <validate desc="通过token获取专家信息">
+            <POST>
+                <Param name="token" dataType="String" desc="Token值"/>
+            </POST>
+        </validate>
+    </expert>
+
+    <expertduty>
+        <month>
+            <selectByYearMonth desc='获取指定年月的排班信息'>
+                <GET>
+                    <Param name='year' datatype='int' desc='年'/>
+                    <Param name='month' datatype='int' desc='月'/>
+                </GET>
+            </selectByYearMonth>
+        </month>
+        <day>
+            <saveByYearMonth desc="保存更新排班信息">
+                <POST>
+                    <Param name="year" dataType='int' desc='年'/>
+                    <Param name="month" dataType='int' desc='月'/>
+                    <Param name="day" datatype='int' desc='日'/>
+                    <Param name="dutyList" dataptype='List<DtExpertduty>' desc='排班信息列表'/>
+                </POST>
+            </saveByYearMonth>
+        </day>
+    </expertduty>
+
+    <jwt>
+        <token desc="获取token">
+            <POST>
+                <Param name="authenticationRequest" dataType="JwtAuthenticationRequest" desc="用户名和密码"/>
+            </POST>
+        </token>
+        <refresh desc="刷新Token">
+            <GET>
+                <Param name="request" dataType="HttpServletRequest"/>
+            </GET>
+        </refresh>
+        <verify desc="验证Token">
+            <GET>
+                <Param name="token" dataType="String" desc="Token值"/>
+            </GET>
+        </verify>
+    </jwt>
+
+    <news>
+        <simple>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>"/>
+                </GET>
+            </page>
+        </simple>
+    </news>
+
+    <service>
+        <Param.id>
+            <client desc="修改客户端服务">
+                <PUT>
+                    <Param name="id" dataType="int" desc="编号id"/>
+                    <Param name="clients" dataType="String" desc="客户端名称"/>
+                </PUT>
+            </client>
+            <client desc="获取客户端服务">
+                <GET>
+                    <Param name="id" dataType="int" desc="编号id"/>
+                </GET>
+            </client>
+        </Param.id>
+    </service>
+
+    <scproduct>
+
+        <bemi desc="养殖基地环境监测">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </bemi>
+        <bphi desc="养殖基地问题处理">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </bphi>
+        <bfmr desc="批次-渔药残留">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </bfmr>
+        <bfr desc="批次-捕捞记录">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </bfr>
+        <bsd desc="批次-销售去向">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </bsd>
+
+        <btr desc="批次-检测记录">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </btr>
+        <buph desc="批次-不合格产品处理">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </buph>
+        <bb desc="养殖基地">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </bb>
+        <ci desc="加工商信息">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </ci>
+        <cr desc="加工记录">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </cr>
+
+        <eq desc="企业资质">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </eq>
+        <fb desc="饲料饵料">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </fb>
+        <fbp desc="饲料饵料投放">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </fbp>
+        <fmaf desc="渔药渔肥">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </fmaf>
+        <fmafp desc="渔药渔肥投放">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </fmafp>
+
+        <fsas desc="渔苗渔种">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </fsas>
+        <gi desc="生长考察">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </gi>
+        <pi desc="产品信息">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </pi>
+        <psi desc="生产主体信息">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </psi>
+        <si desc="销售商信息">
+            <POST>
+                <Param name="entity" dataType="Entity"/>
+            </POST>
+            <Param.id>
+                <GET>
+                    <Param name="id" dataType="int"/>
+                </GET>
+                <PUT>
+                    <Param name="entity" dataType="Entity"/>
+                </PUT>
+                <DELETE>
+                    <Param name="id" dataType="int"/>
+                </DELETE>
+            </Param.id>
+            <all>
+                <GET/>
+            </all>
+            <page>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </page>
+            <num>
+                <GET>
+                    <Param name="params" dataType="Map<String, Object>" />
+                </GET>
+            </num>
+        </si>
+
+    </scproduct>
+
+
+	<service>
+        <Param.id>
+			<client method="PUT" desc="修改客户端服务">
+				<Param name="id" dataType="int" desc="编号id"/>
+				<Param name="clients" dataType="String" desc="客户端名称"/>
+			</client>
+			<client method="GET" desc="获取客户端服务">
+				<Param name="id" dataType="int" desc="编号id"/>
+			</client>
+        </Param.id>
+	</service>
+
+
+    <uploadfile desc="视频（文件）上传">
+        <file>
+            <add2Sever desc="上传文件前，先添加视频信息到数据库">
+                <POST>
+                    <Param name="videoname" dataType="String" desc="视频名称"/>
+                    <Param name="extension" dataType="String" desc="文件后缀"/>
+                    <Param name="classification" dataType="String" desc="视频分类信息"/>
+                    <Param name="remark" dataType="String" desc="备注信息"/>
+                </POST>
+            </add2Sever>
+            <appendUpload2Server desc="将分块文件上传到数据库">
+                <POST>
+                    <Param name="fileSize" dataType="int" desc="分块文件大小"/>
+                    <Param name="id" dataType="int" desc="视频id"/>
+                    <Param name="url" dataType="String" desc="以UUID命名的文件名称"/>
+                </POST>
+            </appendUpload2Server>
+            <allVideos>
+                <GET desc="获取所有已上传的文件列表"/>
+            </allVideos>
+            <videosByPage>
+                <GET desc="按页获取所有已上传的文件列表"/>
+            </videosByPage>
+            <updateById desc="更新视频信息">
+                <POST>
+                    <Param name="id" dataType="int" desc="视频id"/>
+                    <Param name="videoname" dataType="String" desc="用户输入的视频名称"/>
+                    <Param name="classification" dataType="String" desc="视频分类信息"/>
+                    <Param name="uploafdate" dataType="datetime" desc="视频上传时间"/>
+                    <Param name="userid" dataType="int" desc="上传人"/>
+                    <Param name="remark" dataType="String" desc="备注信息"/>
+                    <Param name="url" dataType="String" desc="服务器上视频的真实名称"/>
+                    <Param name="state" dataType="int" desc="文件上传状态"/>
+                </POST>
+            </updateById>
+            <deleteById desc="删除一条视频信息">
+                <POST>
+                    <Param name="id" dataType="int" desc="视频id"/>
+                </POST>
+            </deleteById>
+            <deleteByIdlist desc="多选删除多条视频数据库信息和文件以及缩略图">
+                <POST>
+                    <Param name="idList" dataType="List" desc="多条选中的视频id"/>
+                </POST>
+            </deleteByIdlist>
+            <videoByme desc="获取“我”上传的视频列表">
+                <GET>
+                    <Param name="Authorization" dataType="String" desc="Token值"/>
+                </GET>
+            </videoByme>
+        </file>
+    </uploadfile>
+
+</api>

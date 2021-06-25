@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>监利市农产品质量安全追溯管理平台</title>
+</head>
+<link rel="stylesheet" href="../css/index.css" />
+<link rel="stylesheet" href="../css/reset.css" />
+<link rel="stylesheet" href="../fonts/element.css" />
+
+<body>
+  <div id="app">
+    
+    <div class="page-title">
+      <a href="../index.html" class="page-title-cn">监利市农产品质量安全追溯管理平台</a>
+    </div>
+    <div class="page-nav">
+      <a class="page-nav-item" href="./trace-company.html">企业查询</a>
+      <a class="page-nav-item" href="./safety-knowledge.html">农产品安全知识</a>
+      <span class="page-nav-item active">报警信息查询</span>
+    </div>
+    <div class="search-section">
+      <div><b>报警信息查询：</b></div>
+      <div style="margin-right: 10px; width: 300px">
+        <el-input clearable v-model="warningInput" placeholder="请输入报警信息" @input="handleSearchWarning"></el-input>
+      </div>
+      <el-button type="primary" @click="handleSearchWarning">查询</el-button>
+    </div>
+    <!-- 表格显示区域 -->
+    <div class="company_c_m">
+      <el-table style="width: 1100px; margin: 20px auto" :data="rows" border stripe fit highlight-current-row
+        :row-style="{height:'5px'}" :cell-style="{padding:'5px 0'}">
+        <el-table-column align="center" label="序号" width="80">
+          <template slot-scope="scope"> {{ (currentPage - 1) * pageSize + scope.$index + 1 }} </template>
+        </el-table-column>
+        <el-table-column align="center" label="报警时间" width="200">
+          <template slot-scope="scope"> {{ scope.row.date }} </template>
+        </el-table-column>
+        <el-table-column align="center" label="报警信息" min-width="200">
+          <template slot-scope="scope"> {{ scope.row.content }} </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!-- 分页 -->
+    <el-pagination background style="text-align: center; margin: 20px auto" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+    </el-pagination>
+  </div>
+</body>
+<footer class="login_footer">
+  <span>
+    <span>Copyright &copy; &nbsp;</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>监利市农业农村局</p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>武汉中迪联创科技有限公司</p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+  </span>
+</footer>
+<script src="../js/vue.min.js"></script>
+<script src="../assets/element/index.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/jquery3.5.1.js"></script>
+<script src="../js/echarts.min.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        // 表单
+        rows: [],
+        // 分页
+        currentPage: 1,
+        total: 0,
+        pageSize: 20,
+        warningInput: '',
+      };
+    },
+    created() {
+      this.getForewaringInfo();
+    },
+    methods: {
+      getForewaringInfo() {
+        let params = {
+          page: this.currentPage,
+          limit: this.pageSize,
+          status: 1,
+        };
+        doApi_2(
+          (res) => {
+            if (res.status === 200) {
+              this.rows = res.data.rows;
+              this.total = res.data.total;
+            }
+          },
+          (err) => {
+            console.log(err);
+          },
+          null,
+          '/jdSys/WarningInfo/pageByCondition',
+          'get',
+          params,
+          null
+        );
+      },
+      handleSearchWarning() {
+        if (this.warningInput == '') {
+          this.getForewaringInfo();
+        } else {
+          let params = {
+            page: this.currentPage,
+            limit: this.pageSize,
+            content: this.warningInput,
+          };
+          doApi_2(
+            (res) => {
+              if (res.status === 200) {
+                this.rows = res.data.rows;
+                this.total = res.data.total;
+              }
+            },
+            (err) => {
+              console.log(err);
+            },
+            null,
+            '/jdSys/WarningInfo/pageByCondition',
+            'get',
+            params,
+            null
+          );
+        }
+      },
+      // 每页多少条
+      handleSizeChange(val) {
+        this.pageSize = val;
+        this.getForewaringInfo();
+      },
+      // 当前页
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getForewaringInfo();
+      },
+    },
+  });
+</script>
+
+</html>

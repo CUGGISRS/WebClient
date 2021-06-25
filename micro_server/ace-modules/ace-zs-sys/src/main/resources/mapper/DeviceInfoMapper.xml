@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.DeviceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.DeviceInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="fac_id" property="facId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="fac_name" property="facName" jdbcType="VARCHAR"/>
+        <result column="fac_type" property="facType" jdbcType="INTEGER"/>
+        <result column="ele_num" property="eleNum" jdbcType="VARCHAR"/>
+        <result column="ele_name" property="eleName" jdbcType="VARCHAR"/>
+        <result column="relay_num" property="relayNum" jdbcType="VARCHAR"/>
+        <result column="relay_name" property="relayName" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="REAL"/>
+        <result column="latitude" property="latitude" jdbcType="REAL"/>
+        <result column="read_interval" property="readInterval" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="INTEGER"/>
+        <result column="photo" property="photo" jdbcType="BIT"/>
+        <result column="creator_id" property="creatorId" jdbcType="INTEGER"/>
+        <result column="relay_extend" property="relayExtend" jdbcType="BIT"/>
+        <result column="relay_extend_count" property="relayExtendCount" jdbcType="INTEGER"/>
+        <result column="relay_extend_num" property="relayExtendNum" jdbcType="VARCHAR"/>
+        <result column="relay_extend_name" property="relayExtendName" jdbcType="VARCHAR"/>
+        <result column="cover_url" property="coverUrl" jdbcType="VARCHAR"/>
+        <result column="pest_imei" property="pestImei" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

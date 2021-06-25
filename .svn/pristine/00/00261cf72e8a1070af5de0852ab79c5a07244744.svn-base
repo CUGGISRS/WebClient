@@ -1,0 +1,79 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "508856",
+      "name": "企业基本信息",
+      "font_class": "qiyejibenxinxi",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "665622",
+      "name": "配置",
+      "font_class": "icon",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "2053179",
+      "name": "产品配置",
+      "font_class": "chanpinpeizhi",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
+      "icon_id": "5730294",
+      "name": "水产养殖场",
+      "font_class": "shuichanyangzhichang",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "9687684",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "10936705",
+      "name": "追溯",
+      "font_class": "zhuisu",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "11192522",
+      "name": "销售管理_ico@2x",
+      "font_class": "xiaoshouguanli_icox",
+      "unicode": "e6ca",
+      "unicode_decimal": 59082
+    },
+    {
+      "icon_id": "12598991",
+      "name": "统计",
+      "font_class": "tongji",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "12655492",
+      "name": "种植",
+      "font_class": "zhongzhi",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "15696565",
+      "name": "生产管理",
+      "font_class": "shengchanguanli",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    }
+  ]
+}

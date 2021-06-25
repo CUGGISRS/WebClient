@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="keywords" content="" />
+    <meta http-equiv="description" content="监利市农业公益性服务子系统" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/other.css" />
+    <link rel="stylesheet" type="text/css" href="css/media.css" />
+
+    <!--分页-->
+    <link rel="stylesheet" type="text/css" href="./css/pagination.css" media="screen" />
+
+    <title>监利市农业公益性服务子系统</title>
+  </head>
+  <body class="shichang-list">
+    <div class="container m-container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="website">当前位置: <a href="/">首页</a> &gt; <a>益农服务</a> > <span>专家视频</span></div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="rows">
+        <div class="col-md-12">
+          <div class="ej-menu">
+            <ul>
+              <a href="rxwd.html">热线问答</a>
+              <a class="active" href="zjsp.html">专家视频</a>
+              <!--				<a href="zjpx.html">专家排行</a>-->
+              <a href="qbzj.html">全部专家</a>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="newslist">
+            <ul id="hotLineAskList"></ul>
+          </div>
+          <div class="m-style M-box4"></div>
+        </div>
+        <div class="col-md-3">
+          <div class="margin-bottom-40"><img class="img-responsive" src="./picture/right-gg1.jpg" /></div>
+          <div class="margin-bottom-40"><img class="img-responsive" src="./picture/right-gg2.jpg" /></div>
+        </div>
+      </div>
+    </div>
+    <footer class="login_footer">
+      <span>
+        <span>Copyright &copy; &nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.jianli.gov.cn/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>监利市农业农村局</p>
+        </a>
+        <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <a
+          target="_blank"
+          href="http://www.zd-tech.net/"
+          style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+        >
+          <p>武汉中迪联创科技有限公司</p>
+        </a>
+        <span>&nbsp;技术支持</span>
+        <br />
+        <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      </span>
+    </footer>
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/zixun-jiaodian.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/commom/api.js"></script>
+    <!--//分页插件-->
+    <script src="./js/pagination/jquery.pagination.js"></script>
+  </body>
+  <script type="text/javascript">
+    var return_none = '1';
+    var list = $('.text');
+    var channel_name = '益农服务';
+    for (i = 0; i < $('.text').length; i++) {
+      var active = $('.text').eq(i).text();
+      if (active == channel_name) {
+        $('li').removeClass('active');
+        list.eq(i).parents('li').addClass('active');
+        return_none = '0';
+      }
+    }
+
+    var total = 1;
+    $(function () {
+      var data = {
+        page: 1,
+        limit: 12,
+        type: '专家视频',
+      };
+      InitList(); //初始化列表数据
+      function InitList() {
+        $.ajax({
+          url: InterfaceDZSW + '/video/videosByPage',
+          type: 'get',
+          dataType: 'json',
+          data: data,
+          contentType: 'application/json;charset=utf-8',
+          async: false,
+          success: function (res) {
+            total = res.data.total;
+            var html = '';
+            if (res.data.rows.length > 0) {
+              for (var i = 0; i < res.data.rows.length; i++) {
+                var time = res.data.rows[i].pubTime.substring(0, 10);
+                html +=
+                  '<li>\n' +
+                  '\t\t\t\t\t\t<a href="./commonvideo.html?' +
+                  res.data.rows[i].id +
+                  '" onclick="hotlineAskDetail(47)">' +
+                  res.data.rows[i].videoName +
+                  '</a>\n' +
+                  '\t\t\t\t\t\t<span>' +
+                  time +
+                  '</span>\n' +
+                  '\t\t\t\t\t</li>';
+              }
+            } else {
+              html += '<div>暂无信息。</div>';
+            }
+
+            $('#hotLineAskList').html(html);
+          },
+          error: function (e) {
+            console.info(e);
+          },
+        });
+      }
+
+      $('.M-box4').pagination({
+        //总条数
+        totalData: total,
+        //每页条数
+        showData: 12,
+        //固定页码数
+        mode: 'unfixed',
+        count: 3,
+        isHide: true,
+        //是否一直显示上一页下一页
+        keepShowPN: false,
+        callback: function (api) {
+          data.page = api.getCurrent();
+          InitList();
+        },
+      });
+    });
+  </script>
+</html>

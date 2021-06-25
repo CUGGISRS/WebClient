@@ -1,0 +1,6 @@
+﻿@charset "utf-8";
+@media (min-width: 969px) and (max-width: 1199px){
+	.nav-bg .menu li a{padding: 0 14px;}
+	.nav-bg .menu li.more:before{right: -2px;}
+	.nav-bg .menu li > .menu-child li:hover a:before{margin: 2px 0 0 -20px;}
+}

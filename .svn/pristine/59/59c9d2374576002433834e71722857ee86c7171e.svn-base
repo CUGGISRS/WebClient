@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>监利市农产品质量安全追溯信息系统</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="banner"></div>
+
+      <div class="title-container">
+        <h1 class="system-title">监利市农产品质量安全追溯信息系统</h1>
+        <div class="search-section">
+          <input class="search-input" type="text" placeholder="请输入搜索内容..." />
+          <button class="search-btn">搜索</button>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="nav-list">
+          <a class="nav-item" href="../../index.html">首页</a>
+          <a class="nav-item" :class="articleType == '农业新闻'? 'active': ''" href="../farm-news/farm-news.html"
+            >农业新闻</a
+          >
+          <a
+            class="nav-item"
+            :class="articleType == '政策法规'? 'active': ''"
+            href="../laws-regulations/laws-regulations.html"
+            >政策法规</a
+          >
+          <a class="nav-item" :class="articleType == '工作动态'? 'active': ''" href="../work-trend/work-trend.html"
+            >工作动态</a
+          >
+          <a class="nav-item" href="../farm-products/farm-products.html">特色农产品</a>
+          <a class="nav-item" href="../company-show/company-show.html">企业名录</a>
+          <a
+            class="nav-item"
+            :class="articleType == '监督管理'? 'active': ''"
+            href="../supervision-admin/supervision-admin.html"
+            >监督管理</a
+          >
+          <a class="nav-item" href="../supervision-organ/supervision-organ.html">监督机构</a>
+          <a class="nav-item" href="../suggest/suggest.html">投诉建议</a>
+        </div>
+
+        <!---------------------------------------------------------------- -->
+
+        <div class="main-content">
+          <div class="main-content-left">
+            <p class="main-content-left-text" id="logoTitle">{{articleType}}</p>
+            <div class="auth-left">
+              <div class="auth-item">
+                <img class="img-item-size" src="../../images/work-trend-pic.gif" />
+              </div>
+              <div class="auth-item">
+                <img class="img-item-size" src="../../images/work-trend-pic2.gif" />
+              </div>
+            </div>
+          </div>
+          <div class="main-content-right">
+            <div class="news-top-nav">
+              <span>当前位置：</span>
+              <a class="news-top-nav-item" href="../../index.html">首页 ></a>
+              <a class="news-top-nav-item active" onclick="javascript:history.go(-1); " id="linkTitle"
+                >{{articleType}}</a
+              >
+            </div>
+            <div class="article-detail">
+              <h1 class="article-title" id="articleTitle">{{title}}</h1>
+              <p class="release-time" id="pubTime">发布时间：{{pubTime}}</p>
+              <!--            <img class="article-img" src="../../images//company-1.jpg" alt="img">-->
+              <div class="article-text" v-html="content"></div>
+            </div>
+          </div>
+        </div>
+        <!---------------------------------------------------------------- -->
+        <div class="link-section">
+          <div class="friendLink">
+            <h4>友情链接：</h4>
+            <ul class="img-link clearfix">
+              <li>
+                <a href="http://www.moa.gov.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/nyb.png" />
+                </a>
+                <span><a href="http://www.moa.gov.cn/" target="_blank">农业部</a> </span>
+              </li>
+              <li>
+                <a href="http://www.zgny.com.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/zgnyw.png" />
+                </a>
+                <span><a href="http://www.zgny.com.cn/" target="_blank">中国农业网</a> </span>
+              </li>
+              <li>
+                <a href="http://www.hbnyw.com/" target="_blank">
+                  <img class="img-responsive" src="../../images/hbsnyw.png" />
+                </a>
+                <span><a href="http://www.hbnyw.com/" target="_blank">湖北农业网</a> </span>
+              </li>
+              <li>
+                <a href="http://nyt.hubei.gov.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/hbnyt.png" />
+                </a>
+                <span><a href="http://nyt.hubei.gov.cn/" target="_blank">湖北农业厅</a> </span>
+              </li>
+              <li>
+                <a href="http://www.jianli.gov.cn/" target="_blank">
+                  <img class="img-responsive" src="../../images/jlsrmzf.png" />
+                </a>
+                <span><a href="http://www.jianli.gov.cn/" target="_blank">监利市人民政府</a> </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./../../js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="../../assets/vue/vue.min.js"></script>
+    <script src="./../../js/api.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      //搜索按钮
+      $('.search-btn').click(function () {
+        let val = $('.search-input').val();
+        location.href = './../search/commonArticleList.html?' + val;
+      });
+      var App = new Vue({
+        el: '#app',
+        data() {
+          return {
+            title: '',
+            pubTime: '',
+            content: '',
+            articleType: '',
+          };
+        },
+        created() {
+          this.getArticleDetail();
+        },
+        methods: {
+          getArticleDetail() {
+            let search = location.search;
+            let id = search.substring(1);
+            let _this = this;
+            doApi(
+              function (res) {
+                if (res.status === 200) {
+                  //标题
+                  _this.title = res.data.title;
+                  _this.pubTime = res.data.pubTime.substring(0, 11);
+                  _this.content = res.data.content;
+                  _this.articleType = res.data.articleSysList[0].articleTypeid;
+                  //文章类型
+                  $('#logoTitle,#linkTitle').html(res.data.articleSysList[0].articleTypeid);
+                }
+              },
+              function (err) {},
+              null,
+              '/article/id?id=' + id,
+              'get',
+              null,
+              null
+            );
+          },
+        },
+      });
+    </script>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+</html>

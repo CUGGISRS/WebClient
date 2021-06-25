@@ -1,0 +1,75 @@
+server:
+  port: 8766
+logging:
+  level:
+    #        tk.mybatis: DEBUG
+    com.github.wxiaoqi.security.info.sys: DEBUG
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${jar.ip}:8848
+        #ip: 192.168.8.166
+    sentinel:
+      transport:
+        dashboard: ${jar.ip}:8080
+  application:
+    name: ace-info-sys
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
+
+  #UploadFile:
+  # ROOT_PATH: "F:"
+  #SON_PATH: "/UploadFile/infoImg/"
+
+
+# 必须配置
+feign:
+  dzUrl: http://${jar.ip}:8776
+  authUrl: http://${jar.ip}:9777
+
+
+# 配置swagger
+swagger:
+  enabled: true
+  base-package: com.github.wxiaoqi.security.info.sys
+  title: ace-info-sys
+  version: 1.0.0.SNAPSHOT
+  description: 农产品追溯信息系统
+  contact:
+    name: gsy
+
+auth:
+  client:
+    id: ace-info-sys
+    secret: 123456
+
+#redis-cache 相关
+redis:
+  host: ${REDIS_HOST:${jar.ip}}
+  port: ${REDIS_PORT:6379}
+  password:
+  # 服务或应用名
+  sysName: ace-info-sys
+
+    #management:
+    # health: #取消spring boot对Elasticsearch的健康检查(可让idea启动不报错)
+    #  elasticsearch:
+  #   enabled: false
+
+zdlc:
+  elasticsearch:
+    #hostlist: 39.104.61.47:9200
+    hostlist: 127.0.0.1:9200 #多个结点中间用逗号分隔
+    pageRow: 500
+    key_Article: Article
+    key_Marketing: Marketing
+
+  system:
+    index01: gyx_system
+    index02: zsxx_system
+    index03: dzsw_system
+

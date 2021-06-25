@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.info.sys.mapper.CompanyInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.info.sys.entity.CompanyInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="company_type" property="companyType" jdbcType="VARCHAR"/>
+        <result column="charge_man" property="chargeMan" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="regist_money" property="registMoney" jdbcType="VARCHAR"/>
+        <result column="company_img" property="companyImg" jdbcType="INTEGER"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="industry" property="industry" jdbcType="VARCHAR"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="place" property="place" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="listResultMap" type="com.github.wxiaoqi.security.info.sys.entity.CompanyAndFile">
+        <result column="id" property="id"/>
+        <result column="company_name" property="companyName"/>
+        <result column="company_type" property="companyType"/>
+        <result column="charge_man" property="chargeMan"/>
+        <result column="phone" property="phone"/>
+        <result column="regist_money" property="registMoney"/>
+        <result column="company_img" property="companyImg"/>
+        <result column="business_code" property="businessCode"/>
+        <result column="industry" property="industry"/>
+        <result column="introduction" property="introduction"/>
+        <result column="place" property="place"/>
+        <collection property="ImgLists" javaType="list" ofType="com.github.wxiaoqi.security.info.sys.entity.FileInfo">
+            <id column="imgid" property="id"/>
+            <result column="path" property="path"/>
+        </collection>
+    </resultMap>
+
+    <select id="listCompany" resultMap="listResultMap">
+        SELECT
+        a.id,
+        a.company_name,
+        a.company_type,
+        a.charge_man,
+        a.phone,
+        a.regist_money,
+        a.business_code,
+        a.industry,
+        a.introduction,
+        a.place,
+        b.id imgid,
+        b.path
+        FROM
+        (select
+        id,company_name,company_type,charge_man,phone,regist_money,business_code,industry,introduction,place,is_deleted
+        from zsxx_company_info
+        <where>
+            <if test="companyName!=null and companyName!=''">
+                instr(company_name, #{companyName} )>0
+            </if>
+        </where>
+        order by id desc
+        <if test="size!=null">
+            limit #{page},#{size}
+        </if>
+        ) a
+        LEFT JOIN com_file_info b
+        ON a.id = b.table_id
+        AND a.is_deleted = '0'
+        AND b.link_table = 'zsxx_company_info'
+        order by a.id desc
+    </select>
+</mapper>

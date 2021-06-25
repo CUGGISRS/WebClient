@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>监利市农业电子商务综合服务子系统</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../fonts/element.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="title-section">
+        <div class="title-section-content">
+          <a href="../index.html" class="system-title">监利市农业电子商务综合服务子系统</a>
+        </div>
+      </div>
+
+      <div class="nav-list">
+        <div class="nav-list-content">
+          <a class="nav-item" href="../index.html">首页</a>
+          <a class="nav-item" href="./market-condition.html">市场行情</a>
+          <a class="nav-item" href="./price-condition.html">价格行情</a>
+          <a class="nav-item" href="./statistical-chart/statistical-chart.html">行情统计</a>
+          <a class="nav-item active" href="./price-trend.html">价格走势</a>
+          <a class="nav-item" href="./farm-products.html">优质农产品</a>
+          <a class="nav-item" href="./production-market/production-market.html">农产品产销信息</a>
+          <a class="nav-item" href="./message-board/message-board.html">留言板</a>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="banner-section">
+          <img src="../images/banner-3.png" alt="" />
+        </div>
+
+        <div class="classify-section">
+          <div class="products-classify">
+            <div class="classify-title"><b>产品分类：</b></div>
+            <div class="classify-list" v-for="item in productItem" @click="selected(item)">
+              <nav class="classify-item" :class="activeValue == item? 'active': ''">{{item}}</nav>
+            </div>
+          </div>
+          <div class="search-time">
+            <div class="time-quantum"><b>农产品名称：</b></div>
+            <div class="time-selector">
+              <el-select v-model="value" placeholder="请选择农产品名称" filterable>
+                <el-option v-for="item in options" :key="item.text" :label="item.text" :value="item.text"> </el-option>
+              </el-select>
+              <el-select v-model="yearValue" placeholder="请选择年份"
+                ><el-option v-for="item in yearOptions" :key="item.label" :label="item.label" :value="item.label">
+                </el-option
+              ></el-select>
+
+              <el-button type="primary" @click="handleQuery" style="width: 150px !important; margin-left: 20px"
+                >查询</el-button
+              >
+            </div>
+          </div>
+        </div>
+
+        <div id="c1"></div>
+      </div>
+
+      <div class="link-section">
+        <div class="link-section-content">
+          <p><b>友情链接：</b></p>
+          <div class="link-list">
+            <a class="link-item" href="http://39.104.61.47:8093/gyx_System/">监利市农业公益性服务子系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/3d_ball_cesium">监利市产业园三维可视化子系统</a>
+            
+            
+            <a class="link-item" href="http://39.104.61.47:8093/zsjd/#/login">监利市农产品质量安全监督管理系统</a>
+            
+            <a class="link-item" href="http://39.104.61.47:8093/zsxx_System/">监利市农产品质量安全追溯信息系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/dxgz/#/login">监利市稻虾共作物联网应用系统</a>
+            
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+      <!--            <p style="font-size: 12px;">-->
+      <!--              <a style="color: rgb(128, 128, 128); text-decoration: none; display: inline-block;"-->
+      <!--                 href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">-->
+      <!--              备案序号：浙ICP备16035102号-2-->
+      <!--                &lt;!&ndash;<p style="color:#939393;font-size: 14px"><img style="position: relative;top: 4px" src="./img/备案图标.png">浙公网安备 33060202000302号</p>&ndash;&gt;-->
+      <!--              </a>-->
+      <!--            </p>-->
+    </span>
+  </div>
+  <script src="../assets/vue/vue.min.js"></script>
+  <script src="../assets/element/index.js"></script>
+  <script src="../assets/jquery/jquery.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../assets/AntV/g2.js"></script>
+  <script type="text/javascript">
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          options: [],
+          value: '',
+          yearOptions: [
+            {
+              label: '2020',
+            },
+            {
+              label: '2019',
+            },
+            {
+              label: '2018',
+            },
+            {
+              label: '2017',
+            },
+            {
+              label: '2016',
+            },
+            {
+              label: '2015',
+            },
+          ],
+          yearValue: '2020',
+          productItem: ['水果', '蔬菜', '粮油', '牛羊猪肉', '家禽蛋类', '水产品', '自制品'],
+          activeValue: '水果',
+          chart: null, // 创建一个chart变量
+          data: [{ genre: '', sold: '' }],
+        };
+      },
+      created() {
+        this.getList();
+      },
+      methods: {
+        getList() {
+          let formData = new FormData();
+          if (this.activeValue == '水果') {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          } else if (this.activeValue == '蔬菜') {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          } else if (this.activeValue == '粮油') {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          } else if (this.activeValue == '牛羊猪肉') {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          } else if (this.activeValue == '家禽蛋类') {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          } else if (this.activeValue == '水产品') {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          } else {
+            formData.append('type', this.activeValue);
+            this.getApi(formData);
+          }
+        },
+        getApi(params) {
+          doApi_3(
+            (res) => {
+              if (res.status == 200) {
+                this.options = res.data.rows;
+                this.value = this.value ? this.value : res.data.rows[0].text;
+                this.handleQuery();
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/dic/getDicByType',
+            'post',
+            params,
+            false
+          );
+        },
+        selected(value) {
+          this.activeValue = value;
+          this.getList();
+          this.value = '';
+        },
+        handleQuery() {
+          params = {
+            category: this.activeValue,
+            product: this.value,
+            year: this.yearValue,
+          };
+          if (params.category !== '' && params.product !== '' && params.year !== '') {
+            let formData = new FormData();
+            formData.append('category', params.category);
+            formData.append('product', params.product);
+            formData.append('year', params.year);
+            doApi_3(
+              (res) => {
+                if (res.status == 200) {
+                  this.data = res.data.rows.map((item) => {
+                    return {
+                      genre: item.offerTime.substring(5, 10),
+                      sold: item.price,
+                    };
+                  });
+                  this.initChart();
+                }
+              },
+              function (err) {
+                console.log(err);
+              },
+              null,
+              '/price/listByProductAndTime',
+              'post',
+              formData,
+              false
+            );
+          }
+        },
+        initChart() {
+          //销毁已有的图表
+          if (this.chart) {
+            $('#c1').empty();
+          }
+          // 创建图表对象
+          const chart = new G2.Chart({
+            container: 'c1', // 用于绘图的容器, [EL-ID] -- HTML标签ID属性
+            // forceFit: true, // 图表的宽度自适应开关, 设置为 true 时表示自动取 dom（实例容器）的宽度。
+            width: 1300,
+            heigth: 300,
+          });
+          // 设置数据源
+          chart.source(this.data);
+          // 设置提示
+          // chart.tooltips({
+          //   crosshairs: {
+          //     // rect 	表示矩形框，
+          //     // x 		表示水平辅助线，
+          //     // y|line  	【默认】表示垂直辅助线
+          //     // cross 	表示十字辅助线
+          //     type: 'line',
+          //   },
+          // });
+
+          // 线条作色(画线条)
+          chart
+            .line()
+            // 线条走势, 默认为直线
+            // geom.position('genre*sold')
+            // 属性x会映射到X轴, 属性2会映射到Y轴
+            // 也可以传入数组方式 geam.position(['x', 'y'])
+            .position('genre*sold');
+
+          // 点作色(画点)
+          // 注意 point() 方法返回的是 Geom 对象. 不是 Chart 对象
+          chart.scale('sold', {
+            alias: '价格（元）',
+            nice: true,
+          });
+          chart
+            // .interval('hollowRect')
+            .point()
+            // 作色坐标为x*y, x-x轴, y-Y轴
+            // 这里的坐标系需要与 chart.line().position() 坐标系一致
+            // 如果写错(y*x)计算结果将不正确
+            .position('genre*sold')
+            // point 图形的 size 影响点的半径大小
+            // line, area, path 中的 size 影响线的粗细
+            // interval 的 size 影响柱状图的宽度
+            .size(4)
+            .color('l(270) 0:#173162 1:#3663a1')
+            // 不同类型支持不同形状, 具体查看 https://www.yuque.com/antv/g2-docs/api-geom#lg9tks
+            .shape('cut', ['cross', 'tick', 'plus', 'hyphen', 'line'])
+            // 设置当前形状样式
+            .style({ stroke: '#fff', lineWidth: 1 });
+
+          this.chart = chart;
+
+          // 最后一步渲染
+          chart.render();
+        },
+      },
+    });
+  </script>
+</html>

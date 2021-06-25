@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.wxiaoqi.security.zs.sys.mapper.DeviceVideoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.zs.sys.entity.DeviceVideo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="INTEGER"/>
+        <result column="serial_num" property="serialNum" jdbcType="VARCHAR"/>
+        <result column="pass_num" property="passNum" jdbcType="VARCHAR"/>
+        <result column="access_token" property="accessToken" jdbcType="VARCHAR"/>
+        <result column="verify_code" property="verifyCode" jdbcType="VARCHAR"/>
+        <result column="is_auto_play" property="isAutoPlay" jdbcType="INTEGER"/>
+        <result column="is_open_audio" property="isOpenAudio" jdbcType="INTEGER"/>
+
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

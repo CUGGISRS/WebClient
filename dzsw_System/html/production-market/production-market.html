@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>监利市农业电子商务综合服务子系统</title>
+    <link rel="stylesheet" href="../../css/reset.css" />
+    <link rel="stylesheet" href="../../css/index.css" />
+    <link rel="stylesheet" href="../../fonts/element.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="title-section">
+        <div class="title-section-content">
+          <a href="../../index.html" class="system-title">监利市农业电子商务综合服务子系统</a>
+        </div>
+      </div>
+
+      <div class="nav-list">
+        <div class="nav-list-content">
+          <a class="nav-item" href="../../index.html">首页</a>
+          <a class="nav-item" href="../market-condition.html">市场行情</a>
+          <a class="nav-item" href="../price-condition.html">价格行情</a>
+          <a class="nav-item" href="../statistical-chart/statistical-chart.html">行情统计</a>
+          <a class="nav-item" href="../price-trend.html">价格走势</a>
+          <a class="nav-item" href="../farm-products.html">优质农产品</a>
+          <a class="nav-item active" href="./production-market.html">农产品产销信息</a>
+          <a class="nav-item" href="../message-board/message-board.html">留言板</a>
+        </div>
+      </div>
+
+      <div class="mainer">
+        <div class="banner-section">
+          <img src="../../images/banner-5.png" alt="" />
+        </div>
+
+        <div class="farm-product-section">
+          <div class="farm-product-list" style="background: none">
+            <div v-for="(item,index) in productItem" @click="selected(item.value)">
+              <nav class="farm-product-item" :class="activeValue == index? 'active': ''">{{item.name}}</nav>
+            </div>
+          </div>
+
+          <div class="business-info-section">
+            <div class="business-info-left">
+              <div class="business-info-left-item" v-for="item in rows">
+                <!-- <div class="business-info-item-img">
+                  <img src="../../images/business-info.png" alt="" />
+                </div> -->
+                <div class="business-info-item-content">
+                  <a :href="'./production-market-detail.html?' + item.id" style="display: block" target="_blank">
+                    <p class="business-info-item-title">{{item.title}}</p>
+                    <div class="business-info-item-date-read">
+                      <p class="business-info-item-date">发布时间：{{item.pubTime}}</p>
+                      <p class="business-info-item-reading">阅读：（{{item.reading}}）</p>
+                    </div>
+                    <p class="business-info-item-text" v-html="item.content.replace(/<[^>]+>/g, '')"></p>
+                    <div class="business-info-classify">分类：<span>{{item.productCategory}}</span></div>
+                  </a>
+                </div>
+              </div>
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="params.page"
+                :page-sizes="[5, 10]"
+                :page-size="params.limit"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total"
+                style="margin-top: 30px"
+              >
+              </el-pagination>
+            </div>
+            <div class="business-info-right">
+              <p class="business-info-right-title">
+                <a href="../price-condition.html">最新行情</a>
+              </p>
+              <p class="business-info-right-item" v-for="item in supplyRows">
+                <span class="business-info-right-item-text">{{item.productName}}</span>
+                <span class="business-info-right-item-price">￥{{item.price}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="link-section">
+        <div class="link-section-content">
+          <p><b>友情链接：</b></p>
+          <div class="link-list">
+            <a class="link-item" href="http://39.104.61.47:8093/gyx_System/">监利市农业公益性服务子系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/3d_ball_cesium">监利市产业园三维可视化子系统</a>
+
+            <a class="link-item" href="http://39.104.61.47:8093/zsjd/#/login">监利市农产品质量安全监督管理系统</a>
+
+            <a class="link-item" href="http://39.104.61.47:8093/zsxx_System/">监利市农产品质量安全追溯信息系统</a>
+            <a class="link-item" href="http://39.104.61.47:8093/dxgz/#/login">监利市稻虾共作物联网应用系统</a>
+
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+            <a class="link-item"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <div class="login_footer">
+    <span>
+      <span>Copyright &copy; &nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.jianli.gov.cn/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>监利市农业农村局</p>
+      </a>
+      <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a
+        target="_blank"
+        href="http://www.zd-tech.net/"
+        style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px"
+      >
+        <p>武汉中迪联创科技有限公司</p>
+      </a>
+      <span>&nbsp;技术支持</span>
+      <br />
+      <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+    </span>
+  </div>
+  <script src="../../assets/vue/vue.min.js"></script>
+  <script src="../../assets/element/index.js"></script>
+  <script src="../../assets/jquery/jquery.min.js"></script>
+  <script src="../../js/api.js"></script>
+  <script type="text/javascript">
+    var App = new Vue({
+      el: '#app',
+      data() {
+        return {
+          productItem: [
+            { value: 0, name: '全部' },
+            { value: 1, name: '水果' },
+            { value: 2, name: '蔬菜' },
+            { value: 3, name: '粮油' },
+            { value: 4, name: '牛羊猪肉' },
+            { value: 5, name: '家禽蛋类' },
+            { value: 6, name: '水产品' },
+            { value: 7, name: '自制品' },
+          ],
+          activeValue: 0,
+          rows: [],
+          params: {
+            page: 1,
+            limit: 5,
+            type: '产销信息',
+            productCategory: '',
+            isContainContent: true,
+          },
+          supplyRows: [],
+          total: '',
+        };
+      },
+      created() {
+        this.getArticleList();
+      },
+      methods: {
+        selected(value) {
+          this.activeValue = value;
+          this.getArticleList();
+        },
+        getArticleList() {
+          if (this.activeValue == 0) {
+            this.params.productCategory = '';
+            this.getApi(this.params);
+          } else if (this.activeValue == 1) {
+            this.params.productCategory = '水果';
+            this.getApi(this.params);
+          } else if (this.activeValue == 2) {
+            this.params.productCategory = '蔬菜';
+            this.getApi(this.params);
+          } else if (this.activeValue == 3) {
+            this.params.productCategory = '粮油';
+            this.getApi(this.params);
+          } else if (this.activeValue == 4) {
+            this.params.productCategory = '牛羊猪肉';
+            this.getApi(this.params);
+          } else if (this.activeValue == 5) {
+            this.params.productCategory = '家禽蛋类';
+            this.getApi(this.params);
+          } else if (this.activeValue == 6) {
+            this.params.productCategory = '水产品';
+            this.getApi(this.params);
+          } else {
+            this.params.productCategory = '自制品';
+            this.getApi(this.params);
+          }
+          // var formData = new FormData();
+          // formData.append('limit', '10');
+          //最新供应
+          doApi_2(
+            (res) => {
+              if (res.status == 200) {
+                this.supplyRows = res.data.rows;
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/price/listRecentPriceInfo?limit=10',
+            'post',
+            null,
+            null
+          );
+        },
+        getApi(params) {
+          doApi_2(
+            (res) => {
+              if (res.status == 200) {
+                this.rows = res.data.rows;
+                this.total = res.data.total;
+              }
+            },
+            function (err) {
+              console.log(err);
+            },
+            null,
+            '/marketing/listByPage',
+            'get',
+            params,
+            null
+          );
+        },
+        handleSizeChange(limit) {
+          this.params.limit = limit;
+          this.getArticleList();
+        },
+        handleCurrentChange(page) {
+          this.params.page = page;
+          this.getArticleList();
+        },
+      },
+    });
+  </script>
+</html>

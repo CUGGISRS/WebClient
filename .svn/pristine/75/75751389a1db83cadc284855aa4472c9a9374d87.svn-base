@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+    <title>Title</title>
+    <style>
+      .user-headimg {
+        width: 130px;
+      }
+      span.big {
+        width: 28px;
+        display: inline-block;
+      }
+      span.small {
+        width: 7px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row m-pos">
+        <snap>您所在的位置：个人中心 &gt; <span>修改资料</span></snap>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <!--这里是普通用户看到的信息 begin-->
+          <div class="row padding-15" id="memberdiv" style="display: block">
+            <form id="jvForm1" action="profile.jspx" method="post">
+              <div class="col-sm-9">
+                <ul class="user-info clearfix">
+                  <li>
+                    <label>用户类型：</label>
+                    <span>个人用户</span>
+                  </li>
+                  <li>
+                    <label>用<span class="small"></span>户<span class="small"></span>名：</label>
+                    <span id="account"></span>
+                  </li>
+                  <li>
+                    <label>性<span class="big"></span>别：</label>
+                    <span>保密</span>
+                  </li>
+                    <label>旧<span class="small"></span>密<span class="small"></span>码：</label>
+                    <input type="text" name="qq" value="" maxlength="100" class="member-change" />
+                  </li>
+                  <li>
+                    <label>确认旧密码</label>
+                    <input type="text" name="qq" value="" maxlength="100" class="member-change" />
+                  </li>
+                  <li>
+                    <label>新<span class="small"></span>密<span class="small"></span>码：</label>
+                    <input type="text" name="qq" value="" maxlength="100" class="member-change" />
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-3 text-center">
+                <img class="user-headimg" src="../../images/head.png" />
+              </div>
+              <div class="col-sm-12 padding-15 user-btn">
+                <input type="hidden" name="nextUrl" value="index_info.jspx" /><input
+                  type="submit"
+                  value="提交"
+                  onclick="memberSubmit();"
+                />
+              </div>
+            </form>
+          </div>
+          <!--这里是普通用户看到的信息 end-->
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    let oToken = localStorage.getItem('token');
+
+    loadPersonal();
+    function loadPersonal() {
+      $.ajax({
+        url: InterfaceDZSW + '/user/getUserInfoByTokenPart?token=' + oToken,
+        dataType: 'json', //数据格式
+        type: 'post', //请求方式
+        cache: true,
+        contentType: 'application/json; charset=utf-8',
+        success: function (res) {
+          if (res.status === 200) {
+            $('#account').html(res.data.account);
+            $('#name').html(res.data.name);
+            $('#telphone').html(res.data.telephone);
+          }
+        },
+        error: function (e) {},
+      });
+    }
+  </script>
+</html>

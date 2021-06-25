@@ -1,0 +1,579 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="keywords" content=""/>
+    <meta http-equiv="description" content="监利市农业公益性服务子系统"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="css/red.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/media.css">
+    <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="js/front.js" type="text/javascript"></script>
+    <script src="js/icheck.min.js"></script>
+    <title>会员注册 - 监利市农业公益性服务子系统</title>
+    <!-- [if lte IE 9]> -->
+    <link rel="stylesheet" type="text/css" href="css/lte-ie9.css">
+    <!-- <![endif] -->
+    <!-- [if lt IE 9]> -->
+    <link rel="stylesheet" type="text/css" href="css/lt-ie8.css">
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <!-- <![endif] -->
+    <script src="./js/bootstrap.min.js"></script>
+       <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="./js/bootstrap/bootstrapValidator.js"></script>
+    <link href="./css/bootstrapValidator.css" rel="stylesheet"/>
+    <style>
+        html,body {
+            width:100%;
+            height: 100%;
+            background-image: url("./picture/19085148d8aj.jpg");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            overflow:hidden;
+        }
+
+        .logo {
+            display: block;
+            width: 100px;
+            height: 100px;
+            /* background: url(./picture/logo.png) no-repeat center center; */
+            background-size: 100% 100%;
+            background: none \9;
+            /* vertical-align: top; */
+            position: absolute;
+            left: 15px;
+            top: 5px;
+        }
+
+        .mask {
+            position: fixed;
+            top: 0;
+            z-index: 1002;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, .4);
+        }
+
+        .mask_main {
+            width: 300px;
+            background: #fff;
+            margin: 0 auto;
+            margin-top: 220px;
+            padding: 30px;
+            border-radius: 6px;
+            border: 1px solid #999;
+            border: 1px solid rgba(0, 0, 0, .2);
+            -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        }
+
+        .tip_box {
+            text-align: center;
+        }
+
+        .tip_main {
+            font-size: 18px;
+            line-height: 36px;
+        }
+
+        .icon_error {
+            font-size: 40px;
+            color: #d80000;
+        }
+
+        .icon_correct {
+            font-size: 40px;
+            color: #51A23B;
+        }
+
+        #validateCodeBox {
+            display: none;
+            /*position :absolute;
+            right : 25px;
+            top : 0px;
+            padding:0 15px;
+            width: 55%;*/
+        }
+
+        #validateCodeBox #label1 {
+            margin: 1px auto 5px 2px;
+            display: block;
+            width: 250px;
+            height: 25px;
+        }
+
+        #validateCodeBox #label1 img {
+            border-radius: 10px;
+            width: 85px;
+            height: 30px;
+        }
+
+        #validateCodeBox input {
+            background: rgba(0, 0, 0, 0.1) none repeat scroll 0 0;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2) inset;
+            padding: 5px 0;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+            outline: medium;
+        }
+
+        #validateCodeBox .mask_btn {
+            overflow: hidden;
+        }
+
+        .correct_btn {
+            cursor: pointer;
+            display: inline-block;
+            width: 160px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0) linear-gradient(#79c258, #51a23b) repeat scroll 0 0;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            /*border-radius: 15px;*/
+            color: #fff;
+            font-weight: bold;
+            padding: 5px 0;
+            text-align: center;
+            /*margin: 0 auto;*/
+            margin-top: 10px;
+            /* float: left; */
+        }
+
+        .error_btn {
+            cursor: pointer;
+            display: inline-block;
+            width: 110px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0) linear-gradient(#ff5b5b, #d80000) repeat scroll 0 0;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            color: #fff;
+            font-weight: bold;
+            padding: 5px 0;
+            text-align: center;
+            margin: 0 auto;
+            /* float: right; */
+        }
+
+        .error_btn:hover,
+        .correct_btn:hover {
+            color: #fff !important;
+        }
+
+        .normal_btn {
+            margin-top: 15px;
+            float: inherit !important;
+        }
+
+        .register-btn2 {
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            color: #fff;
+            font-weight: bold;
+            margin: 0 auto 15px 25px;
+            padding: 5px 30px;
+            text-align: center;
+        }
+
+        #jvForm {
+            position: relative;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            // $("#Form").validate();
+            // $("#guestbookCaptcha").click();
+        });
+        $(document).ready(function () {
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_flat-red',
+                radioClass: 'iradio_flat-red'
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="login-logo"><a href="index.html">
+    <!--    <img src="picture/login-logo.png" class="img-responsive"></a>-->
+    <a href="index.html" style="text-decoration: none">
+        <span class="logo"></span>
+        <span style="font-size: 25px;font-weight: bold;">
+                监利市农业公益性服务网
+        </span>
+    </a>
+</div>
+<div class="login-box">
+    <div class="login-title">
+        <span>会员注册</span>
+    </div>
+    <form id="registerForm" class="form-horizontal">
+        <!--        <input type="hidden" name="userType" checked value="0">-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">用户名：</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="username" id="username" placeholder="请输入用户名"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">密码：</label>
+            <div class="col-sm-7">
+                <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">确认密码：</label>
+            <div class="col-sm-7">
+                <input type="password" class="form-control" name="rePassword" placeholder="再次输入密码"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">手机号码：</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="mobile" id="mobile" placeholder="请输入手机号码"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">图片验证码：</label>
+            <div class="col-sm-9">
+                <input style="width: 200px;display: inline" type="text" class="form-control" name="validateCode"
+                       id="validateCode" placeholder="请输入图片验证码"/>
+                <img id="codeValidateImg"/>
+
+                <label id="label1">
+                    <a href="javascript:flushValidateCode();">看不清</a></label> <br>
+                <a id="a1" class="correct_btn" onClick="checkImg()">免费获取短信验证码</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">短信验证码：</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="loginCode" id="loginCode" placeholder="请输入短信验证码"/>
+            </div>
+            <!--            <input type="button" id="obtn" onclick="getMsgCaptcha1()" class="register-btn " value="点击获取验证码"/>-->
+        </div>
+
+        <div class="form-group" style="text-align: center">
+            <button type="submit" style="width: 500px;height: 40px" name="submit" onclick="register1()" class="btn btn-large btn-success">立即注册</button>
+        </div>
+
+
+        <div class="register-list">
+            <ul>
+                <!--                <li><input type="text" id="username" placeholder="请输入用户名，5~20字符" class="register-mobile"/>-->
+<!--                </li>-->
+                <!--                <li><input id="password" type="password" name="loginPassword"-->
+                <!--                           class="register-mobile" placeholder="请输入密码"/></li>-->
+<!--                <li><input type="password" id="oldPassword"-->
+<!--                           class="register-mobile" placeholder="请再次输入密码"/></li>-->
+<!--                <li>-->
+                    <!--vld="{remote:'phone_unique.html',messages:{remote:'该号码已注册，请直接登录！'}}" name="mobile"-->
+                    <!-- <input type="text" id="mobile" maxlength="30"
+                            vld="{required:true}" name="mobile"
+                            placeholder="请输入手机号码" class="register-mobile"/>-->
+<!--                </li>-->
+<!--                <li>-->
+                    <!--                    <input type="text" id="loginCode" name="captcha" class="login-code" placeholder="请输入手机验证码"/>-->
+<!--                    <input type="button" id="obtn" onclick="getMsgCaptcha1()" class="register-btn " value="点击获取验证码"/>-->
+<!--                </li>-->
+
+
+                <!--<li class="checkbox rember-user" style="width: 100%;">
+                    <div class="pull-right"><a href="login.html">已有账号，立即登录</a></div>
+                </li>
+                <li class="login-btn">
+                    <input type="button" onclick="register1()" value="立即注册"/>
+                    <input type="button" id="submitBtn" value="测试"/>
+                </li>-->
+            </ul>
+
+            <div id="validateCodeBox" class="mask">
+                <div class="mask_main">
+                    <!--                    <input type="text" id="validateCode" name="validateCode" placeholder="请输入下方验证码后点击确认"/><br>-->
+                    <label id="label1"><img id="codeValidateImg"/>
+                        <a href="javascript:flushValidateCode();">看不清</a></label> <br>
+                    <div class="mask_btn">
+                        <a id="a1" class="correct_btn" onClick="checkImg()">确认</a>
+                        <a id="a2" class="error_btn" onClick="cancel()">取消</a>
+                    </div>
+                </div>
+            </div>
+            <!--提示框样式模板 出错-->
+            <div id="msgDiv1" class="mask" style="display: none;">
+                <div class="mask_main tip_box">
+                    <i class="iconfont icon_error">&#xe63f;</i>
+                    <p class="tip_main">错误提示！</p>
+                    <a class="correct_btn normal_btn">确认</a>
+                </div>
+            </div>
+            <!--提示框样式模板 出错-->
+
+            <!--提示框样式模板 正确-->
+            <div id="msgDiv2" class="mask" style="display: none;">
+                <div class="mask_main tip_box">
+                    <i class="iconfont icon_correct">&#xe60c;</i>
+                    <p class="tip_main">正确信息！</p>
+                    <a class="correct_btn normal_btn">确认</a>
+                </div>
+            </div>
+            <!--提示框样式模板 正确-->
+        </div>
+    </form>
+</div>
+</body>
+<script src="./js/commom/api.js"></script>
+<script>
+    $(function () {
+        $('#registerForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                username: {
+                    message: '用户名验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        },
+                        stringLength: {
+                            min: 3,
+                            max: 10,
+                            message: '用户名长度必须在3到10位之间'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_]+$/,
+                            message: '用户名只能包含大写、小写、数字和下划线'
+                        },
+                        remote: {
+                            // ajax校验，获得一个json数据（{'valid': true or false}）
+                            url: InterfaceDZSW + '/user/checkUsername',       //验证地址
+                            message: '用户已存在',   //提示信息
+                            type: 'POST',          //请求方式
+                            data: function(validator){  //自定义提交数据，默认为当前input name值
+                                return {
+                                    act: 'is_registered',
+                                    username: $("input[name='username']").val()
+                                };
+                            },
+                            delay : 1000
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                        stringLength: {
+                            min: 3,
+                            max: 15,
+                            message: '密码长度必须在3到15位之间'
+                        },
+                        different: {
+                            field: 'username', //需要进行比较的input name值
+                            message: '密码不能与用户名相同'
+                        }
+                    }
+                },
+                rePassword: {
+                    validators: {
+                        identical: {  //比较是否相同
+                            field: 'password',  //需要进行比较的input name值
+                            message: '两次密码不一致'
+                        },
+                    }
+                },
+                mobile: {
+                    validators: {
+                        notEmpty: {
+                            message: '手机号不能为空'
+                        },
+                        regexp: {
+                            regexp: /^1\d{10}$/,
+                            message: '手机号格式错误'
+                        }
+                    }
+                }
+            }
+        });
+
+    });
+
+    $(document).ready(function () {
+        var WindowHeight = $(window).height();
+        $(".mask").css("height", WindowHeight);
+        flushValidateCode();//进入页面加载验证码
+
+    });
+
+
+    //显示图片验证码
+    function getMsgCaptcha1() {
+        var mobile = $("#mobile").val();
+
+        if (mobile == "" || mobile == null) {
+            var msg = "手机号码不能为空！请输入手机号。";
+            setErrorDiv(msg);
+        } else {
+            flushValidateCode();
+            document.getElementById("validateCodeBox").style.display = "block";
+            var abtn = $("#obtn");
+            abtn.attr({class: "register-btn2", disabled: "true"});
+        }
+
+    }
+
+    /* 刷新图片生成验证码 */
+    function flushValidateCode() {
+        var validateImagObject = document.getElementById("codeValidateImg");
+        // validateImagObject.src = "/getLoginImageCode.html?time=" + new Date();//向服务器请求验证码
+
+        //获取图片验证码
+        var xmlhttp;
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", Interface + "/suggest/ValidateCode", true);
+        xmlhttp.responseType = "blob";
+        xmlhttp.onload = function () {
+            console.log(this);
+            if (this.status == 200) {
+                var blob = this.response;
+                validateImagObject.src = window.URL.createObjectURL(blob)
+            }
+        };
+        xmlhttp.send();
+    }
+
+    /* 注册 */
+    function register1() {
+
+        var account = $("#username").val();
+        var password = $("#password").val();
+        var phone = $("#mobile").val();
+        var code = $("#loginCode").val();
+
+        let data = {"account": account, "password": password, "phone": phone, "code": code}
+        doApiByJsonstr(function (res) {
+            var msg;
+            if (res.status === 200) {
+                msg = "注册成功! 2秒后自动跳转首页!"
+                setCorrectDiv(msg);
+                setTimeout(function () {
+                    window.location.href = "./index.html"
+                }, 2000)
+
+            } else {
+                msg = res.message;
+                setErrorDiv(msg);
+            }
+        }, function (err) {
+            console.log(err);
+        }, null, InterfaceDZSW + "/user/reg", "post", data, null, null)
+    }
+
+
+    /* 校验验证码输入的是否正确 */
+    /* 参数code是输入的验证码的值 */
+    function checkImg() {
+        var code = $('#validateCode').val();
+        var mobile = $("#mobile").val();
+        var url2 = "/getMsgCaptcha.html"
+        var msg = null;
+        if (mobile == "" || mobile == null) {
+            var msg = "手机号码不能为空！请输入手机号。";
+            setErrorDiv(msg);
+        } else {
+            $.ajax({
+                url: InterfaceDZSW + "/user/checkImgCode",
+                type: "get",
+                data: {"code": code, "mobile": mobile},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 200) {
+                        // alert("短信发送成功")
+                        msg = "验证成功！，短信验证码已发送，请尽快注册！";
+                        setCorrectDiv(msg);
+                        // document.getElementById("validateCodeBox").style.display = "none";
+                        // document.getElementById("obtn").className = "register-btn";
+                        // document.getElementById("obtn").removeAttribute("disabled");
+                        /*$.ajax({
+                            url: url2,
+                            type: "post",
+                            dataType: "json",
+                            data: {"mobile": mobile},
+                            success: function (data) {
+                                if (data.ret == 1) {
+                                    msg = "验证成功！，短信验证码已发送，请尽快注册！";
+                                    setCorrectDiv(msg);
+                                    document.getElementById("validateCodeBox").style.display = "none";
+                                    document.getElementById("obtn").className = "register-btn";
+                                    document.getElementById("obtn").removeAttribute("disabled");
+                                } else {
+                                    msg = "验证成功！短信验证码发送失败！手机号配额异常";
+                                    setErrorDiv(msg);
+                                }
+                            },
+                            error: function (e) {
+                                msg = "验证成功！短信验证码发送失败！手机号配额异常";
+                                setErrorDiv(msg);
+                            }
+                        });*/
+                    } else {
+                        // msg = "验证码错误清从新输入！";
+                        setErrorDiv(data.message);
+                        flushValidateCode();//刷新验证码
+                    }
+                },
+                error: function () {
+                    alert("验证失败！手机号配额异常");
+                }
+            });
+        }
+    }
+
+    function cancel() {//验证码框的取消按钮
+        document.getElementById("validateCodeBox").style.display = "none";
+        document.getElementById("obtn").className = "register-btn";
+        document.getElementById("obtn").removeAttribute("disabled");
+    }
+
+    function setErrorDiv(msg) {//设置错误信息提示框
+        var error = document.getElementById("msgDiv1");
+        error.style.display = "block";
+        error.getElementsByTagName("div")[0].getElementsByTagName("p")[0].innerHTML = msg;
+        error.getElementsByTagName("div")[0].getElementsByTagName("a")[0].onclick = function () {
+            error.style.display = "none";
+        }
+    }
+
+    function setCorrectDiv(msg) {//设置正确信息提示框
+        var error = document.getElementById("msgDiv2");
+        error.style.display = "block";
+        error.getElementsByTagName("div")[0].getElementsByTagName("p")[0].innerHTML = msg;
+        error.getElementsByTagName("div")[0].getElementsByTagName("a")[0].onclick = function () {
+            error.style.display = "none";
+        }
+    }
+
+</script>
+
+</html>

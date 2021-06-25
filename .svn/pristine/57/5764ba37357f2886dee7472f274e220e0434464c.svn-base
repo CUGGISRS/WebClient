@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wxiaoqi.security.dzsw.sys.mapper.PriceQuotationInfoMapper">
+    <resultMap id="BaseResultMap" type="com.github.wxiaoqi.security.dzsw.sys.entity.PriceQuotationInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="product_category" jdbcType="VARCHAR" property="productCategory"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="offer_time" jdbcType="TIMESTAMP" property="offerTime"/>
+        <result column="collection_point" jdbcType="VARCHAR" property="collectionPoint"/>
+        <result column="pricing_offer" jdbcType="VARCHAR" property="pricingOffer"/>
+        <result column="highest_price" jdbcType="DECIMAL" property="highestPrice"/>
+        <result column="lowest_price" jdbcType="DECIMAL" property="lowestPrice"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+
+        <result column="district" jdbcType="VARCHAR" property="district"/>
+    </resultMap>
+    <select id="countInfoListByTypeAndTime" resultType="Integer">
+        SELECT COUNT(*) FROM dzsw_price_quotation_info WHERE product_category = #{category} AND offer_time &gt;
+        #{startTime} AND
+        offer_time &lt; #{endTime}
+    </select>
+
+    <select id="countAllInfoListByTime" resultType="Integer">
+        SELECT COUNT(*) FROM dzsw_price_quotation_info WHERE offer_time &gt; #{startTime} AND offer_time &lt; #{endTime}
+    </select>
+
+    <select id="listInfoByTypeAndTime" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM dzsw_price_quotation_info WHERE product_category =#{category} AND offer_time &gt; #{startTime} AND
+        offer_time &lt; #{endTime} AND is_deleted = "0" ORDER BY offer_time DESC LIMIT #{offSet},#{pageRow}
+    </select>
+
+    <select id="listAllInfoByTime" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM dzsw_price_quotation_info WHERE offer_time &gt; #{startTime} AND
+        offer_time &lt; #{endTime} AND is_deleted = "0" ORDER BY offer_time DESC LIMIT #{offSet},#{pageRow}
+    </select>
+
+    <select id="listDic" resultType="com.github.wxiaoqi.security.dzsw.sys.entity.DataDictionary">
+        select * FROM data_dictionary
+    </select>
+
+    <select id="getListRecentPriceInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM dzsw_price_quotation_info ORDER BY offer_time DESC LIMIT #{limit}
+    </select>
+
+    <select id="getAvailableDate" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT date_format( offer_time,'%Y-%m-%d') AS offerTime FROM dzsw_price_quotation_info GROUP BY offerTime ORDER
+        BY offerTime DESC limit #{page},#{size}
+    </select>
+
+    <select id="getAvailableDateTotal" resultType="Integer">
+        SELECT
+        count( DISTINCT date_format( offer_time, '%Y-%m-%d' ) ) total
+        FROM
+        dzsw_price_quotation_info
+    </select>
+
+    <select id="getPriceListByOneDate" resultType="com.alibaba.fastjson.JSONObject">
+        select * from dzsw_price_quotation_info where DATE(offer_time) = #{date}
+    </select>
+</mapper>

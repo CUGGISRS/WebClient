@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        #192.168.8.166  nacos配置文件地址
+        server-addr: 192.168.8.166:8848
+        file-extension: yaml
+        shared-dataids: common.yaml #用来配置多个共享配置的 Data Id，多个的时候用逗号分隔
+        #需要热加载的bean需要加上@RefreshScope注解，当配置发生变更的时候可以在不重启应用的前提下完成bean中相关属性的刷新
+        refreshable-dataids: common.yaml #用来定义哪些共享配置的 Data Id 在配置变化时，应用中可以动态刷新，多个 Data Id 之间用逗号隔开。默认情况下所有共享配置都不支持动态刷新
+        namespace:  #命名空间ID，区分配置文件归属,默认为""
+        #namespace: "72c911f6-3ebc-4844-ae6e-056af9c657e9"  #192.168.8.166上本地测试命名空间ID
+        #namespace: "02442794-0d5f-4d12-a272-21e6e02a7e43"  #39.104.61.47上本地测试命名空间ID
+  profiles:
+    active: dev

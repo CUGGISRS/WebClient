@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>监利市农产品质量安全追溯管理平台</title>
+</head>
+<link rel="stylesheet" href="../css/index.css" />
+<link rel="stylesheet" href="../css/reset.css" />
+<link rel="stylesheet" href="../fonts/element.css" />
+
+<body>
+  <div id="app">
+
+    <div class="page-title">
+      <a href="../index.html" class="page-title-cn">监利市农产品质量安全追溯管理平台</a>
+    </div>
+    <div class="page-nav">
+      <a class="page-nav-item active" href="./trace-company.html">企业查询</a>
+      <a class="page-nav-item" href="./safety-knowledge.html">农产品安全知识</a>
+      <a class="page-nav-item" href="./warning-info.html">报警信息查询</a>
+    </div>
+    <div class="company_c_m">
+      <div class="company-detail-show">
+        <p class="company-info-title">{{companyName}}</p>
+        <div class="company-info-desc">
+          <div style="width: 300px; height: 300px">
+            <el-carousel indicator-position="none">
+              <el-carousel-item v-for="item in swiperList">
+                <img style="width: 300px; height: 300px" :src="item.path" alt="" />
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+          <div class="company-info-table">
+            <table id="datatable" class="authentication_info" cellpadding="0" cellspacing="1">
+              <tr style="background-color: rgb(242, 255, 246)">
+                <td><b>企业类型：</b> {{companyType}}</td>
+                <td><b>企业负责人：</b> {{ chargeMan }}</td>
+                <td><b>联系电话：</b> {{phone}}</td>
+              </tr>
+              <tr style="background-color: rgb(255, 255, 255)">
+                <td><b>注册资金：</b> {{registMoney}}</td>
+                <td><b>营业执照代码：</b> {{businessCode}}</td>
+                <td><b> 行业：</b>{{industry}}</td>
+              </tr>
+              <tr style="background-color: rgb(242, 255, 246)">
+                <td colspan="3"><b>企业所在地：</b> {{place}}</td>
+              </tr>
+              <tr style="padding: 0px 10px; background-color: rgb(255, 255, 255)">
+                <td colspan="3">
+                  <div style="height: 90px; overflow: auto"><b>企业介绍：</b> {{introduction}}</div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<footer class="login_footer">
+  <span>
+    <span>Copyright &copy; &nbsp;</span>
+    <a target="_blank" href="http://www.jianli.gov.cn/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>监利市农业农村局</p>
+    </a>
+    <span>&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <a target="_blank" href="http://www.zd-tech.net/"
+      style="display: inline-block; text-decoration: none; height: 20px; line-height: 20px">
+      <p>武汉中迪联创科技有限公司</p>
+    </a>
+    <span>&nbsp;技术支持</span>
+    <br />
+    <p style="font-size: 12px">地址：湖北监利市江城路69号 &nbsp;&nbsp;&nbsp; 电话号码：0716－ 3300339</p>
+  </span>
+</footer>
+<script src="../js/vue.min.js"></script>
+<script src="../assets/element/index.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/jquery3.5.1.js"></script>
+<script>
+  var App = new Vue({
+    el: '#app',
+    data() {
+      return {
+        chargeMan: '',
+        companyName: '',
+        phone: '',
+        companyType: '',
+        registMoney: '',
+        businessCode: '',
+        place: '',
+        industry: '',
+        introduction: '',
+        swiperList: [],
+      };
+    },
+    created() {
+      this.getDataBase();
+    },
+    methods: {
+      getDataBase() {
+        let search = location.search;
+        let id = search.substring(1);
+        doApi(
+          (res) => {
+            if (res.status === 200) {
+              this.chargeMan = res.data.chargeMan;
+              this.companyName = res.data.companyName;
+              this.phone = res.data.phone;
+              this.companyType = res.data.companyType;
+              this.registMoney = res.data.registMoney;
+              this.businessCode = res.data.businessCode;
+              this.place = res.data.place;
+              this.industry = res.data.industry;
+              this.introduction = res.data.introduction;
+              this.swiperList = res.data.imgLists.map((item) => {
+                return {
+                  path: 'http://' + item.path,
+                };
+              });
+            }
+          },
+          (err) => { },
+          null,
+          '/company/' + id,
+          'get',
+          null,
+          null
+        );
+      },
+    },
+  });
+</script>
+
+</html>

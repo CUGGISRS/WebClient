@@ -1,0 +1,41 @@
+/* 全局样式表 */
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+
+.el-table {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.el-pagination {
+  margin-top: 15px;
+}
+
+.el-main {
+  padding: 0;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.el-card {
+  padding: 0;
+}
+
+.el-checkbox:last-of-type{
+  margin-right: 30px;
+}
+
+.el-checkbox-group{
+  text-align: center;
+}
+
+.el-checkbox{
+  height: 30px;
+  line-height: 30px;
+}

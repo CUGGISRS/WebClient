@@ -1,0 +1,66 @@
+.van-cell__value {
+  flex: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.productInfo .van-cell__value {
+  text-align: start;
+}
+.van-dialog__message {
+  text-align: start;
+}
+.van-image {
+  margin: 0 5px;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.retrospect-title {
+  width: 10rem;
+  text-align: center;
+  height: 1.06666667rem;
+  line-height: 0.8rem;
+}
+.retrospect-title .retrospect-title-ch {
+  font-size: 0.42666667rem;
+  color: #009f97;
+}
+.retrospect-title .retrospect-title-en {
+  font-size: 0.32rem;
+  color: #666;
+}
+.product-retrospect-section {
+  box-shadow: 0.02666667rem 0.02666667rem 0.08rem #d9dbdb, -0.02666667rem -0.02666667rem 0.08rem #d9dbdb;
+  padding: 0.4rem;
+  margin: 0.13333333rem;
+}
+.product-retrospect-section .product-retrospect-info {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.product-retrospect-section .product-retrospect-info .product-retrospect-info-img {
+  border: 0.02666667rem solid #ededed;
+}
+.product-retrospect-section .product-retrospect-info .product-retrospect-info-img img {
+  width: 2.66666667rem;
+  height: 2.66666667rem;
+}
+.product-retrospect-section .product-retrospect-info .product-retrospect-info-text p {
+  font-size: 0.32rem;
+  color: #666;
+  line-height: 0.32rem;
+  margin-left: 0.53333333rem;
+}
